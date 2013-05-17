@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.youle"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="637254f3cad5db17f30d29ecab33b9d5" />
+
+        <activity
+            android:name=".managerUi.SplashActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".managerUi.MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.SlidingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.LoginActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+        <activity
+            android:name=".managerUi.MeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.zxing.activity.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name=".managerUi.CouponActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.ChooseCity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.ReleaseActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="com.youle.managerUi.ReleaseOkActivity" />
+        <activity
+            android:name=".managerUi.MessageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.ShopMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.CouponDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.ConsumeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.MeSetActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.SysSetActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true" />
+        <!-- ShareSdk -->
+        <activity
+            android:name="cn.sharesdk.sina.weibo.SSOActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="cn.sharesdk.framework.AuthorizeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+
+            <!-- NoTitle表示不显示授权页面的标题 boolean值，为true表示不显示，否则为显示，默认为显示 -->
+            <!-- <meta-data android:name="NoTitle" android:value="true" /> -->
+        </activity>
+        <!-- ShareSdk -->
+    </application>
+
+</manifest>

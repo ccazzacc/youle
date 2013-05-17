@@ -1,20 +1,17 @@
-# built application files
-*.apk
-*.ap_
-
-# files for the dex VM
-*.dex
-
-# Java class files
-*.class
-
-# generated files
-bin/
-gen/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Eclipse project files
-.classpath
-.project
+/bin/git*
+/bin/cpio
+/home
+libexec/git-core
+/share/git-gui
+/share/gitk
+/share/git-core
+/lib/Error.pm
+/lib/Git.pm
+/lib/Git/I18N.pm
+/lib/Git/SVN/
+/lib/perl5/5.8.8/CPAN/Config.pm*
+/share/gitweb/
+YouLe/bin/
+YouLe/gen/*
+YouLe/project.properties
+.gitignore

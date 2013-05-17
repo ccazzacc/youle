@@ -1,0 +1,55 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+	<!-- tabhost菜单 -->
+	 <style name="MMTabButton">
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">48dip</item>
+		<item name="android:button">@null</item>
+		<item name="android:paddingBottom">1.0dip</item>
+		<item name="android:paddingTop">6.0dip</item>
+	</style>
+	<style name="full_screen">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    <style name="wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="height_math">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    <style name="horizontal_stretch">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!-- head -->
+	<style name = "twobtn_head_style">
+	    <item name="android:layout_gravity">center_vertical</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+	</style>
+	<style name="EditStyle">
+        <item name="android:layout_width">@dimen/edit_width</item>
+        <item name="android:layout_height">@dimen/edit_height</item>
+        <item name="android:singleLine">true</item>
+    </style>
+</resources>

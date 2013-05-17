@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="m_right">4dip</dimen>
+    <dimen name="ava_left">8dip</dimen>
+    <dimen name="ava_buttomLeft">6dip</dimen>
+    <dimen name="edit_width">230dip</dimen>
+    <dimen name="edit_height">50dip</dimen>
+    <dimen name="font_size_large">18.0sp</dimen>
+    <dimen name="font_size_extra_small">12.0sp</dimen>
+</resources>

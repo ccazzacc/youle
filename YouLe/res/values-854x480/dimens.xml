@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="m_right">4dip</dimen>
+    <dimen name="ava_left">8dip</dimen>
+    <dimen name="ava_buttomLeft">6dip</dimen>
+	<dimen name = "hot_layH">48dip</dimen>
+	<dimen name = "createtrip_tvSize">20sp</dimen>
+	<dimen name = "record_marginLeft">33.3dip</dimen>
+	<dimen name = "record_money_marginLeft">30dip</dimen>
+	<dimen name = "record_marginTop">16dip</dimen>
+	<dimen name = "main_bottom_margin">32dp</dimen>
+</resources>

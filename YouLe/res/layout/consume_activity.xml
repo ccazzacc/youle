@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBEBEB"
+    android:orientation="vertical" >
+	<include layout="@layout/twobtn_header"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="20.0dip"
+        android:background="@drawable/shape_bg"
+        android:gravity="center_vertical"
+        android:minHeight="50.0dip"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15.0dip"
+                android:text="@string/today"
+                android:textColor="@color/consume_word"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/consume_tv_day"
+                style="@style/full_screen"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="25"
+                android:textColor="@color/consume_tv"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15.0dip"
+                android:text="@string/thisMonth"
+                android:textColor="@color/consume_word"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/consume_tv_month"
+                style="@style/full_screen"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="32"
+                android:textColor="@color/consume_tv"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/consume_btnHistory"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="20.0dip"
+        android:background="@drawable/btn_history" />
+
+    <ListView
+        android:id="@+id/consume_lv"
+        style="@style/wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:listSelector="@color/transparent" 
+        android:background="@drawable/shape_bg"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="20.0dip">
+    </ListView>
+
+</LinearLayout>

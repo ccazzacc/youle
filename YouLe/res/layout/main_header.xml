@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="52dip"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/home_nav_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/header_left"
+            style="@style/twobtn_head_style"
+            android:layout_marginLeft="4dip"
+            android:background="@drawable/bar_button_close_normal"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/header_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="City Sound"
+                android:textColor="@color/main_title"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/header_tv_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="4dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="chengdu"
+                android:textColor="@color/main_title"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/header_right"
+            style="@style/twobtn_head_style"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="4dip"
+            android:background="@drawable/bar_icon_map" />
+    </LinearLayout>

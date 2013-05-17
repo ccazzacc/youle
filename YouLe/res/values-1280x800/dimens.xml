@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="m_right">14dip</dimen>
+    <dimen name="ava_left">18dip</dimen>
+    <dimen name="ava_buttomLeft">16dip</dimen>
+    <dimen name="font_size_large">18.0sp</dimen>
+</resources>
