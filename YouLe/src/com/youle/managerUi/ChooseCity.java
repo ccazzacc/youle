@@ -135,7 +135,7 @@ public class ChooseCity extends Activity {
 			} else {
 				holder.tit.setText("定位城市");
 				if (mLocCity == null) {
-					holder.text.setText("正在定位...");
+					holder.text.setText(getString(R.string.locationing));
 				} else {
 					holder.text.setText(mLocCity);
 				}

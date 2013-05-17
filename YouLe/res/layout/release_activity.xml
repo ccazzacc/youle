@@ -3,7 +3,7 @@
     android:id="@+id/hoho"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/main_bg"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -179,13 +179,5 @@
             </TableRow>
         </TableLayout>
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/im"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/include1"
-        android:src="@drawable/avatar_mask_128" />
 
 </RelativeLayout>

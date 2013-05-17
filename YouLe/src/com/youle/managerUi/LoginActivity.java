@@ -32,12 +32,11 @@ import com.youle.managerData.SharedPref.YLSession;
 import com.youle.util.ToastUtil;
 
 public class LoginActivity extends Activity {
-	private Button mSinaLogin, mQQLogin,mClose;
+	private Button mSinaLogin, mQQLogin, mClose;
 	private AbstractWeibo mWeibo;
 	private EditText mEditUname, mEditPsd;
 	private Button mBtnSub;
 	private String mWbName, mWbUid, mWbAvatar;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +59,18 @@ public class LoginActivity extends Activity {
 		mBtnSub.setBackgroundResource(R.drawable.bar_btn_login);
 		mBtnSub.setOnClickListener(click);
 		mBtnSub.setVisibility(View.VISIBLE);
-		Button close=(Button)findViewById(R.id.twobtn_header_left);
+		Button close = (Button) findViewById(R.id.twobtn_header_left);
 		close.setBackgroundResource(R.drawable.bar_button_close_normal);
 		close.setVisibility(View.VISIBLE);
-		TextView reg=(TextView)findViewById(R.id.text_reg);
+		TextView reg = (TextView) findViewById(R.id.text_reg);
 		reg.setOnClickListener(click);
 	}
-	OnKeyListener onkey=new OnKeyListener() {
-		
+
+	OnKeyListener onkey = new OnKeyListener() {
+
 		@Override
 		public boolean onKey(View v, int keyCode, KeyEvent event) {
-			if(keyCode==66){
+			if (keyCode == 66) {
 				submit();
 			}
 			return false;
@@ -98,7 +98,8 @@ public class LoginActivity extends Activity {
 				submit();
 				break;
 			case R.id.text_reg:
-				startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+				startActivity(new Intent(LoginActivity.this,
+						RegisterActivity.class));
 				finish();
 				break;
 			default:
@@ -107,15 +108,15 @@ public class LoginActivity extends Activity {
 			}
 		}
 
-		
 	};
+
 	private void submit() {
 		if (mEditPsd.getText().toString() == ""
 				|| mEditUname.getText().toString() == "") {
 			ToastUtil.showToast(LoginActivity.this, "请输入完整信息");
 			return;
 		}
-		
+
 		String[] nameAndPsd = new String[2];
 		nameAndPsd[0] = mEditPsd.getText().toString();
 		nameAndPsd[1] = mEditUname.getText().toString();
@@ -126,10 +127,10 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected String doInBackground(String... params) {
-			Log.i("1234", " "+mEditPsd.getText()+" "+mEditUname.getText());
-			Utility.mSession=new YLSession(LoginActivity.this);
+			Log.i("1234", " " + mEditPsd.getText() + " " + mEditUname.getText());
+			Utility.mSession = new YLSession(LoginActivity.this);
 			String s = YouLe.loginApp(LoginActivity.this, params[1], params[0]);
-			Log.i("1234", s+" "+params[0]+" "+ params[1]);
+			Log.i("1234", s + " " + params[0] + " " + params[1]);
 			return s;
 		}
 
@@ -137,13 +138,13 @@ public class LoginActivity extends Activity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			Log.i("1234", ""+result);
-			if(!result.equals("999")){
+			Log.i("1234", "" + result);
+			if (!result.equals("999")) {
 				ToastUtil.showToast(LoginActivity.this, R.string.oauth_fail);
 				mEditPsd.setText("");
 				mEditUname.setText("");
-			}else{
-				//登录成功
+			} else {
+				// 登录成功
 				finish();
 			}
 		}
@@ -154,7 +155,8 @@ public class LoginActivity extends Activity {
 
 		@Override
 		public void onError(AbstractWeibo arg0, int arg1, Throwable arg2) {
-			// TODO Auto-generated method stub
+			// 05-17 17:44:33.439: I/1234(22174): av  http://tp2.sinaimg.cn/1456415145/180/1300353985/1
+
 
 		}
 
@@ -162,12 +164,12 @@ public class LoginActivity extends Activity {
 		public void onComplete(AbstractWeibo weibo, int arg1,
 				HashMap<String, Object> res) {
 			// TODO Auto-generated method stub
-			Log.i("1234", "" + weibo.getAuthedUserName() + "\n"
-					+ weibo.getDb().getWeiboId() + "id::" + weibo.getId());
+			Log.i("1234", "111 " + weibo.getDb().get("nickname") + " id: "
+					+ weibo.getDb().getWeiboId());
 			if (weibo.getId() == 1) {
 				try {
 					Log.i("1234",
-							"sss  "
+							"av  "
 									+ getJSONObject(res).getString(
 											"avatar_large"));
 				} catch (JSONException e) {
@@ -187,16 +189,9 @@ public class LoginActivity extends Activity {
 			}
 		}
 
-		// 05-13 15:46:59.519: I/1234(30593): sss
-		// https://app.qlogo.cn/mbloghead/7f363df6040b0e93b6a4/120
-
 		@Override
 		public void onCancel(AbstractWeibo arg0, int arg1) {
 			// TODO Auto-generated method stub
-			// 05-13 14:41:02.476: I/System.out(22650): Redirect URL:
-			// http://pathtrip.com/callback#access_token=2.00rGyYaBVXWwmB4f8e8d63eaDQv7yD&remind_in=1253937&expires_in=1253937&uid=1456415145
-			// 05-13 15:03:29.180: I/1234(25830):
-			// "avatar_large":"http://tp2.sinaimg.cn/1456415145/180/1300353985/1",
 
 		}
 	};

@@ -82,7 +82,6 @@ public class ReleaseActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Bitmap bmp = null;
-		ImageView im = (ImageView)findViewById(R.id.im);
 		switch (resultCode) {
 		case RESULT_OK:
 			super.onActivityResult(requestCode, resultCode, data);
