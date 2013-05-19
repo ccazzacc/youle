@@ -219,4 +219,14 @@ public class OtherUtil {
 		}
 		return null;
 	}
+    public static String getSDcard(){
+        // 获取SdCard状态
+        String state = android.os.Environment.getExternalStorageState();
+        if (android.os.Environment.MEDIA_MOUNTED.equals(state)) {
+            if (android.os.Environment.getExternalStorageDirectory().canWrite()) {
+                return android.os.Environment.getExternalStorageDirectory().getPath();
+                }
+            }
+        return null;
+    }
 }

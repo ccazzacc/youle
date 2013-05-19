@@ -15,3 +15,6 @@ YouLe/bin/
 YouLe/gen/*
 YouLe/project.properties
 .gitignore
+YouLe/.idea/
+YouLe/YouLe.iml
+YouLe/out/
