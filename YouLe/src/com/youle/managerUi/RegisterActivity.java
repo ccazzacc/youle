@@ -68,7 +68,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 				if (etEmail.hasFocus() == false) {
 					if (!TextUtils.isEmpty(etEmail.getText().toString())
 							&& !OtherUtil.isEmail(etEmail.getText().toString())) {
-						ToastUtil.showToast(context,
+						ToastUtil.show(context,
 								getString(R.string.input_correct_email));
 					}
 				}
@@ -77,7 +77,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 				if (etName.hasFocus() == false) {
 					if (!TextUtils.isEmpty(etName.getText().toString())
 							&& etName.getText().toString().length() < 2) {
-						ToastUtil.showToast(context,
+						ToastUtil.show(context,
 								getString(R.string.error_userName_short));
 					}
 				}
@@ -86,7 +86,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 				if (etPw.hasFocus() == false) {
 					if (!TextUtils.isEmpty(etPw.getText().toString())
 							&& etPw.getText().toString().length() < 6) {
-						ToastUtil.showToast(context,
+						ToastUtil.show(context,
 								getString(R.string.error_pw_short));
 					}
 				}
@@ -131,7 +131,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 				startActivity(new Intent(RegisterActivity.this,
 						MainActivity.class));
 				overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
-				ToastUtil.showToast(context,R.string.register_success);
+				ToastUtil.show(context,R.string.register_success);
 				RegisterActivity.this.finish();
 			}else
 			{
@@ -189,28 +189,28 @@ public class RegisterActivity extends Activity implements OnClickListener{
 					|| (etEmail.getText().toString()).equals("")
 					|| !OtherUtil.isEmail(etEmail.getText().toString())) {
 				if (!OtherUtil.isEmail(etEmail.getText().toString()))
-					ToastUtil.showToast(context,
+					ToastUtil.show(context,
 							getString(R.string.input_correct_email));
 				else
-					ToastUtil.showToast(context,
+					ToastUtil.show(context,
 							getString(R.string.input_email));
 			} else if (TextUtils.isEmpty(etName.getText().toString())
 					|| (etName.getText().toString()).equals("")
 					|| etName.getText().toString().length() < 2) {
 				if (etName.getText().toString().length() < 2)
-					ToastUtil.showToast(context,
+					ToastUtil.show(context,
 							getString(R.string.error_userName_short));
 				else
-					ToastUtil.showToast(context,
+					ToastUtil.show(context,
 							getString(R.string.input_name));
 			} else if (TextUtils.isEmpty(etPw.getText().toString())
 					|| (etPw.getText().toString()).equals("")
 					|| etPw.getText().toString().length() < 6) {
 				if (etPw.getText().toString().length() < 6)
-					ToastUtil.showToast(context,
+					ToastUtil.show(context,
 							getString(R.string.error_pw_short));
 				else
-					ToastUtil.showToast(context,
+					ToastUtil.show(context,
 							getString(R.string.input_pw));
 			} else {
 				if(OtherUtil.is3gWifi(RegisterActivity.this))
@@ -218,7 +218,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 					new UpMsgTask().execute();
 				}else
 				{
-					ToastUtil.showToast(RegisterActivity.this, getString(R.string.please_check_net));
+					ToastUtil.show(RegisterActivity.this, getString(R.string.please_check_net));
 				}
 			}
 			break;

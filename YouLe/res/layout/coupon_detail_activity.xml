@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:miles="http://schemas.android.com/apk/res/com.youle"
+    style="@style/full_screen"
+    android:background="@drawable/main_bg"
+    android:gravity="center_horizontal|top"
+    android:orientation="vertical" >
+	<include layout="@layout/twobtn_header"/>
+    <LinearLayout
+        style="@style/wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/coupon_big_default"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <com.youle.view.RoundedCornersImage
+            android:id="@+id/detail_iv_shopAva"
+            android:layout_width="144dp"
+            android:layout_height="144dp"
+            miles:cornerRadius="6.0dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/avatars"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/coupon_tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="一品天下红杏酒家100元代金券"
+            android:textColor="@color/coupon_title"
+            android:textSize="@dimen/font_size_large" />
+
+        <TextView
+            android:id="@+id/coupon_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="有效期:2013.5.10至2013-12.10"
+            android:textColor="@color/coupon_time"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/detail_iv_ma"
+            android:layout_marginTop="16dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/pnull" />
+    </LinearLayout>
+
+</LinearLayout>

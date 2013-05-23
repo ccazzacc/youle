@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.youle.managerData.SharedPref.SharedPref;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,7 +114,7 @@ public class LoginActivity extends Activity {
 	private void submit() {
 		if (mEditPsd.getText().toString() == ""
 				|| mEditUname.getText().toString() == "") {
-			ToastUtil.showToast(LoginActivity.this, "请输入完整信息");
+			ToastUtil.show(LoginActivity.this, "请输入完整信息");
 			return;
 		}
 
@@ -140,7 +141,7 @@ public class LoginActivity extends Activity {
 			super.onPostExecute(result);
 			Log.i("1234", "" + result);
 			if (!result.equals("999")) {
-				ToastUtil.showToast(LoginActivity.this, R.string.oauth_fail);
+				ToastUtil.show(LoginActivity.this, R.string.oauth_fail);
 				mEditPsd.setText("");
 				mEditUname.setText("");
 			} else {
@@ -163,7 +164,8 @@ public class LoginActivity extends Activity {
 		@Override
 		public void onComplete(AbstractWeibo weibo, int arg1,
 				HashMap<String, Object> res) {
-			// TODO Auto-generated method stub
+            SharedPref sharedPref=new SharedPref(LoginActivity.this);
+            String shareName=weibo.getDb().get("nickname");
 			Log.i("1234", "111 " + weibo.getDb().get("nickname") + " id: "
 					+ weibo.getDb().getWeiboId());
 			if (weibo.getId() == 1) {
@@ -176,6 +178,7 @@ public class LoginActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+                sharedPref.saveSinaStatus(true,shareName);
 			} else {
 				try {
 					Log.i("1234",
@@ -186,6 +189,7 @@ public class LoginActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+                sharedPref.saveQQStatus(true,shareName);
 			}
 		}
 

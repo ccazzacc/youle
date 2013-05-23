@@ -3,11 +3,13 @@ package com.youle.managerUi;
 import cn.sharesdk.framework.AbstractWeibo;
 
 import com.youle.R;
+import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.view.SlidingMenu;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 
 
@@ -24,11 +26,20 @@ public class MainActivity extends SlidingActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
+        getLocation();
         mSlider = this.getSlidingMenu();
+
 
         setViewAttrs();
     }
+    
+    @Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		Log.i("test", "MainActivity onRestart");
+	}
 
     private void setViewAttrs() {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -59,5 +70,13 @@ public class MainActivity extends SlidingActivity {
 //        int heightPixels = dm.heightPixels;
 //        float density = dm.density;
         return mWidthPixels;
+    }
+
+    public void getLocation() {
+        SharedPref sharedPref=new SharedPref(MainActivity.this);
+        if(sharedPref.getCity().equals("")||sharedPref.getCity()==null){
+            startActivity(new Intent(MainActivity.this,ChooseCity.class));
+            finish();
+        }
     }
 }

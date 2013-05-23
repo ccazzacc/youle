@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
+    android:id="@+id/meset"
+    android:orientation="vertical" >
+
+    <include layout="@layout/twobtn_header" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12.0dip"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="15.0dip"
+        android:text="@string/me_info"
+        android:textColor="@color/consume_word"
+        android:textSize="@dimen/font_size_large" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="12.0dip"
+        android:background="@drawable/shape_bg"
+        android:gravity="center_vertical"
+        android:minHeight="50.0dip"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/meset_layoutAva"
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/ava"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <View
+                style="@style/wrap_content"
+                android:layout_weight="1" />
+
+            <com.youle.view.CircularImage
+                android:id="@+id/meset_ava"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@drawable/avatar_mask_128"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/name"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/meset_et_name"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="刺儿"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/email"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/meset_et_email"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="britney@youle.com"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/sex"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/meset_et_sex"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="女"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/age"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/meset_et_age"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:text="18"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

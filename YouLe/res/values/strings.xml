@@ -3,11 +3,14 @@
 
     <!-- A -->
     <string name="app_name">有乐</string>
+    <string name="account_set">帐号设置</string>
+    <string name="ava">头像</string>
+    <string name="age">年龄</string>
+    <string name="about">关于听车</string>
     <!-- B -->
     <string name="back">返回</string>
     <!-- C -->
     <string name="cancel">取消</string>
-
     <string-array name="city_list">
 
         <!--
@@ -28,16 +31,22 @@
     </string-array>
 
     <string name="coupon">优惠券</string>
+    <string name="coupon_me">我的优惠券</string>
+	<string name="coupon_detail">优惠券详情</string>
     <string name="coupon_use">该优惠劵可以正常使用</string>
     <string name="coupon_past">该优惠劵已经过期</string>
     <string name="coupon_used">该优惠劵已被使用</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name = "camera">相机</string>
     <!-- D -->
     <!-- E -->
     <string name="email">Email</string>
     <string name="error_userName_short">用户名不少于2位</string>
     <string name="error_pw_short">密码不少于6位</string>
     <!-- F -->
+    <string name="function_set">功能设置</string>
     <!-- G -->
+    <string name = "gallery">相册</string>
     <!-- H -->
     <string name="home">主页</string>
     <!-- I -->
@@ -47,23 +56,34 @@
     <string name="input_correct_email">请输入正确的邮箱地址</string>
     <string name="im_notos">相片</string>
     <string name="im_shop">我是商家</string>
+    <string name="info">堵车，不是一个人的事情</string>
     <!-- J -->
     <!-- K -->
     <!-- L -->
     <string name="login">登录</string>
     <string name="locationing">定位中...</string>
+    <string name="logout">注销</string>
     <!-- M -->
     <string name="menu_settings">Settings</string>
     <string name="message">消息</string>
     <string name="me">我的主页</string>
+    <string name="me_info">个人信息设置</string>
     <!-- N -->
     <string name="no_used">无法对焦请用后置摄像头</string>
+    <string name="name">昵称</string>
     <!-- O -->
     <string name="oauth_fail">邮箱或密码不正确！</string>
+    <string name="open_sound">开启提示音</string>
+    <string name="other">其他</string>
     <!-- P -->
     <string name="please_wait">请稍后...</string>
     <string name="press_again">再按一次退出程序</string>
     <string name="please_check_net">请检查网络连接</string>
+    <string name="pw_fix">密码修改</string>
+    <string name="pw_old">原密码：</string>
+    <string name="pw_new">新密码：</string>
+    <string name="input_pw_new">请输入新密码</string>
+    <string name="input_pw_old">请输入原密码</string>
     <!-- Q -->
     <!-- R -->
     <string name="register">注册</string>
@@ -74,6 +94,10 @@
     <!-- S -->
     <string name="shop">我是商家</string>
     <string name="set">设置</string>
+    <string name="share">分享</string>
+    <string name="set_account">帐号密码设置</string>
+    <string name="set_info">基本信息设置</string>
+    <string name="sex">性别</string>
     <!-- T -->
     <string name="today">今天</string>
     <string name="thisMonth">本月</string>
@@ -81,6 +105,8 @@
     <string name="use">使用</string>
     <!-- V -->
     <!-- W -->
+    <string name="weibo_sina">新浪微博</string>
+    <string name="weibo_tent">腾讯微博</string>
     <!-- X -->
     <string name="xlistview_header_hint_normal">Pull down to refresh</string>
     <string name="xlistview_header_hint_ready">Release to refresh</string>

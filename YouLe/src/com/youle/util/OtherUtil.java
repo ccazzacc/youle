@@ -1,18 +1,12 @@
 package com.youle.util;
 
-import java.io.IOException;
+import java.io.File;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
-import com.amap.api.search.core.AMapException;
-import com.amap.api.search.geocoder.Geocoder;
-import com.youle.managerUi.ChooseCity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,9 +18,18 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
+import android.text.format.DateFormat;
 import android.util.Log;
+
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
+import com.amap.api.maps.AMap;
+import com.amap.api.search.core.AMapException;
+import com.amap.api.search.geocoder.Geocoder;
 
 public class OtherUtil {
 	public static AMapLocation amlocation = null;
@@ -229,4 +232,57 @@ public class OtherUtil {
             }
         return null;
     }
+    /**
+	 * 判断SD卡是否存在
+	 * 
+	 * @return
+	 */
+	public static boolean SDCardExist() {
+		try {
+			if (Environment.getExternalStorageState().equals(
+					Environment.MEDIA_MOUNTED)) {
+				return true;
+			} else
+				return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+    /**
+	 * 文件的名字（拍照录音）
+	 * 
+	 * @return
+	 */
+	public static String getFileName() {
+		return "pt"
+				+ new DateFormat().format("yyyyMMdd_hhmmss",
+						Calendar.getInstance(Locale.CHINA));
+	}
+	public static File fileCreate(String fileName,Boolean isCache) {
+		if (!SDCardExist()) {
+			return null;
+		}
+		File path;
+		if (isCache)
+			path = new File(GlobalData.CACHE);
+		else
+			path = new File(GlobalData.YOULE);
+		if (!path.exists()) {
+			path.mkdir();
+		}
+		File file = new File(path, fileName);
+		return file;
+	}
+    /**
+	 * AMap对象判断是否为null
+	 */
+	public static boolean checkReady(Context context, AMap aMap) {
+		if (aMap == null) {
+			ToastUtil.show(context, "map_not_ready");
+			return false;
+		}
+		return true;
+	}
 }

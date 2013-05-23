@@ -16,11 +16,12 @@ import com.youle.http_helper.Utility;
 import com.youle.managerUi.CouponActivity;
 import com.youle.managerUi.LoginActivity;
 import com.youle.managerUi.MeActivity;
-import com.youle.managerUi.MessageActivity;
 import com.youle.managerUi.RegisterActivity;
-import com.youle.managerUi.SetActivity;
+import com.youle.managerUi.MeSetActivity;
 import com.youle.managerUi.ShopMainActivity;
 import com.youle.managerUi.SlidingActivity;
+import com.youle.managerUi.SysMsgActivity;
+import com.youle.managerUi.SysSetActivity;
 
 public class MainLeftFragment extends Fragment implements OnClickListener{
 	 RelativeLayout rHome,rMe,rCoupon,rMsg,rShop,rSet;
@@ -28,7 +29,7 @@ public class MainLeftFragment extends Fragment implements OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i("test", "Left onCreateView");
+//        Log.i("test", "Left onCreateView");
         View v = inflater.inflate(R.layout.main_left_layout, container,
                 false);
         rHome = (RelativeLayout)v.findViewById(R.id.left_home);
@@ -39,11 +40,12 @@ public class MainLeftFragment extends Fragment implements OnClickListener{
         rSet = (RelativeLayout)v.findViewById(R.id.left_setting);
         return v;
     }
+    
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		Log.i("test", "Left onActivityCreated");
+//		Log.i("test", "Left onActivityCreated");
 		rHome.setOnClickListener(this);
 		rMe.setOnClickListener(this);
 		rCoupon.setOnClickListener(this);
@@ -52,47 +54,6 @@ public class MainLeftFragment extends Fragment implements OnClickListener{
 		rSet.setOnClickListener(this);
 	}
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		Log.i("test", "Left onCreate");
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		Log.i("test", "Left onDestroy");
-	}
-
-	@Override
-	public void onHiddenChanged(boolean hidden) {
-		// TODO Auto-generated method stub
-		super.onHiddenChanged(hidden);
-		Log.i("test", "Left onHiddenChanged");
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		Log.i("test", "Left onPause");
-	}
-
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		Log.i("test", "Left onResume");
-	}
-
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		Log.i("test", "Left onStart");
-	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -107,20 +68,22 @@ public class MainLeftFragment extends Fragment implements OnClickListener{
 			if (Utility.hasToken())
 			{
 				startActivity(new Intent((SlidingActivity)getActivity(),MeActivity.class));
+				((SlidingActivity)getActivity()).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+				((SlidingActivity)getActivity()).finish();
 			}else
 			{
-				startActivity(new Intent((SlidingActivity)getActivity(),RegisterActivity.class));
+				startActivity(new Intent((SlidingActivity)getActivity(),LoginActivity.class));
 				((SlidingActivity)getActivity()).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
 			}
 			break;
 		case R.id.left_message:
-			startActivity(new Intent((SlidingActivity)getActivity(),MessageActivity.class));
+			startActivity(new Intent((SlidingActivity)getActivity(),SysMsgActivity.class));
 			break;
 		case R.id.left_shop:
 			startActivity(new Intent((SlidingActivity)getActivity(),ShopMainActivity.class));
 			break;
 		case R.id.left_setting:
-			startActivity(new Intent((SlidingActivity)getActivity(),SetActivity.class));
+			startActivity(new Intent((SlidingActivity)getActivity(),SysSetActivity.class));
 			break;
 		}
 	}

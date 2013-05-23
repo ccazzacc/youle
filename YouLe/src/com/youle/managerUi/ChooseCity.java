@@ -70,11 +70,13 @@ public class ChooseCity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
 					int postiton, long arg3) {
-				if (postiton > 0) {
+                if (postiton > 0) {
 					mSharedPref.saveCity(mMyAdapter.getCity(postiton - 1));
 				}else{
 					mSharedPref.saveCity(mLocCity);
 				}
+                startActivity(new Intent(ChooseCity.this,MainActivity.class));
+                finish();
 			}
 		});
 		String[] city = getResources().getStringArray(R.array.city_list);

@@ -46,5 +46,7 @@
     <color name="grgray">#686868</color>
     <color name="consume_word">#A1A1A1</color>
     <color name="consume_tv">#303945</color>
-
+	<color name="coupon_title">#7B1A1A</color>
+	<color name="coupon_time">#989898</color>
+	<color name="set_link">#414D52</color>
 </resources>

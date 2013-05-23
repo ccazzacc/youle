@@ -28,12 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
+import android.widget.*;
 
 import com.youle.R;
 import com.youle.util.OtherUtil;
@@ -46,14 +41,15 @@ public class ReleaseActivity extends Activity {
     private RelativeLayout mLayoutRecord;
     private ProgressBar mProgressBar;
     private AudioManager audioService;
-    private int audioVolume, mIntentType;
+    private int audioVolume, mIntentType,mEvenType;
     private String mIntentString;
+    private RadioButton mRB1,mRB2,mRB3,mRB4,mRB5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.release_activity);
+        setContentView(R.layout.release_activity2);
         initView();
     }
 
@@ -76,6 +72,16 @@ public class ReleaseActivity extends Activity {
         mBtnXX.setOnClickListener(click);
         mBtnPic = (Button) findViewById(R.id.button_photos);
         mBtnPic.setOnClickListener(click);
+        mRB1=(RadioButton)findViewById(R.id.rB1);
+        mRB2=(RadioButton)findViewById(R.id.rB2);
+        mRB3=(RadioButton)findViewById(R.id.rB3);
+        mRB4=(RadioButton)findViewById(R.id.rB4);
+        mRB5=(RadioButton)findViewById(R.id.rB5);
+        mRB1.setOnClickListener(click);
+        mRB2.setOnClickListener(click);
+        mRB3.setOnClickListener(click);
+        mRB4.setOnClickListener(click);
+        mRB5.setOnClickListener(click);
     }
 
     @SuppressLint("NewApi")
@@ -154,9 +160,41 @@ public class ReleaseActivity extends Activity {
                     Intent wrapperIntent = Intent.createChooser(innerIntent, null);
                     startActivityForResult(wrapperIntent, 2);
                     break;
+                case R.id.rB1:
+                    mEvenType=1;
+                    setCheck(mRB1);
+                    break;
+                case R.id.rB2:
+                    mEvenType=2;
+                    setCheck(mRB2);
+                    break;
+                case R.id.rB3:
+                    mEvenType=3;
+                    setCheck(mRB3);
+                    break;
+                case R.id.rB4:
+                    mEvenType=4;
+                    setCheck(mRB4);
+                    break;
+                case R.id.rB5:
+                    mEvenType=5;
+                    setCheck(mRB5);
+                    break;
             }
         }
+        private void setCheck(RadioButton rb) {
+
+            mRB1.setChecked(false);
+            mRB2.setChecked(false);
+            mRB3.setChecked(false);
+            mRB4.setChecked(false);
+            mRB5.setChecked(false);
+            rb.setChecked(true);
+        }
     };
+
+
+
     OnLongClickListener longClick = new OnLongClickListener() {
 
         @Override
@@ -172,6 +210,7 @@ public class ReleaseActivity extends Activity {
 
     private void send() {
         Intent intent = new Intent();
+        intent.putExtra("even",mEvenType);
         intent.putExtra("type", mIntentType);
         intent.putExtra("txt", mIntentString);
         intent.setClass(ReleaseActivity.this, ReleaseOkActivity.class);
@@ -191,24 +230,13 @@ public class ReleaseActivity extends Activity {
                         // 恢复音量
                         audioService.setStreamVolume(AudioManager.STREAM_MUSIC,
                                 audioVolume, 0);
-                        // ////////////
-                        MediaPlayer mPlayer = new MediaPlayer();
-                        try {
-                            // 设置要播放的文件05-16 11:59:58.657: E/MediaPlayer(15259):
-                            // Unable to to create media player
-
-                            Log.i("1234", file.getAbsolutePath());
-                            mPlayer.setDataSource("/sdcard/STK/20130516_120550.amr");
-                            mPlayer.prepare();
-                            // 播放之
-                            mPlayer.start();
-                        } catch (IOException e) {
-                            Log.e("1234", "prepare() failed");
-                        }
-                        // ///////////
                         mr.stop();
                         mr.release();
                         mr = null;
+
+                        mIntentType=0;
+                        mIntentString=file.getAbsolutePath();
+                        send();
                     }
                     break;
             }

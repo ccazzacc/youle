@@ -9,6 +9,11 @@ public class GlobalData {
 	// 拍照
 	public static final int PHOTO_REQUEST_TAKEPHOTO = 1;
 	public static final int PHOTO_REQUEST_GALLERY = 2;
+	// 头像裁剪
+	public static final int AVA_REQUEST_TAKEPHOTO = 3;
+	public static final int AVA_REQUEST_GALLERY = 4;
+	public static final int PHOTO_REQUEST_CUT = 5;
+	public final static int REQ_CODE_PHOTO_CROP = 102;
 	// 录音
 	public static final int SOUND_REQUEST = 6;
 	public static final int SOUND_RESULT = 100;
@@ -127,8 +132,8 @@ public class GlobalData {
 	public static final String ADDRESS_COMP = "address_components";
 	public static final String LONG_NAME = "long_name";
 	public static final String TYPES = "types";
-	
-	//私信
+
+	// 私信
 	public static final String MESSAGE = "message";
 	public static final String MESSAGES = "messages";
 	public static final String FROM_USER = "from_user";
@@ -186,14 +191,13 @@ public class GlobalData {
 	public static final String ERROR_404 = "404";
 	public static final String ERROR_401 = "401";
 	public static final String REQUEST_FAIL = "request fail";
-	public static final String PATHTRIP = "/sdcard/pathtrip/";
+	public static final String YOULE = "/sdcard/.youle/";
 	public static final String CACHE = "/sdcard/.cache";
 	public static String SOUND_PATH = "";
 	public static int autio_time = 0;
-	
-	//发送定位广播
-	public static String BROADCAST_COUNTER_ACTION="com.youle.chooseCity";
-	public static String COUNTER_VALUE="getloaction";
 
+	// 发送定位广播
+	public static String BROADCAST_COUNTER_ACTION = "com.youle.chooseCity";
+	public static String COUNTER_VALUE = "getloaction";
 
 }

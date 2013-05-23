@@ -2,6 +2,7 @@ package com.youle.managerUi;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,11 +42,11 @@ public class ReleaseOkActivity extends Activity {
     private MyBroadcastReciver reciver;
     private TextView mTxtLoc, mTxtSay;
     private ImageView mIvRoad;
-    private Button mShareSina, mShareQQ, mBtnUpload;
+    private Button mShareSina, mShareQQ, mBtnUpload, mBtnPlay,mBtnUp,mBtnCanel;
     private boolean mIsUnRegister, isShareSina, isShareQQ;
     private String[] address;
     private String txtSay;
-    private int mType;
+    private int mType,mEvenType;
     private AbstractWeibo mSWeibo, mQWeibo;
     private ProgressBar pb;
 
@@ -77,13 +79,16 @@ public class ReleaseOkActivity extends Activity {
     private void getData() {
         mTxtSay = (TextView) findViewById(R.id.text_say);
         mIvRoad = (ImageView) findViewById(R.id.iv_road);
+        mBtnPlay = (Button) findViewById(R.id.button_play);
         Bitmap bmp = null;
+        mEvenType=getIntent().getIntExtra("even",0);
         mType = getIntent().getIntExtra("type", 0);
         txtSay = getIntent().getStringExtra("txt");
         Uri uri = Uri.parse(txtSay);
         switch (mType) {
             case 0:
-
+                mBtnPlay.setVisibility(View.VISIBLE);
+                mBtnPlay.setOnClickListener(click);
                 break;
             case 1:
             case 2:
@@ -119,6 +124,8 @@ public class ReleaseOkActivity extends Activity {
         pb = (ProgressBar) findViewById(R.id.pb_share);
         mBtnUpload = (Button) findViewById(R.id.btn_re_ok_send);
         mBtnUpload.setOnClickListener(click);
+        mBtnCanel=(Button)findViewById(R.id.btn_re_ok_canel);
+        mBtnCanel.setOnClickListener(click);
     }
 
     OnClickListener click = new OnClickListener() {
@@ -153,7 +160,19 @@ public class ReleaseOkActivity extends Activity {
                 case R.id.btn_re_ok_send:
                     upload();
                     break;
-                default:
+                case R.id.button_play:
+                    MediaPlayer mPlayer = new MediaPlayer();
+                    try {
+                        Log.i("1234", txtSay);
+                        mPlayer.setDataSource(txtSay);
+                        mPlayer.prepare();
+                        mPlayer.start();
+                    } catch (IOException e) {
+                        Log.e("1234", "prepare() failed");
+                    }
+                    break;
+                case R.id.btn_re_ok_canel:
+                    startActivity(new Intent(ReleaseOkActivity.this,SysMsgActivity.class));
                     break;
             }
         }

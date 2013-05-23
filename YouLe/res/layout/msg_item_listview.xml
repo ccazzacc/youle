@@ -28,27 +28,45 @@
             android:layout_marginTop="40dp"
             android:layout_toLeftOf="@+id/msg_tv_time"
             android:layout_toRightOf="@+id/msg_iv_line"
-            >
+            android:orientation="horizontal" >
+
             <TextView
                 android:id="@+id/msg_tv_chat"
                 style="@style/wrap_content"
                 android:layout_margin="4dp"
                 android:textColor="@color/header_cancel_color" />
-			<FrameLayout
+
+            <LinearLayout
+                android:id="@+id/msg_lout_sound"
+                style="@style/wrap_content" >
+
+                <ImageView
+                    android:id="@+id/msg_iv_sAnim"
+                    style="@style/wrap_content"
+                    />
+
+                <TextView
+                    android:id="@+id/msg_tv_sTime"
+                    style="@style/wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="4s"
+                    android:textColor="@color/header_cancel_color" />
+            </LinearLayout>
+
+            <FrameLayout
                 android:id="@+id/msg_ly_chat"
-                style="@style/full_screen"
-                >
-            <ImageView
-                android:id="@+id/msg_iv_photo"
-                style="@style/wrap_content"
-                android:scaleType="fitXY"
-                />
-            <ImageView
-                android:id="@+id/msg_iv_photoTop"
-                style="@style/wrap_content"
-                android:scaleType="fitXY"
-                android:background="@drawable/event_bg3"
-                />
+                style="@style/full_screen" >
+
+                <ImageView
+                    android:id="@+id/msg_iv_photo"
+                    style="@style/wrap_content"
+                    android:scaleType="fitXY" />
+
+                <ImageView
+                    android:id="@+id/msg_iv_photoTop"
+                    style="@style/wrap_content"
+                    android:background="@drawable/event_bg2"
+                    android:scaleType="fitXY" />
             </FrameLayout>
         </LinearLayout>
 
@@ -58,8 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/msg_lout_chat"
-            android:textSize="@dimen/font_size_large"
-            android:layout_marginRight="@dimen/m_right" />
+            android:layout_marginRight="@dimen/m_right"
+            android:textSize="@dimen/font_size_large" />
 
         <ImageView
             android:id="@+id/msg_iv_status"
@@ -85,19 +103,18 @@
             android:layout_below="@+id/msg_lout_chat"
             android:layout_marginLeft="28dp"
             android:layout_toRightOf="@+id/msg_iv_line"
-            android:src="@drawable/point_icon"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:src="@drawable/point_icon" />
 
         <TextView
             android:id="@+id/msg_tv_address"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:gravity="center_vertical"
             android:layout_below="@+id/msg_lout_chat"
             android:layout_marginLeft="4dp"
             android:layout_toRightOf="@+id/msg_iv_address"
-            android:textColor="@color/main_address"
-           />
+            android:gravity="center_vertical"
+            android:textColor="@color/main_address" />
 
         <ImageView
             android:id="@+id/msg_iv_line"

@@ -7,6 +7,13 @@ public class MainInfo {
 	private String address;
 	private String time;
 	private int status;
+	private String soundUrl;
+	public String getSoundUrl() {
+		return soundUrl;
+	}
+	public void setSoundUrl(String soundUrl) {
+		this.soundUrl = soundUrl;
+	}
 	public String getAvaUrl() {
 		return avaUrl;
 	}
@@ -48,7 +55,7 @@ public class MainInfo {
 		// TODO Auto-generated constructor stub
 	}
 	public MainInfo(String avaUrl, String msgContent, String imgUrl,
-			String address, String time, int status) {
+			String address, String time, int status,String soundUrl) {
 		super();
 		this.avaUrl = avaUrl;
 		this.msgContent = msgContent;
@@ -56,6 +63,7 @@ public class MainInfo {
 		this.address = address;
 		this.time = time;
 		this.status = status;
+		this.soundUrl = soundUrl;
 	}
 	
 }

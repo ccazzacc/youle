@@ -21,14 +21,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/button_unmpeded" />
+            android:background="@drawable/button_unmpeded_normal" />
 
         <Button
             android:id="@+id/button_accident"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/button_event" />
+            android:background="@drawable/button_event_normal" />
 
         <Button
             android:id="@+id/button_danger"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/button_unimpeded"
-            android:background="@drawable/button_danger" />
+            android:background="@drawable/button_danger_normal" />
 
         <Button
             android:id="@+id/button_upkeep"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/button_unimpeded"
             android:layout_below="@+id/button_unimpeded"
-            android:background="@drawable/button_road" />
+            android:background="@drawable/button_road_normal" />
 
         <Button
             android:id="@+id/button_jam"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/button_accident"
             android:layout_below="@+id/button_unimpeded"
-            android:background="@drawable/button_trafficjam" />
+            android:background="@drawable/button_trafficjam_normal" />
     </RelativeLayout>
 
     <RelativeLayout

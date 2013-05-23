@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_bg"
+    android:orientation="vertical" >
+	<include layout="@layout/main_header"/>
+	<fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="com.amap.api.maps.SupportMapFragment" />
+
+    <RelativeLayout
+        android:id="@+id/me_tab_group"
+        android:layout_width="fill_parent"
+        android:layout_height="56dip"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/tabbar_bg"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/me_center_tab_menu"
+            style="@style/wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bar_icon_navigation" />
+
+        <Button
+            android:id="@+id/me_center_tab_record"
+            style="@style/wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_record" />
+
+        <Button
+            android:id="@+id/me_center_tab_quan"
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bar_icon_coupon" />
+    </RelativeLayout>
+
+</LinearLayout>
