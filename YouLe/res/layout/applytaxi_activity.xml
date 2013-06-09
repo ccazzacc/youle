@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/twobtn_header" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="12.0dip"
+        android:background="@drawable/shape_bg"
+        android:gravity="center_vertical"
+        android:minHeight="50.0dip"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/phoneNum"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/apply_etPhone"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/carNum"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/apply_etCarNum"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/serviceNum"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/apply_etService"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/service_company"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/apply_etCompany"
+                style="@style/full_screen"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/set_link"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/address"
+                android:textColor="@color/set_link"
+                android:textSize="@dimen/font_size_large" />
+
+            <EditText
+                android:id="@+id/apply_etAdress"
+                android:layout_weight="1"
+                style="@style/full_screen"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@color/white"
+                android:focusable="true"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/set_link"
+                android:text="四川省 成都市"
+                android:textSize="16.0sp" />
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="4.0dip"
+                android:layout_marginRight="8.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@drawable/bar_icon_map"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+	<Button
+            android:id="@+id/apply_btnCommit"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:layout_marginTop="12.0dip"
+            android:background="@drawable/btn_cancel"
+            android:gravity="center"
+            android:text="@string/commit_apply"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+</LinearLayout>

@@ -74,6 +74,10 @@ public class SysSetActivity extends Activity implements OnClickListener {
 				.setOnClickListener(this);
 		((LinearLayout) findViewById(R.id.sysset_pass))
 		.setOnClickListener(this);
+		((LinearLayout) findViewById(R.id.sysset_applyCar))
+		.setOnClickListener(this);
+		((LinearLayout) findViewById(R.id.sysset_applyShop))
+		.setOnClickListener(this);
 	}
 
 	@Override
@@ -111,6 +115,12 @@ public class SysSetActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.sysset_pass:
 			startActivity(new Intent(SysSetActivity.this, PwfixActivity.class));
+			break;
+		case R.id.sysset_applyCar:
+			startActivity(new Intent(SysSetActivity.this, ApplyTaxiActivity.class));
+			break;
+		case R.id.sysset_applyShop:
+			startActivity(new Intent(SysSetActivity.this, ApplyShopActivity.class));
 			break;
 		}
 	}

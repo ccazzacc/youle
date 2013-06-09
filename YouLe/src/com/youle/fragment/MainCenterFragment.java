@@ -2,9 +2,12 @@ package com.youle.fragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import android.util.Log;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerUi.*;
 import com.youle.util.GlobalData;
@@ -13,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,56 +35,64 @@ import android.widget.TextView;
 
 import com.youle.R;
 import com.youle.http_helper.AsyncLoader;
+import com.youle.http_helper.YouLe;
 import com.youle.managerData.info.MainInfo;
+import com.youle.managerUi.ChooseCity;
 import com.youle.managerUi.CouponActivity;
-import com.youle.managerUi.MainMapActivity;
 import com.youle.managerUi.ReleaseActivity;
 import com.youle.managerUi.SlidingActivity;
 import com.youle.util.MD5;
 import com.youle.util.OtherUtil;
+import com.youle.util.ToastUtil;
 import com.youle.view.XListView;
 import com.youle.view.XListView.IXListViewListener;
 
-public class MainCenterFragment extends Fragment implements IXListViewListener,OnClickListener{
+public class MainCenterFragment extends Fragment implements IXListViewListener,
+		OnClickListener{
 	private XListView msgLv;
 	private Context ct;
 	private List<MainInfo> list;
 	private FinalBitmap fb;
-	private View hView;
-	
-	private Button btn_left, btn_quan,btn_record,btn_map;
-	private ImageView ivMava, ivCover;
-	private Handler mHandler;
-    private TextView mCity;
+	// private ImageLoader imageLoader = ImageLoader.getInstance();
+//	private View hView;
 
+	private Button btn_left, btn_quan, btn_record, btn_map;
+//	private ImageView ivMava, ivCover;
+	private Handler mHandler;
+	private TextView mCity;
 	private MediaPlayer mediaPlay;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-//		Log.i("test", "Center onCreateView");
+		// Log.i("test", "Center onCreateView");
 		ct = (SlidingActivity) getActivity();
 		fb = FinalBitmap.create(ct);
+		fb.onResume();
+		// OtherUtil.initImageLoader(ct);
 		View v = inflater
 				.inflate(R.layout.main_center_layout, container, false);
 		btn_left = (Button) v.findViewById(R.id.center_tab_menu);
-
+		((ImageView) v.findViewById(R.id.header_iv_bottom))
+				.setVisibility(View.VISIBLE);
 		msgLv = (XListView) v.findViewById(R.id.center_listview);
 
-		hView = LayoutInflater.from(ct).inflate(
-				R.layout.msg_item_header_listview, null);
-		ivMava = (ImageView) hView.findViewById(R.id.msg_iv_Head_ava);
-		ivCover = (ImageView) hView.findViewById(R.id.msg_header_ivPhoto);
+//		hView = LayoutInflater.from(ct).inflate(
+//				R.layout.msg_item_header_listview, null);
+//		ivMava = (ImageView) hView.findViewById(R.id.msg_iv_Head_ava);
+//		ivCover = (ImageView) hView.findViewById(R.id.msg_header_ivPhoto);
 		btn_quan = (Button) v.findViewById(R.id.center_tab_quan);
-		btn_record = (Button)v.findViewById(R.id.center_tab_record);
-		btn_map = (Button)v.findViewById(R.id.header_right);
-        mCity=(TextView)v.findViewById(R.id.header_tv_bottom);
-        SharedPref sharedPref=new SharedPref(ct);
-        if(!sharedPref.getCity().equals("")||sharedPref.getCity()==null){
-            mCity.setText(sharedPref.getCity());
-        }
-        LinearLayout linearLayout=(LinearLayout)v.findViewById(R.id.header_all);
-        linearLayout.setOnClickListener(this);
+		btn_record = (Button) v.findViewById(R.id.center_tab_record);
+		btn_map = (Button) v.findViewById(R.id.header_right);
+		mCity = (TextView) v.findViewById(R.id.header_tv_bottom);
+		SharedPref sharedPref = new SharedPref(ct);
+		if (!OtherUtil.isNullOrEmpty(sharedPref.getCity())) {
+			mCity.setText(sharedPref.getCity());
+		}
+		LinearLayout linearLayout = (LinearLayout) v
+				.findViewById(R.id.header_all);
+		linearLayout.setOnClickListener(this);
 		return v;
 	}
 
@@ -88,7 +100,7 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-//		Log.i("test", "Center onActivityCreated");
+		// Log.i("test", "Center onActivityCreated");
 		mHandler = new Handler();
 		msgLv.setPullLoadEnable(true);
 		btn_left.setOnClickListener(this);
@@ -96,59 +108,52 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 		btn_record.setOnClickListener(this);
 		btn_map.setOnClickListener(this);
 		list = new ArrayList<MainInfo>();
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000108.png",
-				"堵了！总是这么堵！！", "", "羊犀立交", "18:16", 0,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000101.png", "",
-				"http://api.pathtrip.com/covers/10004891367198444.jpg", "一品天下",
-				"18:10", 4,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000027.png", "",
-				"http://api.pathtrip.com/covers/10004601365843861.jpg", "蜀汉路",
-				"17:30", 1,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000069.png", "",
-				"", "青羊大道", "17:27", 4,"http://api.pathtrip.com/audios/10003831361802821.m4a"));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000033.png",
-				"堵的好凶啊！司机朋友们绕行啊！", "", "抚琴路", "17:23", 3,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000059.png", "",
-				"http://api.pathtrip.com/covers/10001641359541616.jpg", "同友路",
-				"17:22", 1,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000108.png", "",
-				"http://api.pathtrip.com/covers/10003421360983697.jpg", "同和路",
-				"16:16", 2,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000095.png",
-				"通畅！！通畅！！通畅！！通畅！！通畅！！aaaaaaaaaaaaaaaaaaaa1aaaaaaaaaaaaaaaaaaaaa1aaaaaaaaaaaaaaaaaaa1aaaaaaaaaaaaaaaaaaaa1aaaaaaaaaaaaaaaa通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！通畅！！aaaaaaaaaaaaaaaaaaaaaaaaaaaaadfasdfasdfasdfadfasdfasaaaaaaa",
-				"", "黄忠路huangzhonglu", "16:01", 4,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000095.png", "",
-				"http://img2.jike.com/get?name=T1zHhYB7VQ1RCvBVdK", "金沙遗址路",
-				"15:15", 4,""));
-		list.add(new MainInfo(
-				"http://api.pathtrip.com/avatars/128/1000095.png", "",
-				"http://img2.jike.com/get?name=T1oxD8B4Yy1RCvBVdK", "红杏酒家",
-				"10:10", 0,""));
-		fb.display(ivMava, "http://api.pathtrip.com/avatars/128/1000108.png");
-		ivCover.setBackgroundResource(R.drawable.photo);
-		msgLv.addHeaderView(hView);
-		MsgAdapter adapter = new MsgAdapter(ct, list);
-		msgLv.setAdapter(adapter);
+		new GetInfoTask().execute();
+//		fb.display(ivMava, "http://api.pathtrip.com/avatars/128/1000108.png");
+		// imageLoader.displayImage("http://api.pathtrip.com/avatars/128/1000108.png",
+		// ivMava);
+//		ivCover.setBackgroundResource(R.drawable.photo);
+//		msgLv.addHeaderView(hView);
 	}
+	private class GetInfoTask extends AsyncTask<Void, Void, String>
+	{
 
+		@Override
+		protected String doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			String res = YouLe.getInfoList(ct, 0, 0, 0,  10);
+			if(res.startsWith(GlobalData.RESULT_OK))
+			{
+				list = YouLe.jsonInfo(res);
+				return GlobalData.RESULT_OK;
+			}else
+				return res;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if(!OtherUtil.isNullOrEmpty(result) && result.startsWith(GlobalData.RESULT_OK))
+			{
+				MsgAdapter adapter = new MsgAdapter(ct);
+				msgLv.setAdapter(adapter);
+			}else
+			{
+				ToastUtil.showToast(ct, result);
+			}
+				
+		}
+		
+	}
 	private class MsgAdapter extends BaseAdapter {
 		private Context context;
-		private List<MainInfo> list;
 		private AsyncLoader asyncLoader;
 		private AnimationDrawable animationDrawable;
 		private List<Integer> numList = new ArrayList<Integer>();
-		public MsgAdapter(Context context, List<MainInfo> list) {
+
+		public MsgAdapter(Context context) {
 			this.context = context;
-			this.list = list;
 			asyncLoader = new AsyncLoader();
 		}
 
@@ -171,7 +176,8 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 		}
 
 		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			// TODO Auto-generated method stub
 			final ViewCache vc;
 			if (convertView == null) {
@@ -194,11 +200,14 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 						.findViewById(R.id.msg_iv_status);
 				vc.ivPhotoTop = (ImageView) convertView
 						.findViewById(R.id.msg_iv_photoTop);
-				vc.sAnim = (ImageView)convertView.findViewById(R.id.msg_iv_sAnim);
-				vc.sTime = (TextView)convertView.findViewById(R.id.msg_tv_sTime);
-				vc.lSound = (LinearLayout)convertView.findViewById(R.id.msg_lout_sound);
-				// vc.lyChat =
-				// (LinearLayout)convertView.findViewById(R.id.msg_ly_chat);
+				vc.sAnim = (ImageView) convertView
+						.findViewById(R.id.msg_iv_sAnim);
+				vc.sTime = (TextView) convertView
+						.findViewById(R.id.msg_tv_sTime);
+				vc.lSound = (LinearLayout) convertView
+						.findViewById(R.id.msg_lout_sound);
+				vc.lyChat = (LinearLayout) convertView
+						.findViewById(R.id.msg_ltv_chat);
 				convertView.setTag(vc);
 			} else {
 				vc = (ViewCache) convertView.getTag();
@@ -206,182 +215,208 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 			vc.ivLine.setBackgroundResource(R.drawable.line);
 			final MainInfo info = list.get(position);
 			fb.display(vc.ivAva, info.getAvaUrl());
-			if(!TextUtils.isEmpty(info.getSoundUrl()))
-			{	
-				vc.lSound.setVisibility(View.VISIBLE);
-				vc.lSound.setBackgroundResource(R.drawable.event_bg);
-				vc.sAnim.setBackgroundResource(R.drawable.sound0);
-				final String path = asyncLoader.loadMedia(info.getSoundUrl(),
-						new AsyncLoader.ImageCallback() {
-							@Override
-							public String mediaLoaded(String mediaUrl) {
-								// TODO Auto-generated method stub
-								return mediaUrl;
-							}
-						});
-				vc.lSound.setOnClickListener(
-						new OnClickListener() {
-
-							@Override
-							public void onClick(final View v) {
-								// TODO Auto-generated method stub
-								numList.add(position);
-								int x = 1;
-								if (null != numList && numList.size() >= 2) {
-									for (int i = numList.size() - 1, j = 0; i >= j
-											&& i > 2; i--) {
-										if (numList.get(i) == numList
-												.get(i - 1)) {
-											x++;
-										}
-									}
-								}
-								if (x % 2 == 0) {
-									if ((mediaPlay != null && mediaPlay
-											.isPlaying()) == true) {
-										mediaPlay.stop();
-									}
-									mediaPlay = null;
-									return;
-								}
-								if ((mediaPlay != null && mediaPlay.isPlaying()) == true) {
-									mediaPlay.stop();
-									mediaPlay = null;
-								}
-								File sound;
-								if (OtherUtil.isNullOrEmpty(path)) {
-									String uri = info.getSoundUrl();
-									String name = MD5.getMD5(uri)
-											+ uri.substring(uri
-													.lastIndexOf("."));
-									sound = OtherUtil.fileCreate(name, true);
-								} else {
-									sound = new File(path);
-								}
-
-								if (sound.exists()) {
-									vc.sAnim.setBackgroundResource(R.anim.sound_anim);
-									animationDrawable = (AnimationDrawable) vc.sAnim.getBackground();
-							        animationDrawable.start();
-									try {
-										if (mediaPlay == null)
-											mediaPlay = new MediaPlayer();
-										mediaPlay.reset();
-										mediaPlay.setDataSource(sound
-												.getAbsolutePath());
-										mediaPlay.prepare();
-										mediaPlay.start();
-									} catch (IllegalArgumentException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									} catch (SecurityException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									} catch (IllegalStateException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-									new Thread() {
-
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											super.run();
-
-											Message msg = new Message();
-											msg.obj = vc.sAnim;
-											try {
-												while ((mediaPlay != null && mediaPlay
-														.isPlaying()) == true) {
-												}
-											} catch (Exception e) {
-												// TODO Auto-generated catch
-												// block
-												e.printStackTrace();
-											}
-											msg.what = 1;
-											// Log.i("",
-											// "stop--position:"+position);
-											handler.sendMessage(msg);
-										}
-
-									}.start();
-								} else {
-
-								}
-							}
-						});
-			} else {
-				vc.lSound.setVisibility(View.GONE);
-			}
-			
-				
-			
-			if (!TextUtils.isEmpty(info.getMsgContent())) {
+			// imageLoader.displayImage(info.getAvaUrl(), vc.ivAva);
+			if(TextUtils.isEmpty(info.getAudUrl()) && TextUtils.isEmpty(info.getImgUrl()) && TextUtils.isEmpty(info.getText()))
+			{
+				vc.lyChat.setVisibility(View.VISIBLE);
 				vc.tvChat.setVisibility(View.VISIBLE);
-				vc.tvChat.setText(info.getMsgContent());
-				vc.tvChat.setBackgroundResource(R.drawable.event_bg);
-				// vc.lyChat.setBackgroundResource(R.drawable.event_bg);
-//				vc.ivPhoto.setVisibility(View.GONE);
-//				vc.ivPhotoTop.setVisibility(View.GONE);
-			}else
-				vc.tvChat.setVisibility(View.GONE);
-			if (!TextUtils.isEmpty(info.getImgUrl())) {
-				vc.ivPhoto.setVisibility(View.VISIBLE);
-				LayoutParams para;
-				para = (LayoutParams) vc.ivPhotoTop.getLayoutParams();
-
-				para.height = 200;
-				para.width = 270;
-				vc.ivPhoto.setLayoutParams(para);
-				// vc.lyChat.setBackgroundResource(R.drawable.event_bg);
-				// vc.ivPhoto.setBackgroundResource(R.drawable.event_bg);
-				fb.display(vc.ivPhoto, info.getImgUrl());
-				vc.ivPhotoTop.setVisibility(View.VISIBLE);
-				vc.tvChat.setVisibility(View.GONE);
+				vc.tvChat.setText(getString(R.string.noThing));
+				vc.ivPhotoTop.setVisibility(View.GONE);
 			}else
 			{
-				vc.ivPhoto.setVisibility(View.GONE);
-				vc.ivPhotoTop.setVisibility(View.GONE);
+				if (!TextUtils.isEmpty(info.getAudUrl())) {
+					vc.lSound.setVisibility(View.VISIBLE);
+					vc.lSound.setBackgroundResource(R.drawable.event_bg);
+					vc.sAnim.setBackgroundResource(R.drawable.sound0);
+					final String path = asyncLoader.loadMedia(info.getAudUrl(),
+							new AsyncLoader.ImageCallback() {
+								@Override
+								public String mediaLoaded(String mediaUrl) {
+									// TODO Auto-generated method stub
+									return mediaUrl;
+								}
+							});
+					vc.lSound.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(final View v) {
+							// TODO Auto-generated method stub
+							numList.add(position);
+							int x = 1;
+							if (null != numList && numList.size() >= 2) {
+								for (int i = numList.size() - 1, j = 0; i >= j
+										&& i > 2; i--) {
+									if (numList.get(i) == numList.get(i - 1)) {
+										x++;
+									}
+								}
+							}
+							if (x % 2 == 0) {
+								if ((mediaPlay != null && mediaPlay.isPlaying()) == true) {
+									mediaPlay.stop();
+								}
+								mediaPlay = null;
+								return;
+							}
+							if ((mediaPlay != null && mediaPlay.isPlaying()) == true) {
+								mediaPlay.stop();
+								mediaPlay = null;
+							}
+							File sound;
+							if (OtherUtil.isNullOrEmpty(path)) {
+								String uri = info.getAudUrl();
+								String name = MD5.getMD5(uri)
+										+ uri.substring(uri.lastIndexOf("."));
+								sound = OtherUtil.fileCreate(name, true);
+							} else {
+								sound = new File(path);
+							}
+
+							if (sound.exists()) {
+								vc.sAnim.setBackgroundResource(R.anim.sound_anim);
+								animationDrawable = (AnimationDrawable) vc.sAnim
+										.getBackground();
+								animationDrawable.start();
+								try {
+									if (mediaPlay == null)
+										mediaPlay = new MediaPlayer();
+									mediaPlay.reset();
+									mediaPlay.setDataSource(sound.getAbsolutePath());
+									mediaPlay.prepare();
+									mediaPlay.start();
+								} catch (IllegalArgumentException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SecurityException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IllegalStateException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								new Thread() {
+
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										super.run();
+
+										Message msg = new Message();
+										msg.obj = vc.sAnim;
+										try {
+											while ((mediaPlay != null && mediaPlay
+													.isPlaying()) == true) {
+											}
+										} catch (Exception e) {
+											// TODO Auto-generated catch
+											// block
+											e.printStackTrace();
+										}
+										msg.what = 1;
+										// Log.i("",
+										// "stop--position:"+position);
+										handler.sendMessage(msg);
+									}
+
+								}.start();
+							} else {
+
+							}
+						}
+					});
+				} else {
+					vc.lSound.setVisibility(View.GONE);
+				}
+
+				if (!TextUtils.isEmpty(info.getText())) {
+					vc.lyChat.setVisibility(View.VISIBLE);
+					vc.tvChat.setVisibility(View.VISIBLE);
+					vc.tvChat.setText(info.getText());
+					// vc.tvChat.setBackgroundResource(R.drawable.event_bg);
+					// vc.ivPhoto.setVisibility(View.GONE);
+					// vc.ivPhotoTop.setVisibility(View.GONE);
+				} else {
+					vc.lyChat.setVisibility(View.GONE);
+				}
+				if (!TextUtils.isEmpty(info.getImgUrl())) {
+					vc.ivPhoto.setVisibility(View.VISIBLE);
+					LayoutParams para;
+					para = (LayoutParams) vc.ivPhotoTop.getLayoutParams();
+
+					para.height = 200;
+					para.width = 270;
+					vc.ivPhoto.setLayoutParams(para);
+					// vc.lyChat.setBackgroundResource(R.drawable.event_bg);
+					// vc.ivPhoto.setBackgroundResource(R.drawable.event_bg);
+					fb.display(vc.ivPhoto, info.getImgUrl());
+					// imageLoader.displayImage(info.getImgUrl(), vc.ivPhoto);
+					vc.ivPhotoTop.setVisibility(View.VISIBLE);
+					vc.tvChat.setVisibility(View.GONE);
+				} else {
+					vc.ivPhoto.setVisibility(View.GONE);
+					vc.ivPhotoTop.setVisibility(View.GONE);
+				}
+//				LayoutParams para;
+//				para = (LayoutParams) vc.ivPhotoTop.getLayoutParams();
+//
+//				para.height = 200;
+//				para.width = 270;
+//				vc.ivPhotoTop.setLayoutParams(para);
 			}
-			LayoutParams para;
-			para = (LayoutParams) vc.ivPhotoTop.getLayoutParams();
 
-			para.height = 200;
-			para.width = 270;
-			vc.ivPhotoTop.setLayoutParams(para);
+            long currentTime=System.currentTimeMillis()/1000;
+            String s=formatDuring(currentTime-info.getCreated());
+//            Log.i("1234",currentTime+" "+info.getCreated()+" "+s);
 
-			vc.tvTime.setText(info.getTime());
-			switch (info.getStatus()) {
-			case 0:
+            vc.tvTime.setText(currentTime-info.getCreated()+"");
+			switch (info.getMark()) {
+			case 1:
 				vc.ivStatus
 						.setBackgroundResource(R.drawable.event_status_trafficjam);
 				break;
-			case 1:
-				vc.ivStatus.setBackgroundResource(R.drawable.event_status_road);
-				break;
 			case 2:
-				vc.ivStatus
-						.setBackgroundResource(R.drawable.event_status_danger);
+				vc.ivStatus.setBackgroundResource(R.drawable.event_status_event);
 				break;
 			case 3:
 				vc.ivStatus
-						.setBackgroundResource(R.drawable.event_status_event);
+						.setBackgroundResource(R.drawable.event_status_danger);
 				break;
 			case 4:
 				vc.ivStatus
+						.setBackgroundResource(R.drawable.event_status_road);
+				break;
+			case 5:
+				vc.ivStatus
 						.setBackgroundResource(R.drawable.event_status_unimpeded);
 				break;
+			case 6:
+				vc.ivStatus
+				.setBackgroundResource(R.drawable.event_status_unimpeded);
+				break;
 			}
-			vc.tvAdd.setText(info.getAddress());
+			vc.tvAdd.setText(info.getPlace());
 
 			return convertView;
 		}
+        /**
+         *
+         * @param 要转换的毫秒数
+         * @return 该毫秒数转换为 * days * hours * minutes * seconds 后的格式
+         * @author fy.zhang
+         */
+        public String formatDuring(long mss) {
+            long days = mss / ( 60 * 60 * 24);
+            long hours = (mss % ( 60 * 60 * 24)) / ( 60 * 60);
+            long minutes = (mss % ( 60 * 60)) / ( 60);
+            long seconds = (mss % ( 60)) / 1000;
+            return days + " days " + hours + " hours " + minutes + " minutes "
+                    + seconds + " seconds ";
+        }
 
-		private class ViewCache {
+        private class ViewCache {
 			ImageView ivAva;
 			TextView tvChat;
 			ImageView ivLine;
@@ -390,11 +425,12 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 			TextView tvTime;
 			ImageView ivStatus;
 			TextView tvAdd;
-			// LinearLayout lyChat;
+			LinearLayout lyChat;
 			ImageView sAnim;
 			TextView sTime;
 			LinearLayout lSound;
 		}
+
 		private Handler handler = new Handler() {
 
 			@Override
@@ -403,16 +439,15 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 				super.handleMessage(msg);
 				if (msg.what == 1 && msg.obj != null) {
 					System.out.println("test.........close.........");
-					if(animationDrawable.isRunning())
+					if (animationDrawable.isRunning())
 						animationDrawable.stop();
-					((ImageView) msg.obj)
-							.setImageResource(R.drawable.sound0);
+					((ImageView) msg.obj).setImageResource(R.drawable.sound0);
 				}
 			}
 
 		};
 	}
-	
+
 	private void geneItems(String page, String size, String number) {
 
 	}
@@ -455,8 +490,7 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 			break;
 
 		case R.id.center_tab_quan:
-			startActivity(new Intent((SlidingActivity) ct,
-					CouponActivity.class));
+			startActivity(new Intent((SlidingActivity) ct, CouponActivity.class));
 			((SlidingActivity) ct).overridePendingTransition(
 					R.anim.push_left_in, R.anim.push_left_out);
 			break;
@@ -465,16 +499,14 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 					ReleaseActivity.class));
 			break;
 		case R.id.header_right:
-			startActivity(new Intent((SlidingActivity) ct,
-					MainMapActivity.class));
+			startActivity(new Intent((SlidingActivity) ct, MapActivity.class));
 			((SlidingActivity) ct).overridePendingTransition(
 					R.anim.push_left_in, R.anim.push_left_out);
-			((SlidingActivity)getActivity()).finish();
+			((SlidingActivity) getActivity()).finish();
 			break;
-        case R.id.header_all:
-            startActivity(new Intent((SlidingActivity) ct,
-                        ChooseCity.class));
-            break;
+		case R.id.header_all:
+			startActivity(new Intent((SlidingActivity) ct, ChooseCity.class));
+			break;
 		}
 	}
 
@@ -482,12 +514,19 @@ public class MainCenterFragment extends Fragment implements IXListViewListener,O
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		fb.onPause();
+		// fb.onPause();
 		if (mediaPlay != null && mediaPlay.isPlaying()) {
 			mediaPlay.stop();
 			mediaPlay.release();
 		}
 		mediaPlay = null;
 	}
-	
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		// fb.onResume();
+	}
+
 }

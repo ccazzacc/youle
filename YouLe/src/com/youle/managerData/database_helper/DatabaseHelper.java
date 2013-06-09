@@ -27,7 +27,7 @@ public class DatabaseHelper {
     private static final int DB_VERSION = 1;
     //创建一个表
     private static final String DB_CREATE = "CREATE TABLE " + DB_TABLE + " (" + KEY_ID + " INTEGER PRIMARY KEY,title text,"
-            + KEY_NUM + " INTERGER," + KEY_DATA + " TEXT,sender text,date text)";
+            + KEY_NUM + " INTERGER," + KEY_DATA + " TEXT,sender text,date text,qtype INTERGER)";
     // 本地Context对象
     private Context mContext = null;
     // 执行open（）打开数据库时，保存返回的数据库对象
@@ -52,13 +52,14 @@ public class DatabaseHelper {
     }
 
     /* 插入一条数据 */
-    public long insertData(int num, String tit,String data,String sender,String date) {
+    public long insertData(int num, String tit,String data,String sender,String date,int type) {
         ContentValues initialValues = new ContentValues();
         initialValues.put("title", tit);
         initialValues.put(KEY_NUM, num);
         initialValues.put("sender", sender);
         initialValues.put(KEY_DATA, data);
         initialValues.put("date", date);
+        initialValues.put("qtype", type);
         return mSQLiteDatabase.insert(DB_TABLE, KEY_ID, initialValues);
     }
 

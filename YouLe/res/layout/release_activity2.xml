@@ -13,7 +13,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/release_bg">
+            android:background="@drawable/release_bg" android:id="@+id/relativeLayout2">
 
 
         <RadioButton
@@ -21,8 +21,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rB1" android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/button_unmpeded_normal" android:layout_marginLeft="5dp"
-                android:onClick=""/>
+                android:background="@drawable/button_trafficjam_normal" android:layout_marginLeft="5dp"
+                android:checked="true"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,14 +47,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rB5" android:layout_alignTop="@+id/rB4"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/button_trafficjam_normal"
-                android:checked="true"/>
+                android:background="@drawable/button_unmpeded_normal"
+                android:checked="false"/>
 
     </RelativeLayout>
     <RelativeLayout
             android:id="@+id/RelativeLayout_record"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:visibility="gone">
@@ -67,16 +67,13 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/record_icon"/>
 
-        <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
+        <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/button_record"
-                android:layout_alignRight="@+id/button_record"
-                android:layout_below="@+id/button_record"
-                android:layout_marginTop="25dp"
-                android:max="100"/>
+                android:id="@+id/imageVol"
+                android:background="@drawable/vol1"
+                android:layout_alignRight="@+id/button_record" android:layout_alignBottom="@+id/button_record"
+                android:layout_alignTop="@+id/button_record"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -175,5 +172,10 @@
             </TableRow>
         </TableLayout>
     </RelativeLayout>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageTime" android:layout_below="@+id/relativeLayout2"
+            android:layout_centerHorizontal="true" android:background="@drawable/buton_sinaweibo_normal"/>
 
 </RelativeLayout>

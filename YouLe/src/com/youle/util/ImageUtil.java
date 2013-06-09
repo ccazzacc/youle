@@ -19,7 +19,6 @@ public class ImageUtil {
 		this.context = context;
 	}
 	/**
-	 * 此处写方法描述
 	 * @Title: getBitmap
 	 * @param intent
 	 * @return void

@@ -93,12 +93,12 @@
             android:layout_marginTop="5dp" >
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/text_forgot_psd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="@string/register_pw" />
+                android:text="@string/forgot_password" />
 
             <TextView
                 android:id="@+id/text_reg"

@@ -52,7 +52,7 @@ public class YLSession {
 		String refresh_token = sharedPref.getString(REFRESH_TOKEN, null);
 		String user_id = sharedPref.getString(USER_ID, null);
 		int cur_time = sharedPref.getInt(CUR_TIME, 0);
-		if (!OtherUtil.isNullOrEmpty(access_token) && expires_in != 0 && !OtherUtil.isNullOrEmpty(refresh_token)
+		if (!OtherUtil.isNullOrEmpty(access_token) && !OtherUtil.isNullOrEmpty(refresh_token)
 				&& !OtherUtil.isNullOrEmpty(user_id) && cur_time != 0)
 			return new Token(access_token, expires_in, refresh_token, user_id,cur_time);
 		else

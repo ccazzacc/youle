@@ -1,30 +1,68 @@
 package com.youle.managerData.info;
 
-public class MainInfo {
+import com.amap.api.maps.model.LatLng;
+
+
+public class MainInfo{
+	private String trackId;
+	private String userId;
 	private String avaUrl;
-	private String msgContent;
+	private int created;
+	private String text;
+	private int mark;
+	private String audUrl;
+	private int audTime;
 	private String imgUrl;
-	private String address;
-	private String time;
-	private int status;
-	private String soundUrl;
-	public String getSoundUrl() {
-		return soundUrl;
+	private String orImgUrl;
+	private LatLng latLng;
+	private String place;
+	private int flags;
+	private int width;
+	private int height;
+//	private double lat;
+//	private double lng;
+//	private String avaUrl;
+	public String getTrackId() {
+		return trackId;
 	}
-	public void setSoundUrl(String soundUrl) {
-		this.soundUrl = soundUrl;
+	public void setTrackId(String trackId) {
+		this.trackId = trackId;
 	}
-	public String getAvaUrl() {
-		return avaUrl;
+	public String getUserId() {
+		return userId;
 	}
-	public void setAvaUrl(String avaUrl) {
-		this.avaUrl = avaUrl;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getMsgContent() {
-		return msgContent;
+	public int getCreated() {
+		return created;
 	}
-	public void setMsgContent(String msgContent) {
-		this.msgContent = msgContent;
+	public void setCreated(int created) {
+		this.created = created;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public int getMark() {
+		return mark;
+	}
+	public void setMark(int mark) {
+		this.mark = mark;
+	}
+	public String getAudUrl() {
+		return audUrl;
+	}
+	public void setAudUrl(String audUrl) {
+		this.audUrl = audUrl;
+	}
+	public int getAudTime() {
+		return audTime;
+	}
+	public void setAudTime(int audTime) {
+		this.audTime = audTime;
 	}
 	public String getImgUrl() {
 		return imgUrl;
@@ -32,38 +70,72 @@ public class MainInfo {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
-	public String getAddress() {
-		return address;
+	public String getOrImgUrl() {
+		return orImgUrl;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setOrImgUrl(String orImgUrl) {
+		this.orImgUrl = orImgUrl;
 	}
-	public String getTime() {
-		return time;
+	public LatLng getLatLng() {
+		return latLng;
 	}
-	public void setTime(String time) {
-		this.time = time;
+	public void setLatLng(LatLng latLng) {
+		this.latLng = latLng;
 	}
-	public int getStatus() {
-		return status;
+	public String getPlace() {
+		return place;
 	}
-	public void setStatus(int status) {
-		this.status = status;
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	
+	public String getAvaUrl() {
+		return avaUrl;
+	}
+	public void setAvaUrl(String avaUrl) {
+		this.avaUrl = avaUrl;
+	}
+	public int getFlags() {
+		return flags;
+	}
+	public void setFlags(int flags) {
+		this.flags = flags;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public MainInfo(String trackId, String userId, String avaUrl,
+			int created, String text, int mark, String audUrl, int audTime,
+			String imgUrl, String orImgUrl, LatLng latLng, String place,
+			int flags, int width, int height) {
+		super();
+		this.trackId = trackId;
+		this.userId = userId;
+		this.avaUrl = avaUrl;
+		this.created = created;
+		this.text = text;
+		this.mark = mark;
+		this.audUrl = audUrl;
+		this.audTime = audTime;
+		this.imgUrl = imgUrl;
+		this.orImgUrl = orImgUrl;
+		this.latLng = latLng;
+		this.place = place;
+		this.flags = flags;
+		this.width = width;
+		this.height = height;
 	}
 	public MainInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public MainInfo(String avaUrl, String msgContent, String imgUrl,
-			String address, String time, int status,String soundUrl) {
-		super();
-		this.avaUrl = avaUrl;
-		this.msgContent = msgContent;
-		this.imgUrl = imgUrl;
-		this.address = address;
-		this.time = time;
-		this.status = status;
-		this.soundUrl = soundUrl;
-	}
-	
 }

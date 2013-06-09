@@ -2,11 +2,9 @@ package com.youle.http_helper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +23,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
@@ -65,15 +62,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.youle.managerData.SharedPref.YLSession;
+import com.youle.managerData.info.Token;
+import com.youle.util.GlobalData;
+import com.youle.util.OtherUtil;
+
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,11 +81,6 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import com.youle.managerData.SharedPref.YLSession;
-import com.youle.managerData.info.Token;
-import com.youle.util.GlobalData;
-import com.youle.util.OtherUtil;
 
 /**
  * Utility class for http request. 封装网络连接的最主要接口
@@ -112,7 +107,6 @@ public class Utility {
 	public static YLSession mSession;
 	public static String mTripId;
 	public static String LANGUAGE = "zh";
-
 	public static boolean hasToken() {
 		return (mToken == null) ? false : true;
 	}
@@ -125,39 +119,43 @@ public class Utility {
 	}
 
 	public static boolean isSessionValid() {
-		return (hasToken())
-				&& ((mToken.getExpires_in() != 0) && (((int) Math.floor(System
+		// Log.i("test", "mToken.getExpires_in():" + mToken.getExpires_in());
+		return (hasToken())&&(mToken.getExpires_in() == 0
+				|| ((mToken.getExpires_in() != 0) && (((int) Math.floor(System
 						.currentTimeMillis() / 1000) - mToken.getCurrent_time()) < mToken
-						.getExpires_in()));
+						.getExpires_in())));
 	}
 
+	
 	// 设置http头,如果authParam不为空，则表示当前有token认证信息需要加入到头中
 	public static void setHeader(String httpMethod, HttpUriRequest request,
 			RequestParameters authParam, String url) throws RequestException {
 		if (!isBundleEmpty(mRequestHeader)) {
-//			Log.i("test", "!isBundleEmpty(mRequestHeader");
+			Log.i("test", "!isBundleEmpty(mRequestHeader");
 			for (int loc = 0; loc < mRequestHeader.size(); loc++) {
 				String key = mRequestHeader.getKey(loc);
 				request.setHeader(key, mRequestHeader.getValue(key).toString());
 			}
 		}
 		if (!isBundleEmpty(authParam)) {
-			String authHeader = "Basic "
-					+ new String(SecBase64.encode((authParam.getValue(
-							"client_id").toString()
-							+ ":" + authParam.getValue("client_secret")
-							.toString()).getBytes()));
-			if (authHeader != null) {
-//				Log.i("test", "authHeader:" + authHeader);
-				request.setHeader("Authorization", authHeader);
-			}
-		} else {
-			if (null != mToken
-					&& !OtherUtil.isNullOrEmpty(mToken.getAccess_token())) {
-//				Log.i("test",
-//						"Authorization Token token=" + mToken.getAccess_token());
-				request.setHeader("Authorization",
-						"Token token=" + mToken.getAccess_token());
+			Log.i("test", "!isBundleEmpty(authParam)");
+				String authHeader = "Basic "
+						+ new String(SecBase64.encode((authParam.getValue(
+								"client_id").toString()
+								+ ":" + authParam.getValue("client_secret")
+								.toString()).getBytes()));
+				if (authHeader != null) {
+					Log.i("test", "authHeader:" + authHeader);
+					request.setHeader("Authorization", authHeader);
+
+				}
+		}else
+		{
+			Log.i("test", "----------else setHeader-----------");
+			if(mToken != null && !OtherUtil.isNullOrEmpty(mToken.getAccess_token()))
+			{
+				Log.i("test", "Authorization Token token="+mToken.getAccess_token());
+				request.setHeader("Authorization","Token token="+mToken.getAccess_token());
 			}
 		}
 		if (LANGUAGE.equals("zh")) {
@@ -222,7 +220,7 @@ public class Utility {
 		try {
 			List<NameValuePair> form = new ArrayList<NameValuePair>();
 			for (String key : bundle.keySet()) {
-//				Log.i("test", "key:" + key);
+				Log.i("test", "key:" + key);
 				form.add(new BasicNameValuePair(key, bundle.getString(key)));
 			}
 			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(form,
@@ -276,188 +274,169 @@ public class Utility {
 		if (params != null) {
 			for (int loc = 0; loc < params.size(); loc++) {
 				String key = params.getKey(loc);
-				if (key.equals("file")) {
+				if (key.equals("img")) {
 					file = params.getValue(key);
 					params.remove(key);
 				}
 			}
 		}
 		if (file == null) {
-			rlt = openUrl(context, url, method, params, null, null, null, null,
-					null, null);
+			rlt = openUrl(context, url, method, params, null, null, null, null);
 		} else {
-			rlt = openUrl(context, url, method, params, file, "file", null,
-					null, null, null);
+			rlt = openUrl(context, url, method, params, file, "img", null,
+					null);
 		}
 		return rlt;
 	}
 
+	public static synchronized String openTrackUrl(Context context, String url,
+			String method, RequestParameters params) throws RequestException {
+		String rlt = "";
+		String img = null;
+		String aud = null;
+		if (params != null) {
+			for (int loc = 0; loc < params.size(); loc++) {
+				String key = params.getKey(loc);
+				if (key.equals("img")) {
+					img = params.getValue(key);
+					if (!OtherUtil.isNullOrEmpty(img)) {
+						params.remove(key);
+					}
+				}
+				if (key.equals("aud")) {
+					aud = params.getValue(key);
+					if (!OtherUtil.isNullOrEmpty(aud)) {
+						params.remove(key);
+					}
+				}
+			}
+		}
+		rlt = openUrl(context, url, method, params, img, "img", aud, "aud");
+		return rlt;
+	}
 
 	public static String openUrl(Context context, String url, String method,
 			RequestParameters params, String filePic, String fileKeyPic,
-			String fileAud, String fileKeyAud, String fileCos, String fileKeyCos)
+			String fileAud, String fileKeyAud)
 			throws RequestException {
-		Locale locale = context.getResources().getConfiguration().locale;
-		LANGUAGE = locale.getLanguage();
 		String result = "";
 		try {
-			try {
-				HttpClient client = getNewHttpClient(context);
-				HttpUriRequest request = null;
-				ByteArrayOutputStream bos = null;
-				if (method.equals("GET")) {
-					if (params != null)
-						url = url + "?" + encodeUrl(params);
-					HttpGet get = new HttpGet(url);
-					request = get;
-				} else if (method.equals("POST")) {
-					HttpPost post = new HttpPost(url);
-					byte[] data = null;
-					if (OtherUtil.isNullOrEmpty(filePic)
-							&& OtherUtil.isNullOrEmpty(fileAud)
-							&& OtherUtil.isNullOrEmpty(fileCos)) {
-						bos = new ByteArrayOutputStream(1024 * 1024);
-					} else
-						try {
-							bos = new ByteArrayOutputStream(1024 * 1024 * 3);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					if (!OtherUtil.isNullOrEmpty(filePic)
-							&& !filePic.equals("null")
-							&& OtherUtil.isNullOrEmpty(fileAud)
-							&& OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.picToUpload(bos, filePic, fileKeyPic);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else if (OtherUtil.isNullOrEmpty(filePic)
-							&& !OtherUtil.isNullOrEmpty(fileAud)
-							&& OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.cosMediaToUpload(bos, fileAud, fileKeyAud);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else if (OtherUtil.isNullOrEmpty(filePic)
-							&& OtherUtil.isNullOrEmpty(fileAud)
-							&& !OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.cosMediaToUpload(bos, fileCos, fileKeyCos);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else if (!OtherUtil.isNullOrEmpty(filePic)
-							&& !OtherUtil.isNullOrEmpty(fileAud)
-							&& OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.picToUpload(bos, filePic, fileKeyPic);
-						Utility.cosMediaToUpload(bos, fileAud, fileKeyAud);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else if (!OtherUtil.isNullOrEmpty(filePic)
-							&& OtherUtil.isNullOrEmpty(fileAud)
-							&& !OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.cosMediaToUpload(bos, fileCos, fileKeyCos);
-						Utility.picToUpload(bos, filePic, fileKeyPic);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else if (OtherUtil.isNullOrEmpty(filePic)
-							&& !OtherUtil.isNullOrEmpty(fileAud)
-							&& !OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.cosMediaToUpload(bos, fileCos, fileKeyCos);
-						Utility.cosMediaToUpload(bos, fileAud, fileKeyAud);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else if (!OtherUtil.isNullOrEmpty(filePic)
-							&& !OtherUtil.isNullOrEmpty(fileAud)
-							&& !OtherUtil.isNullOrEmpty(fileCos)) {
-						Utility.paramToUpload(bos, params);
-						post.setHeader("Content-Type", MULTIPART_FORM_DATA
-								+ "; boundary=" + BOUNDARY);
-						Utility.cosMediaToUpload(bos, fileCos, fileKeyCos);
-						Utility.picToUpload(bos, filePic, fileKeyPic);
-						Utility.cosMediaToUpload(bos, fileAud, fileKeyAud);
-						bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					} else {
-						post.setHeader("Content-Type",
-								"application/x-www-form-urlencoded");
-						String postParam = encodeParameters(params);
-						data = postParam.getBytes();
-						bos.write(data);
-					}
-					try {
-						data = bos.toByteArray();
-					} catch (OutOfMemoryError e) {
-						// TODO Auto-generated catch block
-						// e.printStackTrace();
-						Log.e("Utility", "Utility e:" + e.toString());
-					}
-					bos.close();
-					ByteArrayEntity formEntity = new ByteArrayEntity(data);
-					post.setEntity(formEntity);
-					// 绑定到请求 Entry
-					request = post;
-				} else if (method.equals("DELETE")) {
+			HttpClient client = getNewHttpClient(context);
+			HttpUriRequest request = null;
+			ByteArrayOutputStream bos = null;
+			if (method.equals("GET")) {
+				if (params != null)
 					url = url + "?" + encodeUrl(params);
-					request = new HttpDelete(url);
-				} else if (method.equals("PUT")) {
-					HttpPut put = new HttpPut(url);
-					byte[] data = null;
-					bos = new ByteArrayOutputStream(1024 * 10);
-					put.setHeader("Content-Type",
+				HttpGet get = new HttpGet(url);
+				request = get;
+			} else if (method.equals("POST")) {
+				HttpPost post = new HttpPost(url);
+				byte[] data = null;
+				if(OtherUtil.isNullOrEmpty(filePic) && OtherUtil.isNullOrEmpty(fileAud))
+				{
+					bos = new ByteArrayOutputStream(1024 * 512);
+				}else
+					bos = new ByteArrayOutputStream(1024 * 1024 * 2);
+				Log.i("test", "--"+filePic+"--");
+				if (!OtherUtil.isNullOrEmpty(filePic)&& !filePic.equals("null")
+						&& OtherUtil.isNullOrEmpty(fileAud)
+						) {
+					Utility.paramToUpload(bos, params);
+					post.setHeader("Content-Type", MULTIPART_FORM_DATA
+							+ "; boundary=" + BOUNDARY);
+					Log.i("test", "filePic:" + filePic + " fileKeyPic:"
+							+ fileKeyPic);
+					Utility.imageContentToUpload(bos, filePic, fileKeyPic);
+					bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
+					Log.i("Other", "aud cos null");
+				} else if (OtherUtil.isNullOrEmpty(filePic)
+						&& !OtherUtil.isNullOrEmpty(fileAud)&&!fileAud.equals("null")
+						) {
+					Utility.paramToUpload(bos, params);
+					post.setHeader("Content-Type", MULTIPART_FORM_DATA
+							+ "; boundary=" + BOUNDARY);
+					Utility.imageContentToUpload(bos, fileAud, fileKeyAud);
+					bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
+					Log.i("Other", "pic cos null");
+				}else {
+					post.setHeader("Content-Type",
 							"application/x-www-form-urlencoded");
 					String postParam = encodeParameters(params);
-					data = postParam.getBytes("UTF-8");
+					data = postParam.getBytes();
 					bos.write(data);
+					Log.i("Other", "else null");
+				}
+				try {
 					data = bos.toByteArray();
-					bos.close();
-					ByteArrayEntity formEntity = new ByteArrayEntity(data);
-					put.setEntity(formEntity);
-					// 绑定到请求 Entry
-					request = put;
+				} catch (OutOfMemoryError e) {
+					// TODO Auto-generated catch block
+					Log.e("Utility", "Utility e:"+e.toString());
 				}
-				if (params != null && params.getLocation("client_id") != -1) {
-					setHeader(method, request, params, url);
-				} else {
-					setHeader(method, request, null, url);
-				}
-				HttpResponse response = client.execute(request);
-				StatusLine status = response.getStatusLine();
-				int statusCode = status.getStatusCode();
-				if (method.equals("GET") && statusCode == 400) {
-					return statusCode + "";
-				}
-				if (statusCode == 200) {
-					result = read(response);
-					return GlobalData.RESULT_OK + result;
-				}
-				if (statusCode == 400) {
-					result = read(response);
-					return regErrorJson(result);
-				} else if (statusCode == 401) {
-					result = read(response);
-					return statusCode + "";
-				} else if (statusCode == 204) {
-					return statusCode + "";
-				} else {
-					result = read(response);// 502
-					return statusCode + "";
-				}
-			} catch (IOException e) {
-				throw new RequestException(e);
+				bos.close();
+				ByteArrayEntity formEntity = new ByteArrayEntity(data);
+				post.setEntity(formEntity);
+				// 绑定到请求 Entry
+				request = post;
+			} else if (method.equals("DELETE")) {
+				url = url + "?" + encodeUrl(params);
+				request = new HttpDelete(url);
+			} else if (method.equals("PUT")) {
+				HttpPut put = new HttpPut(url);
+				byte[] data = null;
+				bos = new ByteArrayOutputStream(1024 * 10);
+				put.setHeader("Content-Type",
+						"application/x-www-form-urlencoded");
+				String postParam = encodeParameters(params);
+				data = postParam.getBytes("UTF-8");
+				bos.write(data);
+				data = bos.toByteArray();
+				bos.close();
+				ByteArrayEntity formEntity = new ByteArrayEntity(data);
+				put.setEntity(formEntity);
+				// 绑定到请求 Entry
+				request = put;
 			}
-		} catch (OutOfMemoryError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return 400 + "";
+			if (params != null && params.getLocation("client_id") != -1) {
+				setHeader(method, request, params, url);
+			} else {
+				setHeader(method, request, null, url);
+			}
+			HttpResponse response = client.execute(request);
+			StatusLine status = response.getStatusLine();
+			int statusCode = status.getStatusCode();
+			Log.i("test", "----statusCode:" + statusCode);
+			if (method.equals("GET") && statusCode == 400) {
+				return statusCode + "";
+			}
+			if(statusCode == 200)
+			{
+				result = read(response);
+				// Log.i("test", "200 right:" + result);
+//				if (TextUtils.isEmpty(result)) {
+//					result = statusCode + "";
+//				}
+				return GlobalData.RESULT_OK+result;
+			}
+			if (statusCode == 400) {
+				result = read(response);
+				Log.i("test", "400--error:" + result);
+				return regErrorJson(result);
+			} 
+			else if(statusCode == 401)
+			{
+				result = read(response);
+				Log.i("test", statusCode+"--error:" + result);
+				return statusCode + "";
+			}else if (statusCode == 204) {
+				Log.i("test", "204:"+response.toString());
+				return statusCode + "";
+			}else {
+				result = read(response);//502
+				Log.i("test", "other--error statusCode:" +statusCode);
+				return statusCode + "";
+			}
+		} catch (IOException e) {
+			throw new RequestException(e);
 		}
 	}
 
@@ -465,9 +444,11 @@ public class Utility {
 		try {
 			JSONTokener jsonParser = new JSONTokener(strResult);
 			JSONObject js = (JSONObject) jsonParser.nextValue();
-			String error_code = js.getString(GlobalData.ERROR_CODE);
-			System.out.println("error_description："+ js.getString(GlobalData.ERROR_DESCRIPTION));
-			return error_code;
+			String error_des = js
+					.getString(GlobalData.ERROR_DESCRIPTION);
+//			System.out.println("error_description：" + js
+//					.getString(GlobalData.ERROR_DESCRIPTION));
+			return error_des;
 		} catch (JSONException ex) {
 			// 异常处理代码
 			return null;
@@ -509,6 +490,7 @@ public class Utility {
 			WifiManager wifiManager = (WifiManager) context
 					.getSystemService(Context.WIFI_SERVICE);
 			if (!wifiManager.isWifiEnabled()) {
+				Log.i("test", "bbbbbbbbbbbbbbbbbbbbb");
 				// 获取当前正在使用的APN接入点
 				Uri uri = Uri.parse("content://telephony/carriers/preferapn");
 				Cursor mCursor = context.getContentResolver().query(uri, null,
@@ -571,14 +553,19 @@ public class Utility {
 
 	/**
 	 * Upload image into output stream .
-	 * @param out: output stream for uploading
-	 * @param imgpath: bitmap for uploading
+	 * 
+	 * @param out
+	 *            : output stream for uploading
+	 * @param imgpath
+	 *            : bitmap for uploading
 	 * @return void
 	 */
-	private static void picToUpload(OutputStream out, String path,
+	private static void imageContentToUpload(OutputStream out, String path,
 			String fileKey) throws RequestException {
 		File ff = new File(path);
 		StringBuilder temp = new StringBuilder();
+		Log.i("Other", "utility path:" + path + " ff.getName():" + ff.getName()
+				+ " fileKey:" + fileKey);
 		temp.append(MP_BOUNDARY).append("\r\n");
 		temp.append(
 				"Content-Disposition: form-data; name=\"" + fileKey
@@ -588,57 +575,8 @@ public class Utility {
 		temp.append("Content-Type: ").append(filetype)
 				.append("; charset=UTF-8").append("\r\n\r\n");
 		BufferedInputStream bis = null;
-
-		byte[] res = temp.toString().getBytes();
-		try {
-			out.write(res);
-			if (ff != null && ff.exists()) {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-				smallBitmap(ff).compress(Bitmap.CompressFormat.PNG, 60, baos);
-				InputStream is = new ByteArrayInputStream(baos .toByteArray());
-				byte[] bytes = new byte[1024];
-				int len = 0;
-				while ((len = is.read(bytes)) != -1) {
-					out.write(bytes, 0, len);
-				}
-				is.close();
-			}
-			out.write("\r\n".getBytes("UTF-8"));
-			// out.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-		} catch (IOException e) {
-			Log.i("Other", "imageContentToUpload:"+e);
-			throw new RequestException(e);
-		} finally {
-			if (null != bis) {
-				try {
-					bis.close();
-				} catch (IOException e) {
-					throw new RequestException(e);
-				}
-			}
-		}
-	}
-	/**upload aud cos
-	 * @param out
-	 * @param path
-	 * @param fileKey
-	 * @throws RequestException
-	 */
-	private static void cosMediaToUpload(OutputStream out, String path,
-			String fileKey) throws RequestException {
-		File ff = new File(path);
-		StringBuilder temp = new StringBuilder();
-		temp.append(MP_BOUNDARY).append("\r\n");
-		temp.append(
-				"Content-Disposition: form-data; name=\"" + fileKey
-						+ "\"; filename=\"").append(ff.getName())
-				.append("\"\r\n");
-		String filetype = "application/octet-stream";
-		temp.append("Content-Type: ").append(filetype)
-				.append("; charset=UTF-8").append("\r\n\r\n");
-		BufferedInputStream bis = null;
-
-		byte[] res = temp.toString().getBytes();
+		
+			byte[] res = temp.toString().getBytes();
 		try {
 			out.write(res);
 			if (ff != null) {
@@ -654,7 +592,7 @@ public class Utility {
 			out.write("\r\n".getBytes("UTF-8"));
 			// out.write(("\r\n" + END_MP_BOUNDARY).getBytes());
 		} catch (IOException e) {
-			Log.i("Other", "imageContentToUpload"+e);
+			Log.i("Other", "utility imageContentToUpload error");
 			throw new RequestException(e);
 		} finally {
 			if (null != bis) {
@@ -682,17 +620,17 @@ public class Utility {
 		for (int loc = 0; loc < params.size(); loc++) {
 			// if(params.getKey(""))
 			key = params.getKey(loc);
-//			Log.i("test", "key:" + key);
+			 Log.i("test", "key:" + key);
 			StringBuilder temp = new StringBuilder(10);
 			temp.setLength(0);
 			temp.append(MP_BOUNDARY).append("\r\n");
 			temp.append("content-disposition: form-data; name=\"").append(key)
 					.append("\"\r\n\r\n");
-			// Log.i("test",
-			// "params.getValue(key):"+params.getValue(key).toString());
-			if (OtherUtil.isNullOrEmpty(params.getValue(key))) {
+//			Log.i("test", "params.getValue(key):"+params.getValue(key).toString());
+			if(OtherUtil.isNullOrEmpty(params.getValue(key)))
+			{
 				temp.append("").append("\r\n");
-			} else
+			}else
 				temp.append(params.getValue(key).toString()).append("\r\n");
 			try {
 				byte[] res = temp.toString().getBytes("UTF-8");
@@ -707,72 +645,6 @@ public class Utility {
 			}
 		}
 	}
-
-	private static Bitmap smallBitmap(File file) {
-		int degrees=getExifOrientation(file.getPath());
-		
-		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(file.getAbsolutePath(), opts);
-		opts.inSampleSize = OtherUtil.computeSampleSize(opts, -1, 1024 * 720);
-		opts.inJustDecodeBounds = false;
-
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			//旋转图片
-			Bitmap b=BitmapFactory.decodeStream(fis, null, opts);
-//			Log.e("test", "b==null:"+(b==null));
-			Matrix m = new Matrix();
-			if(null != b)
-            m.setRotate(degrees,
-                    (float) b.getWidth() / 2, (float) b.getHeight() / 2);
-            Bitmap b2 = Bitmap.createBitmap(
-                    b, 0, 0, b.getWidth(), b.getHeight(), m, true);
-            if (b != b2) {
-                b.recycle();  //Bitmap操作完应该显示的释放
-                b = b2;
-            }
-			return b;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (OutOfMemoryError ex) {
-        }
-		return null;
-	}
-
-	//获取图片方向
-	public static int getExifOrientation(String filepath) {
-		int degree = 0;
-		ExifInterface exif = null;
-		try {
-			exif = new ExifInterface(filepath);
-		} catch (IOException ex) {
-			Log.e("1234", "cannot read exif", ex);
-		}
-		if (exif != null) {
-			
-			int orientation = exif.getAttributeInt(
-					ExifInterface.TAG_ORIENTATION, -1);
-//			Log.i("1234", "exif"+orientation);
-			if (orientation != -1) {
-				// We only recognize a subset of orientation tag values.
-				switch (orientation) {
-				case ExifInterface.ORIENTATION_ROTATE_90:
-					degree = 90;
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_180:
-					degree = 180;
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_270:
-					degree = 270;
-					break;
-				}
-			}
-		}
-		return degree;
-	} 
-	
 
 	/**
 	 * Read http requests result from response .
@@ -871,7 +743,7 @@ public class Utility {
 		return buf.toString();
 	}
 
-	public static void setListViewHeightBasedOnChildren(ListView listView) {
+	public void setListViewHeightBasedOnChildren(ListView listView) {
 
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -879,8 +751,8 @@ public class Utility {
 		}
 
 		int totalHeight = 0;
-
-		for (int i = 0, len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目
+		
+		for (int i = 0,len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目
 			View listItem = listAdapter.getView(i, null, listView);
 			listItem.measure(0, 0); // 计算子项View 的宽高
 			totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
@@ -888,7 +760,7 @@ public class Utility {
 
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
 		params.height = totalHeight
-				+ (listView.getDividerHeight() * (listAdapter.getCount() + 2));
+				+ (listView.getDividerHeight() * (listAdapter.getCount()+2));
 		// listView.getDividerHeight()获取子项间分隔符占用的高度
 		// params.height最后得到整个ListView完整显示需要的高度
 		listView.setLayoutParams(params);

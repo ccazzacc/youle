@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addpost_act"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/twobtn_header" />
+
+    <LinearLayout
+        android:id="@+id/addpost_lyName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/wrap_content"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15.0dip"
+            android:text="@string/reply"
+            android:textColor="@color/set_link"
+            android:textSize="@dimen/font_size_large" />
+
+        <TextView
+            style="@style/wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:text=" test:"
+            android:textColor="@color/set_link"
+            android:textSize="16.0sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="160.0dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:id="@+id/addpost_etComment"
+            style="@style/full_screen"
+            android:gravity="top"
+            android:maxLength="140"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/addpost_rlSound"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/addpost_btn_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/record_icon" />
+
+            <ImageView
+                android:id="@+id/addpost_imageVol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/addpost_btn_record"
+                android:layout_alignRight="@+id/addpost_btn_record"
+                android:layout_alignTop="@+id/addpost_btn_record" />
+
+            <ImageView
+                android:id="@+id/addpost_ivSoundDel"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/addpost_btn_record"
+                android:src="@drawable/bar_button_quit"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/addpost_tvSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/press_talk" />
+        </RelativeLayout>
+
+        <CheckBox
+            android:id="@+id/addpost_cbSound"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:button="@drawable/check_sound_word"
+            android:checked="false" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp" >
+
+        <ImageView
+            android:id="@+id/addpost_ivPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/avatars" />
+
+        <ImageView
+            android:id="@+id/addpost_ivDel"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="42dp"
+            android:src="@drawable/bar_button_quit"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

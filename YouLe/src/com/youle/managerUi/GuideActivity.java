@@ -28,8 +28,8 @@ public class GuideActivity extends Activity {
 	private static final int TO_THE_END = 0;//到达最后一张
 	private static final int LEAVE_FROM_END = 1;//离开最后一张
 
-	private int[] ids = { R.drawable.guide_1, R.drawable.guide_2,
-			R.drawable.guide_3};
+	private int[] ids = { R.drawable.welcome1, R.drawable.welcome2,
+			R.drawable.welcome3};
 			
 	private List<View> guides = new ArrayList<View>();
 	private ViewPager pager;
@@ -63,7 +63,7 @@ public class GuideActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(GuideActivity.this, MainActivity.class));
+				startActivity(new Intent(GuideActivity.this, LoginActivity.class));
 				GuideActivity.this.finish();
 			}
 		});

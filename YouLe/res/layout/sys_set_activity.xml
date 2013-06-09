@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg" >
-
+    android:background="@drawable/main_bg"
+    android:orientation="vertical" >
+	<include layout="@layout/twobtn_header" />
+	
+	<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
     <LinearLayout
         style="@style/horizontal_stretch"
         android:orientation="vertical" >
-
-        <include layout="@layout/twobtn_header" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -214,6 +217,82 @@
                     android:textColor="@color/set_link"
                     android:textSize="16.0sp" />
             </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="@drawable/shape_line" />
+
+            <LinearLayout
+                android:id="@+id/sysset_applyShop"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="15.0dip"
+                    android:text="@string/apply_shopUser"
+                    android:textColor="@color/set_link"
+                    android:textSize="@dimen/font_size_large" />
+
+                <View
+                    style="@style/wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    style="@style/wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_marginRight="15.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:background="@drawable/card_arrow"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Link"
+                    android:textColor="@color/set_link"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="@drawable/shape_line" />
+
+            <LinearLayout
+                android:id="@+id/sysset_applyCar"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="15.0dip"
+                    android:text="@string/apply_carUser"
+                    android:textColor="@color/set_link"
+                    android:textSize="@dimen/font_size_large" />
+
+                <View
+                    style="@style/wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    style="@style/wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_marginRight="15.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:background="@drawable/card_arrow"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Link"
+                    android:textColor="@color/set_link"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -361,3 +440,4 @@
     </LinearLayout>
 
 </ScrollView>
+</LinearLayout>

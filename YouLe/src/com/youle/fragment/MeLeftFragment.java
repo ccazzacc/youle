@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.youle.R;
+import com.youle.managerUi.CarMainActivity;
 import com.youle.managerUi.CouponActivity;
 import com.youle.managerUi.MainActivity;
 import com.youle.managerUi.MeActivity;
@@ -20,7 +21,7 @@ import com.youle.managerUi.SysMsgActivity;
 import com.youle.managerUi.SysSetActivity;
 
 public class MeLeftFragment extends Fragment implements OnClickListener {
-	RelativeLayout rHome, rMe, rCoupon, rMsg, rShop, rSet;
+	RelativeLayout rHome, rMe, rCoupon, rMsg, rShop, rSet,rCar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +35,7 @@ public class MeLeftFragment extends Fragment implements OnClickListener {
 		rMsg = (RelativeLayout) v.findViewById(R.id.me_left_message);
 		rShop = (RelativeLayout) v.findViewById(R.id.me_left_shop);
 		rSet = (RelativeLayout) v.findViewById(R.id.me_left_setting);
+		rCar = (RelativeLayout) v.findViewById(R.id.me_left_car);
 		return v;
 	}
 
@@ -48,6 +50,7 @@ public class MeLeftFragment extends Fragment implements OnClickListener {
 		rMsg.setOnClickListener(this);
 		rShop.setOnClickListener(this);
 		rSet.setOnClickListener(this);
+		rCar.setOnClickListener(this);
 	}
 
 
@@ -56,8 +59,12 @@ public class MeLeftFragment extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.me_left_coupon:
-			startActivity(new Intent((SlidingMeActivity) getActivity(),
-					CouponActivity.class));
+			Intent it = new Intent((SlidingMeActivity) getActivity(),
+					CouponActivity.class);
+			it.putExtra("tag", "coupon_me");
+			startActivity(it);
+			((SlidingMeActivity) getActivity()).overridePendingTransition(
+					R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		case R.id.me_left_home:
 			startActivity(new Intent((SlidingMeActivity) getActivity(),
@@ -72,14 +79,26 @@ public class MeLeftFragment extends Fragment implements OnClickListener {
 		case R.id.me_left_message:
 			startActivity(new Intent((SlidingMeActivity) getActivity(),
 					SysMsgActivity.class));
+			((SlidingMeActivity) getActivity()).overridePendingTransition(
+					R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		case R.id.me_left_shop:
 			startActivity(new Intent((SlidingMeActivity) getActivity(),
 					ShopMainActivity.class));
+			((SlidingMeActivity) getActivity()).overridePendingTransition(
+					R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		case R.id.me_left_setting:
 			startActivity(new Intent((SlidingMeActivity) getActivity(),
 					SysSetActivity.class));
+			((SlidingMeActivity) getActivity()).overridePendingTransition(
+					R.anim.push_left_in, R.anim.push_left_out);
+			break;
+		case R.id.me_left_car:
+			startActivity(new Intent((SlidingMeActivity) getActivity(),
+					CarMainActivity.class));
+			((SlidingMeActivity) getActivity()).overridePendingTransition(
+					R.anim.push_left_in, R.anim.push_left_out);
 			break;
 		}
 	}

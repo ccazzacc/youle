@@ -1,6 +1,9 @@
 package com.youle.util;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +20,7 @@ import android.location.Address;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -173,6 +177,7 @@ public class OtherUtil {
 				Bundle bundle = new Bundle();
 				bundle.putDouble("lat", location.getLatitude());
 				bundle.putDouble("lng", location.getLongitude());
+                bundle.putFloat("spd",location.getSpeed());
 				intent.putExtras(bundle);
 				context.sendBroadcast(intent);
 				mAMapLocManager.removeUpdates(this);
@@ -192,8 +197,14 @@ public class OtherUtil {
 	public static Bitmap zoomBitmap(Bitmap bitmap, int w) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
+        Log.i("1234","w: "+width+"  h: "+height);
 		Matrix matrix = new Matrix();
-		float scaleWidht = ((float) w / width);
+        float scaleWidht;
+        if(width>height){
+		    scaleWidht = ((float) w / width);
+        }else{
+            scaleWidht = ((float) w / height);
+        }
 		matrix.postScale(scaleWidht, scaleWidht);
 		return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
 	}
@@ -201,7 +212,7 @@ public class OtherUtil {
 	public static String[] getDesc(Context context,double lat, double lng) {
 		Geocoder coder = new Geocoder(context);
 		List<Address> address = null;
-		
+
 		try {
 			address = coder.getFromLocation(lat, lng, 3);
 		} catch (AMapException e) {
@@ -232,24 +243,24 @@ public class OtherUtil {
             }
         return null;
     }
-    /**
-	 * 判断SD卡是否存在
-	 * 
-	 * @return
-	 */
-	public static boolean SDCardExist() {
-		try {
-			if (Environment.getExternalStorageState().equals(
-					Environment.MEDIA_MOUNTED)) {
-				return true;
-			} else
-				return false;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-	}
+//    /**
+//	 * 判断SD卡是否存在
+//	 * 
+//	 * @return
+//	 */
+//	public static boolean SDCardExist() {
+//		try {
+//			if (Environment.getExternalStorageState().equals(
+//					Environment.MEDIA_MOUNTED)) {
+//				return true;
+//			} else
+//				return false;
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		}
+//	}
     /**
 	 * 文件的名字（拍照录音）
 	 * 
@@ -261,28 +272,104 @@ public class OtherUtil {
 						Calendar.getInstance(Locale.CHINA));
 	}
 	public static File fileCreate(String fileName,Boolean isCache) {
-		if (!SDCardExist()) {
+		String sdCard = getSDcard();
+		if (isNullOrEmpty(sdCard)) {
 			return null;
 		}
 		File path;
 		if (isCache)
-			path = new File(GlobalData.CACHE);
+			path = new File(sdCard+GlobalData.CACHE);
 		else
-			path = new File(GlobalData.YOULE);
+			path = new File(sdCard+GlobalData.YOULE);
 		if (!path.exists()) {
 			path.mkdir();
 		}
 		File file = new File(path, fileName);
 		return file;
 	}
-    /**
-	 * AMap对象判断是否为null
+    
+//	public static void initImageLoader(Context context) {
+//		int memoryCacheSize = (int) (Runtime.getRuntime().maxMemory() / 8);
+//
+//		MemoryCacheAware<String, Bitmap> memoryCache;
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+//			memoryCache = new LruMemoryCache(memoryCacheSize);
+//		} else {
+//			memoryCache = new LRULimitedMemoryCache(memoryCacheSize);
+//		}
+//
+//		// This configuration tuning is custom. You can tune every option, you
+//		// may tune some of them,
+//		// or you can create default configuration by
+//		// ImageLoaderConfiguration.createDefault(this);
+//		// method.
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//				context).threadPriority(Thread.NORM_PRIORITY - 2)
+//				.memoryCache(memoryCache).denyCacheImageMultipleSizesInMemory()
+//				.discCacheFileNameGenerator(new Md5FileNameGenerator())
+//				.tasksProcessingOrder(QueueProcessingType.LIFO).enableLogging() // Not
+//																				// necessary
+//																				// in
+//																				// common
+//				.build();
+//		// Initialize ImageLoader with configuration.
+//		ImageLoader.getInstance().init(config);
+//	}
+	/**
+	 * 保存图片到SD卡上
+	 * 
+	 * @param bm
+	 * @param fileName
+	 * 
 	 */
-	public static boolean checkReady(Context context, AMap aMap) {
-		if (aMap == null) {
-			ToastUtil.show(context, "map_not_ready");
-			return false;
+	public static void saveFile(Bitmap bm, File file) {
+		try {
+			if (!isNullOrEmpty(getSDcard())) {
+				// 检查图片是否存在
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+				BufferedOutputStream bos = new BufferedOutputStream(
+						new FileOutputStream(file));
+				bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+				bos.flush();
+				bos.close();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		return true;
+		if (bm != null && !bm.isRecycled()) {
+			bm = null;
+		}
+		System.gc();
 	}
+    /**
+     * Store image to SD card.
+     */
+
+    public static String saveBitmap(String fileName) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap bitmap = BitmapFactory.decodeFile(fileName, options);
+
+        File f = new File(getSDcard() + "/.cache/upload.jpg");
+        FileOutputStream fOut = null;
+        try {
+            f.createNewFile();
+            fOut = new FileOutputStream(f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bitmap=zoomBitmap(bitmap,1024);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fOut);// 把Bitmap对象解析成流
+        try {
+            fOut.flush();
+            fOut.close();
+            bitmap.recycle();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i("1234",""+f.getAbsolutePath());
+        return f.getAbsolutePath();
+    }
 }

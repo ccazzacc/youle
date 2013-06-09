@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.youle.R;
 import com.youle.managerData.info.CouponInfo;
+import com.youle.util.OtherUtil;
 
 public class CouponActivity extends Activity{
 	private ListView lvCoupon;
@@ -36,6 +37,7 @@ public class CouponActivity extends Activity{
 		setContentView(R.layout.coupon_activity);
 		initView();
 		fb = FinalBitmap.create(this);
+		fb.onResume();
 	}
 	private void initView()
 	{
@@ -51,12 +53,17 @@ public class CouponActivity extends Activity{
 		});
 		btnBack.setVisibility(View.VISIBLE);
 		TextView tvTitle = (TextView)findViewById(R.id.twobtn_header_tv);
-		tvTitle.setText(R.string.coupon);
+		String tag = this.getIntent().getStringExtra("tag");
+		if(!OtherUtil.isNullOrEmpty(tag) && tag.equals("coupon_me"))
+		{
+			tvTitle.setText(R.string.coupon_me);
+		}else
+			tvTitle.setText(R.string.coupon);
 		lvCoupon = (ListView)findViewById(R.id.coupon_listview);
 		listCou = new ArrayList<CouponInfo>();
-		listCou.add(new CouponInfo("","一品天下钟鲶鱼午餐200元抵扣券","2013.04.12-2013.12.13","大约100m"));
-		listCou.add(new CouponInfo("","一品天下红袖酒家100元抵扣券","2013.04.12-2013.12.13","大约200m"));
-		listCou.add(new CouponInfo("","一品天下清粥小菜50元抵扣券","2013.04.12-2013.12.13","大约400m"));
+		listCou.add(new CouponInfo("","一品天下钟鲶鱼午餐200元抵扣券","有效期：2013.04.12-2013.12.13","大约100m"));
+		listCou.add(new CouponInfo("","一品天下红袖酒家100元抵扣券","有效期：2013.04.12-2013.12.13","大约200m"));
+		listCou.add(new CouponInfo("","一品天下清粥小菜50元抵扣券","有效期：2013.04.12-2013.12.13","大约400m"));
 		CouponAdapter adapter = new CouponAdapter(this, listCou);
 		lvCoupon.setAdapter(adapter);
 		lvCoupon.setOnItemClickListener(new OnItemClickListener() {

@@ -16,13 +16,15 @@
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/text_msg_tit" android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp" android:textSize="20dp" android:textColor="@color/header_cancel_color"/>
+                android:textSize="25dp" android:textColor="@color/header_cancel_color"
+                android:textIsSelectable="true" android:layout_marginLeft="7dp"
+                android:layout_marginTop="7dp"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/text_msg_date" android:layout_centerVertical="true"
-                android:layout_alignParentRight="true" android:layout_marginRight="5dp"
+                android:layout_alignParentRight="true" android:layout_marginRight="7dp"
                 android:textColor="@color/header_cancel_color" android:textSize="14dp" android:textIsSelectable="false"/>
     </RelativeLayout>
     <LinearLayout
@@ -35,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_msg_data" android:layout_gravity="center"
-                android:layout_margin="5dp" android:textColor="@color/header_cancel_color" android:textSize="17dp"/>
+                android:textColor="@color/header_cancel_color" android:textSize="17dp" android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp" android:layout_marginRight="10dp" android:layout_marginBottom="25dp"/>
     </LinearLayout>
 </LinearLayout>

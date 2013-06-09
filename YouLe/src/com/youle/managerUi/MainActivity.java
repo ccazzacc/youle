@@ -4,6 +4,7 @@ import cn.sharesdk.framework.AbstractWeibo;
 
 import com.youle.R;
 import com.youle.managerData.SharedPref.SharedPref;
+import com.youle.util.OtherUtil;
 import com.youle.view.SlidingMenu;
 
 import android.content.Intent;
@@ -26,12 +27,9 @@ public class MainActivity extends SlidingActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getLocation();
         mSlider = this.getSlidingMenu();
-
-
         setViewAttrs();
+        getLocation();
     }
     
     @Override
@@ -74,9 +72,9 @@ public class MainActivity extends SlidingActivity {
 
     public void getLocation() {
         SharedPref sharedPref=new SharedPref(MainActivity.this);
-        if(sharedPref.getCity().equals("")||sharedPref.getCity()==null){
+        if(OtherUtil.isNullOrEmpty(sharedPref.getCity())){
             startActivity(new Intent(MainActivity.this,ChooseCity.class));
-            finish();
+//            finish();
         }
     }
 }

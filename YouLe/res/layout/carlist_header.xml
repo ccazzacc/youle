@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8.0dip"
+    android:paddingLeft="15.0dip"
+    android:paddingRight="15.0dip"
+    android:paddingTop="8.0dip" >
+
+    <ImageView
+        android:id="@+id/carlist_hiv_ava"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/avatars" />
+
+    <TextView
+        android:id="@+id/carlist_htv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/carlist_hiv_ava"
+        android:text="大众汽车帮派" 
+        android:textSize="16sp"
+        android:textColor="@color/header_bar_color"/>
+
+    <TextView
+        android:id="@+id/carlist_htv_tiezi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/carlist_htv_name"
+        android:text="帖子:234"
+        android:textColor="@color/header_bar_color" />
+
+    <TextView
+        android:id="@+id/carlist_htv_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignBaseline="@+id/carlist_htv_tiezi"
+        android:layout_alignBottom="@+id/carlist_htv_tiezi"
+        android:layout_toRightOf="@+id/carlist_htv_tiezi"
+        android:text="回复:234" 
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/header_bar_color"/>
+
+</RelativeLayout>

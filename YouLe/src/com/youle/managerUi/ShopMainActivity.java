@@ -1,20 +1,19 @@
 package com.youle.managerUi;
 
-import com.youle.R;
-import com.zxing.activity.CaptureActivity;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.youle.R;
+import com.zxing.activity.CaptureActivity;
 
 public class ShopMainActivity extends Activity implements OnClickListener{
 
@@ -42,6 +41,8 @@ public class ShopMainActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.shop_btnList:
 			startActivity(new Intent(ShopMainActivity.this,ConsumeActivity.class));
+			overridePendingTransition(
+					R.anim.push_left_in, R.anim.push_left_out);
 			break;
 
 		case R.id.shop_btnScan:

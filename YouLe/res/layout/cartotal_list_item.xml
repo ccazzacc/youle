@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/wrap_content"
+    android:paddingBottom="8.0dip"
+    android:paddingLeft="15.0dip"
+    android:paddingRight="15.0dip"
+    android:paddingTop="8.0dip" >
+    <ImageView
+        android:id="@+id/cartotal_ivAva"
+        android:layout_width="38.0dip"
+        android:layout_height="38.0dip"
+        android:scaleType="centerCrop"
+        android:background="@drawable/avatars" />
+	<TextView
+	    android:id="@+id/cartotal_tvName"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_ivAva"
+        android:lineSpacingExtra="2.0dip"
+        android:text="888888"
+        android:textColor="@color/header_bar_color"
+        android:textSize="14.0sp" />
+    <TextView
+        android:id="@+id/cartotal_tvContent"
+        style="@style/horizontal_stretch"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_tvName"
+        android:lineSpacingExtra="2.0dip"
+        android:text="12121212"
+        android:textColor="@color/header_bar_color"
+        android:textSize="14.0sp" />
+
+    <ImageView
+        android:id="@+id/cartotal_ivPho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cartotal_tvName"
+        android:layout_below="@+id/cartotal_tvContent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/cartotal_tvTime"
+        style="@style/wrap_content"
+        android:layout_alignLeft="@+id/cartotal_ivPho"
+        android:layout_below="@+id/cartotal_ivPho"
+        android:text="12222"
+        android:textColor="@color/consume_word"
+        android:textSize="11.0sp" />
+
+    <ImageView
+        android:id="@+id/cartotal_iv"
+        style="@style/wrap_content"
+        android:layout_alignBottom="@+id/cartotal_tvTime"
+        android:layout_alignRight="@+id/cartotal_tvContent"
+        android:src="@drawable/reply" />
+
+</RelativeLayout>

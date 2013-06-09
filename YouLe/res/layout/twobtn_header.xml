@@ -4,7 +4,6 @@
         android:layout_height="48dip"
         android:background="@drawable/home_nav_bg" 
         android:orientation="horizontal"
-        android:layout_gravity="center_vertical"
         android:gravity="center_vertical">
         <Button
             style="@style/twobtn_head_style"

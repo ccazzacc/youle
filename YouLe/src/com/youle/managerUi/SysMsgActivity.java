@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import com.youle.R;
 import com.youle.managerData.database_helper.DatabaseHelper;
 
@@ -19,9 +17,6 @@ import java.util.List;
  * Created by zhaofuchao on 13-5-20.
  */
 public class SysMsgActivity extends Activity {
-    private DatabaseHelper db;
-    private ListView mLst;
-    private Cursor mCursor;
     private MyAdapter mMyAdapter;
     public List<MsgInfo> msgInfoList=new ArrayList<MsgInfo>();
 
@@ -34,34 +29,55 @@ public class SysMsgActivity extends Activity {
     }
 
     private void getData() {
-        db = new DatabaseHelper(SysMsgActivity.this);
+        DatabaseHelper db = new DatabaseHelper(SysMsgActivity.this);
         db.open();
-        //db.insertData(1, "恭喜", "你发的路况被用了，发你一张优惠券！快谢恩吧2！你发的路况被用了，发你一张优惠券！快谢恩吧2", "YouLe", "2013-5-20");
-        mCursor = db.fetchAllData();
-        Log.i("1234","getCount "+mCursor.getCount());
-        mCursor.moveToFirst();
-        while(mCursor.moveToNext()){
-            MsgInfo info=new MsgInfo(mCursor.getString(mCursor.getColumnIndex("title")),mCursor.getString(mCursor.getColumnIndex("data")),mCursor.getString(mCursor.getColumnIndex("date")));
+        db.insertData(1, "恭喜", "采用了你的路况信息", "YouLe", "2013-5-20",1);
+        Cursor cursor = db.fetchAllData();
+        Log.i("1234", "getCount " + cursor.getCount());
+        cursor.moveToFirst();
+        while(cursor.moveToNext()){
+            MsgInfo info=new MsgInfo(cursor.getString(cursor.getColumnIndex("title")),cursor.getString(cursor.getColumnIndex("data")),cursor.getString(cursor.getColumnIndex("date")),0);
             msgInfoList.add(info);
         }
-        mCursor.close();
-//        db.close();
+        cursor.close();
+        db.close();
     }
 
     private void initView() {
-        mLst = (ListView) findViewById(R.id.listView_msg);
-        mLst.setDividerHeight(0);
-        mLst.setCacheColorHint(0);
+
+        ListView listView = (ListView) findViewById(R.id.listView_msg);
+        listView.setDividerHeight(0);
+        listView.setCacheColorHint(0);
         mMyAdapter = new MyAdapter();
-        mLst.setAdapter(mMyAdapter);
+        listView.setAdapter(mMyAdapter);
+        listView.setOnItemClickListener(itemClick);
+        ((TextView) findViewById(R.id.twobtn_header_tv)).setText(R.string.message);
+        Button buttonBack=(Button)findViewById(R.id.twobtn_header_left);
+        buttonBack.setVisibility(View.VISIBLE);
+        buttonBack.setBackgroundResource(R.drawable.bar_icon_back);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
+    AdapterView.OnItemClickListener itemClick=new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.i("1234",msgInfoList.get(i).data);
+
+        }
+    };
     public class MsgInfo{
         private String tit,data,date;
-        public MsgInfo(String tit,String data,String date){
+        private int type;
+        public MsgInfo(String tit,String data,String date,int type){
             this.tit=tit;
             this.data=data;
             this.date=date;
+            this.type=type;
         }
     }
     public class MyAdapter extends BaseAdapter {

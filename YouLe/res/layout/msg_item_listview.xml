@@ -30,25 +30,39 @@
             android:layout_toRightOf="@+id/msg_iv_line"
             android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/msg_tv_chat"
+            <LinearLayout
+                android:id="@+id/msg_ltv_chat"
                 style="@style/wrap_content"
-                android:layout_margin="4dp"
-                android:textColor="@color/header_cancel_color" />
+                android:background="@drawable/event_bg" 
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/msg_tv_chat"
+                    style="@style/wrap_content"
+                    android:layout_margin="8dp"
+                    android:textColor="@color/header_cancel_color" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/msg_lout_sound"
-                style="@style/wrap_content" >
+                style="@style/wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal" >
 
                 <ImageView
                     android:id="@+id/msg_iv_sAnim"
                     style="@style/wrap_content"
-                    />
+                    android:layout_margin="8dp" />
+
+                <View
+                    android:layout_width="12.0dip"
+                    android:layout_height="1dip" />
 
                 <TextView
                     android:id="@+id/msg_tv_sTime"
                     style="@style/wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_margin="8dp"
+                    android:layout_marginLeft="18dp"
                     android:text="4s"
                     android:textColor="@color/header_cancel_color" />
             </LinearLayout>
@@ -66,7 +80,8 @@
                     android:id="@+id/msg_iv_photoTop"
                     style="@style/wrap_content"
                     android:background="@drawable/event_bg2"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY" 
+                    android:visibility="gone"/>
             </FrameLayout>
         </LinearLayout>
 
@@ -101,7 +116,8 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_below="@+id/msg_lout_chat"
-            android:layout_marginLeft="28dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-8dp"
             android:layout_toRightOf="@+id/msg_iv_line"
             android:gravity="center_vertical"
             android:src="@drawable/point_icon" />
@@ -112,6 +128,7 @@
             android:layout_height="48dp"
             android:layout_below="@+id/msg_lout_chat"
             android:layout_marginLeft="4dp"
+            android:layout_marginTop="-8dp"
             android:layout_toRightOf="@+id/msg_iv_address"
             android:gravity="center_vertical"
             android:textColor="@color/main_address" />

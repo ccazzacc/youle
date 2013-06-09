@@ -12,8 +12,8 @@
         style="@style/horizontal_stretch"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:paddingBottom="7.5dip"
-        android:paddingTop="7.5dip" >
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip" >
 
         <ImageView
             android:id="@+id/left_iv_set"
@@ -50,8 +50,8 @@
         style="@style/horizontal_stretch"
         android:layout_above="@+id/left_setting"
         android:layout_alignParentLeft="true"
-        android:paddingBottom="7.5dip"
-        android:paddingTop="7.5dip" >
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip" >
 
         <ImageView
             android:id="@+id/left_iv_shop"
@@ -88,8 +88,8 @@
         android:background="@drawable/layout_click"
         android:layout_above="@+id/left_shop"
         android:layout_alignParentLeft="true"
-        android:paddingBottom="7.5dip"
-        android:paddingTop="7.5dip" >
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip" >
 
         <ImageView
             android:id="@+id/left_iv_message"
@@ -122,10 +122,10 @@
         android:id="@+id/left_coupon"
         android:clickable="true"
         android:background="@drawable/layout_click"
-        android:layout_above="@+id/left_message"
+        android:layout_above="@+id/left_car"
         android:layout_alignParentLeft="true"
-        android:paddingBottom="7.5dip"
-        android:paddingTop="7.5dip" >
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip" >
 
         <ImageView
             android:id="@+id/left_iv_coupon"
@@ -149,7 +149,43 @@
             android:ellipsize="end"
             android:padding="0.0dip"
             android:singleLine="true"
-            android:text="@string/coupon"
+            android:text="@string/coupon_me"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/horizontal_stretch"
+        android:id="@+id/left_car"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:layout_above="@+id/left_message"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip" >
+
+        <ImageView
+            android:id="@+id/left_iv_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:scaleType="centerCrop"
+            android:src="@drawable/coupon" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow" />
+
+        <TextView
+            style="@style/wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/left_iv_car"
+            android:ellipsize="end"
+            android:padding="0.0dip"
+            android:singleLine="true"
+            android:text="@string/car_friend"
             android:textSize="17.0sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -160,8 +196,8 @@
         android:background="@drawable/layout_click"
         android:layout_above="@+id/left_coupon"
         android:layout_alignParentLeft="true"
-        android:paddingBottom="7.5dip"
-        android:paddingTop="7.5dip" >
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip" >
 
         <ImageView
             android:id="@+id/left_iv_ava"
@@ -196,8 +232,8 @@
         android:background="@drawable/home_click"
         android:layout_above="@+id/left_Me"
         android:layout_alignParentLeft="true"
-        android:paddingBottom="7.5dip"
-        android:paddingTop="7.5dip">
+        android:paddingBottom="4.0dip"
+        android:paddingTop="4.0dip">
 
         <ImageView
             android:id="@+id/left_iv_home"

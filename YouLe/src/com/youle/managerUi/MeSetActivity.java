@@ -36,7 +36,7 @@ public class MeSetActivity extends Activity implements OnClickListener{
 	private ImageUtil imageUtil;
 	private Bitmap photo;
 	private boolean isActResult = false;
-	File tempFile = OtherUtil.fileCreate(
+	private File tempFile = OtherUtil.fileCreate(
 			OtherUtil.getFileName()+".png",false);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

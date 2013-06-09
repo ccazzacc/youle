@@ -9,6 +9,7 @@
 package com.youle.view;
 
 import com.youle.R;
+import com.youle.managerUi.SlidingActivity;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -338,7 +339,7 @@ public class XListView extends ListView implements OnScrollListener{
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		 if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {//list停止滚动时加载图片  
-//               BrowseActivity.fb.pauseWork(false);
+//               (SlidingActivity) getActivity().fb.pauseWork(false);
          }  
 		 if (scrollState == OnScrollListener.SCROLL_STATE_FLING) {//list fling  
 //			 BrowseActivity.fb.pauseWork(true);

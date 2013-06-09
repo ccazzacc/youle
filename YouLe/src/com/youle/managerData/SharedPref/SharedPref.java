@@ -3,6 +3,7 @@ package com.youle.managerData.SharedPref;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import com.amap.api.maps.model.LatLng;
 
 public class SharedPref {
 	private SharedPreferences sharedPref;
@@ -22,7 +23,7 @@ public class SharedPref {
 	}
 
 	public String getCity() {
-		return sharedPref.getString("location_city", "");
+		return sharedPref.getString("location_city", null);
 	}
 
     //保存sina和qq是否认证过及用户名
@@ -47,6 +48,20 @@ public class SharedPref {
     }
     public String getQQnickname(){
         return sharedPref.getString("qq_nickname",null);
+    }
+    public void saveLatLngCity(double lat,double lng,String city){
+        editor.putString("lat",lat+"");
+        editor.putString("lng",lng+"");
+        editor.putString("city",city);
+        editor.commit();
+    }
+    public LatLng getLatLng(){
+        Double lat=Double.parseDouble(sharedPref.getString("lat",""));
+        Double lng=Double.parseDouble(sharedPref.getString("lng",""));
+        return new LatLng(lat,lng);
+    }
+    public String getLocCity(){
+        return sharedPref.getString("city","");
     }
 
 }

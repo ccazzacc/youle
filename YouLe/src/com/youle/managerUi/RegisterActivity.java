@@ -129,13 +129,13 @@ public class RegisterActivity extends Activity implements OnClickListener{
 			dissPb();
 			if (result.equals(GlobalData.RESULT_OK)) {
 				startActivity(new Intent(RegisterActivity.this,
-						MainActivity.class));
+						MapActivity.class));
 				overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
 				ToastUtil.show(context,R.string.register_success);
 				RegisterActivity.this.finish();
 			}else
 			{
-//				ToastUtil.showRegToast(context, result);
+				ToastUtil.showToast(context, result);
 			}
 
 		}

@@ -4,24 +4,20 @@
     android:layout_height="fill_parent"
     android:background="@drawable/main_bg"
     android:orientation="vertical" >
-	<include layout="@layout/main_header"/>
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="fill_parent"
-        android:layout_height="0.0dip"
-        android:layout_weight="1.0" >
 
-        <com.youle.view.XListView
-            android:id="@+id/center_listview"
-            style="@style/wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:cacheColorHint="@color/transparent"
-            android:divider="@color/white"
-            android:dividerHeight="0dp"
-            android:listSelector="@color/transparent"
-            android:scrollbars="none" >
-        </com.youle.view.XListView>
-    </LinearLayout>
+    <include layout="@layout/main_header" />
+
+    <com.youle.view.XListView
+        android:id="@+id/center_listview"
+        style="@style/wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:layout_weight="1.0"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/white"
+        android:dividerHeight="0dp"
+        android:listSelector="@color/transparent"
+        android:scrollbars="none" >
+    </com.youle.view.XListView>
 
     <RelativeLayout
         android:id="@+id/main_tab_group"
