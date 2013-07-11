@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/full_screen"
+    android:background="@color/bg_color"
+    android:gravity="center_horizontal|top"
+    android:orientation="vertical" >
+
+    <include layout="@layout/twobtn_header" />
+
+    <LinearLayout
+        style="@style/wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/coupon_big_default">
+		<LinearLayout 
+		    style="@style/wrap_content"
+		    android:orientation="horizontal">
+		    <RelativeLayout
+            style="@style/wrap_content"
+            >
+            <ImageView
+                android:id="@+id/detail_iv_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/code_pic"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/detail_iv_photos"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignLeft="@+id/detail_iv_photo"
+                android:layout_alignTop="@+id/detail_iv_photo"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/avatars" />
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/imageView1"
+                style="@style/wrap_content"
+                 android:layout_marginTop="16dp"
+                 android:layout_marginLeft="8dp"
+                android:background="@drawable/coupon_splitter" />
+            <LinearLayout 
+                style="@style/wrap_content"
+                android:orientation="vertical">
+                <TextView
+                android:id="@+id/detail_tv_sName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="14dp"
+                android:text="钟鲶鱼"
+                android:textColor="@color/coupon_title"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/detail_tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:text="一品天下钟鲶鱼200元，午餐抵扣券"
+                android:textColor="@color/coupon_title"
+                android:textSize="18sp" />
+            </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+            style="@style/horizontal_stretch"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="28dp" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/location" />
+
+            <TextView
+                android:id="@+id/detail_tv_addre"
+                style="@style/wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="8dp"
+                android:text="一品天下一品天下288号"
+                android:layout_weight="1"
+                android:textColor="@color/coupon_info"
+                android:singleLine="true"
+                android:textSize="14sp" />
+            <TextView
+                    android:id="@+id/detail_tv_outDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2013-6"
+                    android:layout_marginRight="16dp"
+                    android:textColor="@color/coupon_info"
+                    android:textSize="14sp" />
+        </LinearLayout>
+		
+		<ImageView
+                android:id="@+id/view1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/coupons_splitter" />
+            <ImageView
+                android:id="@+id/detail_iv_ma"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/weima" />
+        <!-- <RelativeLayout
+            style="@style/wrap_content"
+            android:background="@drawable/coupon_big_default">
+
+            <ImageView
+                android:id="@+id/detail_iv_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/code_pic"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/detail_iv_photos"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignLeft="@+id/detail_iv_photo"
+                android:layout_alignTop="@+id/detail_iv_photo"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/avatars" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                style="@style/wrap_content"
+                android:layout_above="@+id/view1"
+                android:layout_alignTop="@+id/detail_iv_photo"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/detail_iv_photo"
+                android:background="@drawable/cou_splite" />
+
+            <TextView
+                android:id="@+id/detail_tv_sName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/detail_iv_photo"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@+id/imageView1"
+                android:text="钟鲶鱼"
+                android:textColor="@color/coupon_title"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/detail_tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/detail_tv_sName"
+                android:layout_below="@+id/detail_tv_sName"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="一品天下钟鲶鱼200元，午餐抵扣券"
+                android:textColor="@color/coupon_title"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/detail_tv_addre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/detail_tv_info"
+                android:layout_below="@+id/detail_tv_info"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="一品天下一品天下288号"
+                android:textColor="@color/coupon_title"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/detail_tv_outDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/detail_tv_addre"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="6dp"
+                android:text="2013-6"
+                android:textColor="@color/coupon_title"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/view1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:background="@drawable/coupons_splitter" />
+
+            <ImageView
+                android:id="@+id/detail_iv_ma"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignLeft="@+id/detail_tv_addre"
+                android:layout_marginBottom="46dp"
+                android:layout_above="@+id/bottom_view"
+                android:background="@drawable/weima" />
+			<View 
+			    android:id="@+id/bottom_view"
+			    android:layout_width="40dp"
+			    android:layout_height="1dp"
+			    android:layout_alignParentBottom="true"/>
+        </RelativeLayout> -->
+    </LinearLayout>
+
+</LinearLayout>

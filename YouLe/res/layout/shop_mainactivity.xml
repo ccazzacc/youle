@@ -1,27 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/shop_bg" >
-    <include layout="@layout/twobtn_header"/>
+    android:id="@+id/shopmain_ly"
+    style="@style/full_screen"
+    android:background="@color/shop_color"
+    android:orientation="vertical" >
+
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-     >
-    <ImageView
-        android:layout_margin="24dp"
-        android:id="@+id/shop_btnScan"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/button_scanning" />
-    <ImageView
-        android:id="@+id/shop_btnList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/button_list" />
-    
-</LinearLayout>
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="12.0dip"
+        android:background="@drawable/shape_bg"
+        android:gravity="center_vertical"
+        android:minHeight="50.0dip"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/shop_scan"
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/scan"
+                android:textColor="@color/shop_text"
+                android:textSize="@dimen/font_size_large" />
+
+            <View
+                style="@style/wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                style="@style/wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@drawable/card_arrow"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+
+        <LinearLayout
+            android:id="@+id/shop_consume"
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15.0dip"
+                android:text="@string/consume"
+                android:textColor="@color/shop_text"
+                android:textSize="@dimen/font_size_large" />
+
+            <View
+                style="@style/wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                style="@style/wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="1.0dip"
+                android:background="@drawable/card_arrow"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@drawable/shape_line" />
+    </LinearLayout>
+
 </LinearLayout>

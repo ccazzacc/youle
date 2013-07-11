@@ -1,34 +1,42 @@
 package com.youle.managerUi;
 
+import net.tsz.afinal.FinalBitmap;
+import android.R.color;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import cn.sharesdk.framework.AbstractWeibo;
-import cn.sharesdk.framework.WeiboActionListener;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.tencent.weibo.TencentWeibo;
 
+import com.baidu.mobstat.StatActivity;
 import com.youle.R;
+import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.Utility;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.SharedPref.YLSession;
+import com.youle.util.ToastUtil;
+import com.youle.view.CustomProgressDialog;
 
-import java.util.HashMap;
-
-public class SysSetActivity extends Activity implements OnClickListener {
-	private Button mBtnSina, mBtnQQ;
-	private SharedPref sharedPref;
-	private AbstractWeibo mWeibo;
+public class SysSetActivity extends StatActivity implements OnClickListener {
+	// private Button mBtnSina, mBtnQQ;
+	// private SharedPref sharedPref;
+	// private AbstractWeibo mWeibo;
+	private LinearLayout lSetPass, lyTaxi, lyShop;
+	private TextView tvTaxi, tvShop;
+	private View vSetPass;
+	private GestureDetector detector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,48 +44,141 @@ public class SysSetActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sys_set_activity);
 		initView();
-		connected();
-		AbstractWeibo.initSDK(this);
+		// connected();
+		// AbstractWeibo.initSDK(this);
 	}
 
-	private void connected() {
-		sharedPref = new SharedPref(SysSetActivity.this);
-		Log.i("1234", "sian: " + sharedPref.getSinaStatus());
-		if (sharedPref.getSinaStatus()) {
-			mBtnSina.setVisibility(View.INVISIBLE);
-			TextView textView = (TextView) findViewById(R.id.sys_txt_sina);
-			textView.setText(textView.getText() + " ("
-					+ sharedPref.getSinaNickname() + ")");
-		}
-		if (sharedPref.getQQStatus()) {
-			mBtnQQ.setVisibility(View.INVISIBLE);
-			TextView textView = (TextView) findViewById(R.id.sys_txt_qq);
-			textView.setText(textView.getText() + " ("
-					+ sharedPref.getQQnickname() + ")");
-		}
-	}
+	// private void connected() {
+	// sharedPref = new SharedPref(SysSetActivity.this);
+	// Log.i("1234", "sian: " + sharedPref.getSinaStatus());
+	// if (sharedPref.getSinaStatus()) {
+	// mBtnSina.setVisibility(View.INVISIBLE);
+	// TextView textView = (TextView) findViewById(R.id.sys_txt_sina);
+	// textView.setText(textView.getText() + " ("
+	// + sharedPref.getSinaNickname() + ")");
+	// }
+	// if (sharedPref.getQQStatus()) {
+	// mBtnQQ.setVisibility(View.INVISIBLE);
+	// TextView textView = (TextView) findViewById(R.id.sys_txt_qq);
+	// textView.setText(textView.getText() + " ("
+	// + sharedPref.getQQnickname() + ")");
+	// }
+	// }
 
+	@SuppressWarnings("deprecation")
 	private void initView() {
-		Button btnBack = (Button) findViewById(R.id.twobtn_header_left);
-		btnBack.setBackgroundResource(R.drawable.bar_icon_back);
-		btnBack.setOnClickListener(this);
-		btnBack.setVisibility(View.VISIBLE);
-		TextView tvTitle = (TextView) findViewById(R.id.twobtn_header_tv);
-		tvTitle.setText(R.string.set);
+		SlipMainCenter.lyButtom.setVisibility(View.GONE);
+		SlipMainCenter.btnRight.setVisibility(View.INVISIBLE);
+		SlipMainCenter.tvName.setText(R.string.set);
+		SlipMainCenter.btnMsgtop.setVisibility(View.GONE);
 		((Button) findViewById(R.id.sys_logout)).setOnClickListener(this);
-		mBtnSina = (Button) findViewById(R.id.sys_btn_sinaLink);
-		mBtnSina.setOnClickListener(this);
-		mBtnQQ = (Button) findViewById(R.id.sys_btn_tentLink);
-		mBtnQQ.setOnClickListener(this);
-		((LinearLayout)findViewById(R.id.sysset_meSet)).setOnClickListener(this);
+		// mBtnSina = (Button) findViewById(R.id.sys_btn_sinaLink);
+		// mBtnSina.setOnClickListener(this);
+		// mBtnQQ = (Button) findViewById(R.id.sys_btn_tentLink);
+		// mBtnQQ.setOnClickListener(this);
+		((LinearLayout) findViewById(R.id.sysset_meSet))
+				.setOnClickListener(this);
 		((LinearLayout) findViewById(R.id.sysset_about))
 				.setOnClickListener(this);
-		((LinearLayout) findViewById(R.id.sysset_pass))
-		.setOnClickListener(this);
-		((LinearLayout) findViewById(R.id.sysset_applyCar))
-		.setOnClickListener(this);
-		((LinearLayout) findViewById(R.id.sysset_applyShop))
-		.setOnClickListener(this);
+		lSetPass = (LinearLayout) findViewById(R.id.sysset_pass);
+		vSetPass = (View) findViewById(R.id.sysset_view_pass);
+		SharedPref sp = new SharedPref(SysSetActivity.this);
+		if (sp.getQQStatus() || sp.getSinaStatus()) {
+			lSetPass.setVisibility(View.GONE);
+			vSetPass.setVisibility(View.GONE);
+		}
+		lSetPass.setOnClickListener(this);
+		lyTaxi = (LinearLayout) findViewById(R.id.sysset_applyCar);
+		lyShop = (LinearLayout) findViewById(R.id.sysset_applyShop);
+		tvTaxi = (TextView) findViewById(R.id.sysset_tvTaxi);
+		tvShop = (TextView) findViewById(R.id.sysset_tvShop);
+		int type = Utility.mSession.getMe().getType();
+		Log.e("test", "Utility.mSession.getShopTaxi():"+Utility.mSession.getShopTaxi());
+		if (type == 1 || type == 2) {
+			lyTaxi.setBackgroundResource(R.drawable.list_round_bottom);
+			lyShop.setBackgroundResource(R.drawable.list_round_center);
+			if (type == 1)
+				tvShop.setText(R.string.already_shop);
+			else
+				tvTaxi.setText(R.string.already_taxi);
+		}
+		else if (Utility.mSession.getShopTaxi()) {
+			lyTaxi.setBackgroundResource(R.drawable.list_round_bottom);
+			lyShop.setBackgroundResource(R.drawable.list_round_center);
+		}
+		else {
+			lyTaxi.setOnClickListener(this);
+			lyShop.setOnClickListener(this);
+		}
+		((LinearLayout) findViewById(R.id.sysset_clearCache))
+				.setOnClickListener(this);
+		detector = new GestureDetector(new OnGestureListener() {
+
+			public boolean onSingleTapUp(MotionEvent e) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			public void onShowPress(MotionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public boolean onScroll(MotionEvent e1, MotionEvent e2,
+					float distanceX, float distanceY) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			public void onLongPress(MotionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public boolean onFling(MotionEvent e1, MotionEvent e2,
+					float velocityX, float velocityY) {
+				// TODO Auto-generated method stub
+				try {
+					if (Math.abs(velocityX) > ViewConfiguration.get(
+							SysSetActivity.this)
+							.getScaledMinimumFlingVelocity()) {
+						if (e1.getX() - e2.getX() > 100
+								&& Math.abs(velocityX) > 10) {
+							SlidActivity.showMenu();
+						} else if (e2.getX() - e1.getX() > 100
+								&& Math.abs(velocityX) > 10) {
+							SlidActivity.showMenu();
+						}
+					}
+				} catch (NullPointerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return true;
+			}
+
+			public boolean onDown(MotionEvent e) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+		((ScrollView) findViewById(R.id.sys_set_sc))
+				.setOnTouchListener(new OnTouchListener() {
+
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						// TODO Auto-generated method stub
+						detector.onTouchEvent(event);
+						return false;
+					}
+				});
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		detector.onTouchEvent(event);
+		return super.onTouchEvent(event);
 	}
 
 	@Override
@@ -88,67 +189,99 @@ public class SysSetActivity extends Activity implements OnClickListener {
 			startActivity(new Intent(SysSetActivity.this, AboutActivity.class));
 			break;
 		case R.id.sysset_meSet:
-			startActivity(new Intent(SysSetActivity.this,MeSetActivity.class));
-			SysSetActivity.this.finish();
+			startActivity(new Intent(SysSetActivity.this, MeSetActivity.class));
 			break;
-		case R.id.twobtn_header_left:
-			SysSetActivity.this.finish();
-			break;
-
 		case R.id.sys_logout:
 			Utility.mSession.resetToken();
 			Utility.mToken = null;
-			startActivity(new Intent(SysSetActivity.this, LoginActivity.class));
-			SysSetActivity.this.finish();
+			new SharedPref(SysSetActivity.this).resetSinaQQ();
+			Intent it = new Intent(SysSetActivity.this, LoginActivity.class);
+			it.putExtra("logout", true);
+			startActivity(it);
 			break;
-		case R.id.sys_btn_sinaLink:
-			mWeibo = AbstractWeibo
-					.getWeibo(SysSetActivity.this, SinaWeibo.NAME);
-			mWeibo.setWeiboActionListener(weiboListener);
-			mWeibo.showUser(null);
-			break;
-		case R.id.sys_btn_tentLink:
-			mWeibo = AbstractWeibo.getWeibo(SysSetActivity.this,
-					TencentWeibo.NAME);
-			mWeibo.setWeiboActionListener(weiboListener);
-			mWeibo.showUser(null);
-			break;
+		// case R.id.sys_btn_sinaLink:
+		// mWeibo = AbstractWeibo
+		// .getWeibo(SysSetActivity.this, SinaWeibo.NAME);
+		// mWeibo.setWeiboActionListener(weiboListener);
+		// mWeibo.showUser(null);
+		// break;
+		// case R.id.sys_btn_tentLink:
+		// mWeibo = AbstractWeibo.getWeibo(SysSetActivity.this,
+		// TencentWeibo.NAME);
+		// mWeibo.setWeiboActionListener(weiboListener);
+		// mWeibo.showUser(null);
+		// break;
 		case R.id.sysset_pass:
 			startActivity(new Intent(SysSetActivity.this, PwfixActivity.class));
 			break;
 		case R.id.sysset_applyCar:
-			startActivity(new Intent(SysSetActivity.this, ApplyTaxiActivity.class));
+			startActivity(new Intent(SysSetActivity.this,
+					ApplyTaxiActivity.class));
 			break;
 		case R.id.sysset_applyShop:
-			startActivity(new Intent(SysSetActivity.this, ApplyShopActivity.class));
+			startActivity(new Intent(SysSetActivity.this,
+					ApplyShopActivity.class));
+			break;
+		case R.id.sysset_clearCache:
+			FinalBitmap fb = FinalBitmap.create(SysSetActivity.this);
+			fb.clearCache();
+			CustomProgressDialog.showMsg(SysSetActivity.this,
+					getString(R.string.please_wait));
+			new Thread() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					super.run();
+					try {
+						sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					handler.sendEmptyMessage(1);
+				}
+
+			}.start();
 			break;
 		}
 	}
-	
-	public WeiboActionListener weiboListener = new WeiboActionListener() {
-		@Override
-		public void onComplete(AbstractWeibo abstractWeibo, int i,
-				HashMap<String, Object> stringObjectHashMap) {
-			String shareName = abstractWeibo.getDb().get("nickname");
 
-			if (abstractWeibo.getId() == 1) {
-				sharedPref.saveSinaStatus(true, shareName);
-			} else if (abstractWeibo.getId() == 2) {
-				sharedPref.saveQQStatus(true, shareName);
-			}
-			Log.i("1234", abstractWeibo.getId() + "  id");
-			connected();
-		}
+	Handler handler = new Handler() {
 
 		@Override
-		public void onError(AbstractWeibo abstractWeibo, int i,
-				Throwable throwable) {
-
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			CustomProgressDialog.stopProgressDialog(SysSetActivity.this);
+			ToastUtil.show(SysSetActivity.this, R.string.clear_ok);
 		}
 
-		@Override
-		public void onCancel(AbstractWeibo abstractWeibo, int i) {
-
-		}
 	};
+	// public WeiboActionListener weiboListener = new WeiboActionListener() {
+	// @Override
+	// public void onComplete(AbstractWeibo abstractWeibo, int i,
+	// HashMap<String, Object> stringObjectHashMap) {
+	// String shareName = abstractWeibo.getDb().get("nickname");
+	//
+	// if (abstractWeibo.getId() == 1) {
+	// sharedPref.saveSinaStatus(true, shareName);
+	// } else if (abstractWeibo.getId() == 2) {
+	// sharedPref.saveQQStatus(true, shareName);
+	// }
+	// Log.i("1234", abstractWeibo.getId() + "  id");
+	// connected();
+	// }
+	//
+	// @Override
+	// public void onError(AbstractWeibo abstractWeibo, int i,
+	// Throwable throwable) {
+	//
+	// }
+	//
+	// @Override
+	// public void onCancel(AbstractWeibo abstractWeibo, int i) {
+	//
+	// }
+	// };
 }

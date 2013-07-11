@@ -1,0 +1,238 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:id="@+id/map_leftLayout"
+    android:background="@color/set_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:id="@+id/map_left_setting"
+        style="@style/horizontal_stretch"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+         >
+
+        <ImageView
+            android:id="@+id/map_left_iv_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow" />
+
+        <TextView
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/map_left_iv_set"
+            android:text="@string/set"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/map_left_shop"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        style="@style/horizontal_stretch"
+        android:layout_above="@+id/map_left_setting"
+        android:layout_alignParentLeft="true"
+         >
+
+        <ImageView
+            android:id="@+id/map_left_iv_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:src="@drawable/merchant" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow" />
+
+        <TextView
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/map_left_iv_shop"
+            android:text="@string/shop"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/horizontal_stretch"
+        android:id="@+id/map_left_message"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:layout_above="@+id/map_left_shop"
+        android:layout_alignParentLeft="true"
+        >
+
+        <ImageView
+            android:id="@+id/map_left_iv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:src="@drawable/message" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow" />
+
+        <TextView
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/map_left_iv_message"
+            android:text="@string/message"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/horizontal_stretch"
+        android:id="@+id/map_left_coupon"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:layout_above="@+id/map_left_car"
+        android:layout_alignParentLeft="true"
+         >
+
+        <ImageView
+            android:id="@+id/map_left_iv_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:src="@drawable/coupon" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow" />
+
+        <TextView
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/map_left_iv_coupon"
+            android:text="@string/coupon_me"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/horizontal_stretch"
+        android:id="@+id/map_left_car"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:layout_above="@+id/map_left_message"
+        android:layout_alignParentLeft="true"
+        >
+
+        <ImageView
+            android:id="@+id/map_left_iv_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/circle" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow" />
+
+        <TextView
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/map_left_iv_car"
+            android:text="@string/car_friend"
+            />
+    </RelativeLayout>
+	<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:id="@+id/map_left_Me"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:layout_above="@+id/map_left_coupon"
+        android:layout_alignParentLeft="true"
+         >
+
+        <ImageView
+            android:id="@+id/map_left_iv_ava"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="23.0dip"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:background="@drawable/wodezhuye" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrows" />
+
+        <TextView
+            android:id="@+id/map_left_tvName"
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_toRightOf="@+id/map_left_iv_ava"
+            android:text="@string/me" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        style="@style/horizontal_stretch"
+        android:id="@+id/map_left_home"
+        android:clickable="true"
+        android:background="@drawable/layout_click"
+        android:layout_above="@+id/map_left_Me"
+        android:layout_alignParentLeft="true"
+        >
+
+        <ImageView
+            android:id="@+id/map_left_iv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:scaleType="centerCrop"
+            android:src="@drawable/home" />
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16.0dip"
+            android:src="@drawable/card_arrow_x" />
+
+        <TextView
+            style="@style/mainTv"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/map_left_iv_home"
+            android:text="@string/home"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+</RelativeLayout>

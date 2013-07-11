@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/full_screen"
-    android:background="@drawable/main_bg"
+    android:background="@color/bg_color"
     android:orientation="vertical" >
+	<include 
+	    android:id="@+id/carmain_header"
+	    layout="@layout/twobtn_header" 
+	    android:visibility="gone"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="16dp" />
 
-    <include layout="@layout/twobtn_header" />
-
-    <LinearLayout
+    <com.youle.view.PullUpListView
+        android:id="@+id/car_mainLv"
         style="@style/wrap_content"
-        android:layout_weight="1.0" >
-
-        <ListView
-            android:id="@+id/car_mainLv"
-            style="@style/wrap_content"
-            android:layout_gravity="left"
-            android:cacheColorHint="@color/transparent"
-            android:divider="#ffABB6C9"
-            android:dividerHeight="1dp"
-            android:listSelector="@color/transparent"
-            android:scrollbars="none" >
-        </ListView>
-    </LinearLayout>
+        android:layout_gravity="left"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/transparent"
+        android:dividerHeight="10dp"
+        android:listSelector="@color/transparent"
+        android:scrollbars="none" >
+    </com.youle.view.PullUpListView>
 
 </LinearLayout>

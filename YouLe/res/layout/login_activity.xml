@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="#ff2e3034"
     android:orientation="vertical" >
 
     <include layout="@layout/twobtn_header" />
-    
+
     <ScrollView android:layout_width="fill_parent"
         android:layout_height="match_parent" >
 
@@ -14,39 +14,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="15dp" >
-
-            <Button
-                android:id="@+id/sina_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/sina_btn_login" />
-
-            <Button
-                android:id="@+id/qq_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/sina_login"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/qq_btn_login" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/or2" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,6 +51,12 @@
                 android:textSize="20dp" />
         </LinearLayout>
 
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/login_btn_login" android:layout_gravity="center"
+                android:background="@drawable/login_button" android:text="@string/login"
+                android:textColor="@color/white" android:textSize="20sp" android:layout_margin="20dp"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,6 +80,37 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/textView"
                 android:text="@string/register" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/or2" android:visibility="visible"
+                android:layout_below="@+id/text_forgot_psd" android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:visibility="visible" android:layout_below="@+id/imageView"
+                android:layout_centerHorizontal="true" android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/sina_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/buton_sinaweibo_normal" />
+
+                <Button
+                    android:id="@+id/qq_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/buton_tencent_normal" android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/sina_login" android:layout_marginLeft="10dp"/>
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

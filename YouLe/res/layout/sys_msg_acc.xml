@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:background="@drawable/sixin_bg" android:layout_margin="10dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/acc_date" android:layout_alignTop="@+id/acc_from" android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp" android:textColor="@color/black"/>
+        <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/acc_weidu" android:layout_alignBottom="@+id/acc_last"
+                android:layout_alignRight="@+id/acc_date" android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/acc_from" android:layout_alignTop="@+id/acc_avatar"
+                android:layout_toRightOf="@+id/acc_avatar" android:layout_marginLeft="5dp" android:textSize="20sp"
+                android:textColor="@color/black"/>
+        <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/acc_avatar" android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+                android:layout_margin="10dp" android:background="@drawable/avatars"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end" android:singleLine="true"
+                android:id="@+id/acc_last"
+                android:textColor="@color/black" android:textSize="18sp" android:layout_below="@+id/acc_from"
+                android:layout_alignLeft="@+id/acc_from" android:layout_marginTop="10dp"
+                android:layout_marginRight="50dp"/>
+    </RelativeLayout>
+</RelativeLayout>

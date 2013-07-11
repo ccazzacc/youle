@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<color name = "main_bg">#ededed</color>
     <color name="gray">#686868</color>
     <color name="black">#ff000000</color>
+    <color name="tran_color">#AF2E3133</color>
     <color name="transparent">#00000000</color>
     <color name="tran">#0f000000</color>
     <color name="white">#FFFFFF</color>
@@ -11,14 +12,13 @@
     <color name="main_address">#2f73c0</color>
     <color name="main_time">#6F6F70</color>
     <color name="main_title">#3B4A5A</color>
-    <color name="header_bar_color">#373737</color>
+    <color name="header_bar_color">#FFFFFD</color>
     <color name="header_cancel_color">#565656</color>
     <color name="grey_color">#2E3136</color>
     <color name="set_bg">#3A3D42</color>
     
     <color name="unfocused">#0373ed</color>
-    <color name="shop_bg">#D7DEE3</color>
-    <color name="bg_color">#EDEDED</color>
+    <color name="bg_color">#2E3133</color>
     <color name="contents_text">#ff000000</color>
     <color name="encode_view">#ffffffff</color>
     <color name="help_button_view">#ffcccccc</color>
@@ -46,7 +46,14 @@
     <color name="grgray">#686868</color>
     <color name="consume_word">#A1A1A1</color>
     <color name="consume_tv">#303945</color>
-	<color name="coupon_title">#7B1A1A</color>
-	<color name="coupon_time">#989898</color>
+    <color name="coupon_info">#868686</color>
+	<color name="coupon_title">#333333</color>
 	<color name="set_link">#414D52</color>
+    <color name="trans">#55000000</color>
+    <color name="car_header">#2D3135</color>
+    <color name="car_content">#8A8A8A</color>
+    <color name="car_reply">#6D96E3</color>
+    <color name="shop_color">#EDEDED</color>
+    <color name="shop_text">#393939</color>
+    <color name="me_title">#E9E9EA</color>
 </resources>

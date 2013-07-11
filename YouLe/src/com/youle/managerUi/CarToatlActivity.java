@@ -4,28 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.tsz.afinal.FinalBitmap;
-
-import com.youle.R;
-import com.youle.managerData.info.CarListDetailInfo;
-import com.youle.managerData.info.CarTotalInfo;
-import com.youle.util.OtherUtil;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class CarToatlActivity extends Activity{
+import com.baidu.mobstat.StatActivity;
+import com.youle.R;
+import com.youle.managerData.info.CarTotalInfo;
+import com.youle.util.OtherUtil;
+
+public class CarToatlActivity extends StatActivity{
 	private ListView lvCar;
 	private List<CarTotalInfo> listCar = new ArrayList<CarTotalInfo>();
 	@Override
@@ -37,9 +35,10 @@ public class CarToatlActivity extends Activity{
 	}
 	private void initView()
 	{
+		((LinearLayout)findViewById(R.id.carmain_header)).setVisibility(View.VISIBLE);
 		lvCar = (ListView)findViewById(R.id.car_mainLv);
 		Button btnBack = (Button) findViewById(R.id.twobtn_header_left);
-		btnBack.setBackgroundResource(R.drawable.bar_icon_back);
+		btnBack.setBackgroundResource(R.drawable.bar_button_back_normal);
 		btnBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -50,8 +49,7 @@ public class CarToatlActivity extends Activity{
 		});
 		btnBack.setVisibility(View.VISIBLE);
 		Button btnReply = (Button) findViewById(R.id.twobtn_header_right);
-		btnReply.setBackgroundResource(R.drawable.bar_btn_nothing);
-		btnReply.setText(R.string.reply);
+		btnReply.setBackgroundResource(R.drawable.bar_button_reply_normal);
 		btnReply.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -65,9 +63,9 @@ public class CarToatlActivity extends Activity{
 		btnReply.setVisibility(View.VISIBLE);
 		TextView tvTitle = (TextView) findViewById(R.id.twobtn_header_tv);
 		tvTitle.setText(R.string.total);
-		listCar.add(new CarTotalInfo("http://api.pathtrip.com/avatars/128/1000101.png", "test:", "我是的发生的发生的发生大幅的few热污染的短发散发", "3天前", "", ""));
-		listCar.add(new CarTotalInfo("http://api.pathtrip.com/avatars/128/1000069.png", "test 回复 wn：", "的发生的发生的的发生大", "3天前", "http://api.pathtrip.com/covers/10003421360983697.jpg", ""));
-		listCar.add(new CarTotalInfo("http://api.pathtrip.com/avatars/128/1000095.png", "test 回复 wn：", "的发生的发生的的发生大", "3天前", "", ""));
+		listCar.add(new CarTotalInfo("http://api.pathtrip.com/avatars/128/1000101.png", "test:", "","我梵蒂冈豆腐干分发电公司打工是的发生的发生的发生大幅的few热污染的短发散发", "3天前", "", ""));
+		listCar.add(new CarTotalInfo("http://api.pathtrip.com/avatars/128/1000069.png", "一帆风顺", "刺儿","士大夫敢死队风格热天we古典风格的说法的发生的发生的的贵妇狗发生大", "3天前", "http://api.pathtrip.com/covers/10003421360983697.jpg", ""));
+		listCar.add(new CarTotalInfo("http://api.pathtrip.com/avatars/128/1000095.png", "天下无敌", "高调炫富","的发生的发生的的发生大", "3天前", "", ""));
 		CarInfoAdapter adapter = new CarInfoAdapter(this);
 		lvCar.setAdapter(adapter);
 	}
@@ -111,6 +109,8 @@ public class CarToatlActivity extends Activity{
 				init.tvName = (TextView)convertView.findViewById(R.id.cartotal_tvName);
 				init.tvTime = (TextView)convertView.findViewById(R.id.cartotal_tvTime);
 				init.ivPho = (ImageView)convertView.findViewById(R.id.cartotal_ivPho);
+				init.tvNreply = (TextView)convertView.findViewById(R.id.cartotal_tvNreply);
+				init.tvRname = (TextView)convertView.findViewById(R.id.cartotal_tvRName);
 				convertView.setTag(init);
 			}else
 				init = (ViewInit)convertView.getTag();
@@ -118,6 +118,16 @@ public class CarToatlActivity extends Activity{
 			fb.display(init.ivAva, info.getAvaUrl());
 			init.tvContent.setText(info.getContent());
 			init.tvName.setText(info.getuName());
+			if(OtherUtil.isNullOrEmpty(info.getReName()))
+			{
+				init.tvNreply.setVisibility(View.GONE);
+				init.tvRname.setVisibility(View.GONE);
+			}else
+			{
+				init.tvNreply.setVisibility(View.VISIBLE);
+				init.tvRname.setVisibility(View.VISIBLE);
+				init.tvRname.setText(info.getReName());
+			}
 			init.tvTime.setText(info.getTime());
 			if(OtherUtil.isNullOrEmpty(info.getPhoUrl()))
 				init.ivPho.setVisibility(View.GONE);
@@ -134,6 +144,9 @@ public class CarToatlActivity extends Activity{
 			TextView tvName;
 			TextView tvTime;
 			ImageView ivPho;
+			TextView tvNreply;
+			TextView tvRname;
+			
 		}
 	}
 }

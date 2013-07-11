@@ -12,6 +12,13 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
@@ -35,6 +42,18 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
+        <!-- 您从百度网站获取的APP KEY -->
+		<meta-data android:name="BaiduMobAd_STAT_ID" android:value="91527104cc" />
+		<!-- 渠道商编号 -->
+		<meta-data android:name="BaiduMobAd_CHANNEL" android:value="QQ" />
+		<!-- 是否开启错误日志统计，默认为false -->
+		<meta-data android:name="BaiduMobAd_EXCEPTION_LOG" android:value="true" />
+		<!-- 日志发送策略，可选值：APP_START、ONCE_A_DAY、SET_TIME_INTERVAL，默认为APP_START -->
+		<meta-data android:name="BaiduMobAd_SEND_STRATEGY" android:value="APP_START" />
+		<!-- 日志发送策略 为SET_TIME_INTERVAL时，需设定时间间隔(取消下行注释)。取值为1-24的整数，默认为1 -->
+		<!-- <meta-data android:name="BaiduMobAd_TIME_INTERVAL" android:value="2" />  -->
+		<!-- 日志仅在wifi网络下发送，默认为false -->
+		<meta-data android:name="BaiduMobAd_ONLY_WIFI" android:value="true" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="637254f3cad5db17f30d29ecab33b9d5" />
@@ -104,16 +123,19 @@
         </activity>
         <activity
             android:name=".managerUi.ReleaseActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name="com.youle.managerUi.ReleaseOkActivity" />
+        <activity
+            android:name=".managerUi.ReleaseOkActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".managerUi.ShopMainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".managerUi.MapActivity"
-            android:launchMode="singleTask"
+            android:name="com.youle.managerUi.SlidActivity"
+            android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -131,6 +153,15 @@
         <activity
             android:name=".managerUi.MeSetActivity"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".crop.CropActivity"
+            android:noHistory="true" 
+            android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.CROP" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".managerUi.SysSetActivity"
@@ -156,10 +187,14 @@
             android:name=".managerUi.AddPostActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".managerUi.ShowLargeActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service
             android:name=".service.UpdataService"
             android:enabled="true" />
+        <service android:name=".service.SystemMsgService"/>
         <!-- ShareSdk -->
         <activity
             android:name="cn.sharesdk.sina.weibo.SSOActivity"
@@ -173,8 +208,17 @@
             <!-- NoTitle表示不显示授权页面的标题 boolean值，为true表示不显示，否则为显示，默认为显示 -->
             <!-- <meta-data android:name="NoTitle" android:value="true" /> -->
         </activity>
-        <activity android:name=".managerUi.SysMsgActivity" />
+        <activity android:name=".managerUi.SysMsgActivity"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".managerUi.ForgotPsdActivity" />
+        <activity android:name=".managerUi.CouponMapActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".managerUi.ShowImage"/>
+        <activity android:name=".view.ShowDialog"
+                android:theme="@style/Theme.Translucent"
+                android:screenOrientation="portrait"/>
+        <activity android:name="com.youle.managerUi.RoadMapActivity"/>
+        <activity android:name="com.youle.fragment.SlipMainCenter"/>
         <!-- ShareSdk -->
     </application>
 

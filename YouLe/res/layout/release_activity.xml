@@ -4,16 +4,16 @@
     android:id="@+id/hoho"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
+    android:background="@color/main_bg"
     android:orientation="vertical" >
     <com.youle.view.CircleProgress
             android:id="@+id/roundBar1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:background="@drawable/avatar_mask_128"
             roundProgress:max="100"
             roundProgress:fill = "false"
-            roundProgress:Inside_Interval="5"
-            roundProgress:Paint_Width = "4"
+            roundProgress:Inside_Interval="15"
+            roundProgress:Paint_Width = "20"
             />
 </RelativeLayout>

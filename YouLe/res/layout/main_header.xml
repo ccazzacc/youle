@@ -1,76 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="52dip"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/home_nav_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
+    android:layout_width="fill_parent"
+    android:layout_height="54dip"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/top_bar_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/header_left"
-            style="@style/twobtn_head_style"
-            android:layout_marginLeft="4dip"
-            android:background="@drawable/bar_icon_back"
-            android:visibility="invisible" />
+    <Button
+        android:id="@+id/header_left"
+        style="@style/twobtn_head_style"
+        android:layout_marginLeft="4dip"
+        android:background="@drawable/bar_button_navigation_normal"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="4dip"
+        android:layout_marginRight="4dip"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/header_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:text="@string/new_life"
+            android:textColor="@color/header_bar_color"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_above="@+id/header_ly_bottom" android:layout_centerHorizontal="true"/>
 
         <LinearLayout
-            android:id="@+id/header_all"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:layout_marginLeft="4dip"
-            android:layout_marginRight="4dip"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/header_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center_horizontal"
-                android:singleLine="true"
-                android:text="City Sound"
-                android:textColor="@color/main_title"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-            <LinearLayout
+            android:id="@+id/header_ly_bottom"
             style="@style/horizontal_stretch"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp">
+
             <TextView
                 android:id="@+id/header_tv_bottom"
                 style="@style/wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginLeft="4dip"
                 android:layout_marginRight="4dip"
+                android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 android:singleLine="true"
-                android:text="chengdu"
-                android:textColor="@color/main_title"
-                android:textSize="14sp"
-                />
-            <ImageView 
+                android:text="成都"
+                android:textColor="@color/header_bar_color"
+                android:textSize="14sp" android:layout_height="fill_parent"/>
+
+            <ImageView
                 android:id="@+id/header_iv_bottom"
                 style="@style/wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arrow"
-                android:visibility="gone"/>
-            </LinearLayout>
+                android:visibility="gone" />
         </LinearLayout>
-
         <Button
-            android:id="@+id/header_right"
-            style="@style/twobtn_head_style"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="4dip"
-            android:background="@drawable/bar_icon_map" />
-    </LinearLayout>
+                android:layout_width="170dp"
+                android:layout_height="38dp"
+                android:id="@+id/sysmsg_top" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                android:background="@drawable/message_tabs" android:visibility="gone"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/header_right"
+        style="@style/twobtn_head_style"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="4dip"
+        android:background="@drawable/bar_button_map_normal" />
+
+</LinearLayout>

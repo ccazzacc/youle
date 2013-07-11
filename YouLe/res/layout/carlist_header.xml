@@ -1,50 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:miles="http://schemas.android.com/apk/res/com.youle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/cyq_lbbt"
     android:orientation="vertical"
-    android:paddingBottom="8.0dip"
-    android:paddingLeft="15.0dip"
-    android:paddingRight="15.0dip"
-    android:paddingTop="8.0dip" >
-
+    android:paddingBottom="8.0dip">
+<!-- com.youle.view.RoundedCornersImage -->
     <ImageView
         android:id="@+id/carlist_hiv_ava"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/avatars" />
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/avatars"
+        miles:cornerRadius="5.0dip" />
 
     <TextView
         android:id="@+id/carlist_htv_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="28dp"
+        android:layout_toRightOf="@+id/carlist_hiv_ava"
+        android:singleLine="true"
+        android:text="大众汽车帮派"
+        android:textColor="@color/car_header"
+        android:textSize="20.0sp" />
+
+    <ImageView
+        android:id="@+id/carlist_hiv_tiezi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/carlist_hiv_ava"
-        android:text="大众汽车帮派" 
-        android:textSize="16sp"
-        android:textColor="@color/header_bar_color"/>
+        android:layout_alignLeft="@+id/carlist_htv_name"
+        android:layout_below="@+id/carlist_htv_name"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/posts" />
 
     <TextView
         android:id="@+id/carlist_htv_tiezi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/carlist_htv_name"
-        android:text="帖子:234"
-        android:textColor="@color/header_bar_color" />
+        android:layout_alignBottom="@+id/carlist_hiv_tiezi"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/carlist_hiv_tiezi"
+        android:text="234"
+        android:textColor="@color/car_header" />
+
+    <ImageView
+        android:id="@+id/carlist_hiv_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/carlist_htv_tiezi"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/carlist_htv_tiezi"
+        android:src="@drawable/comment" />
 
     <TextView
         android:id="@+id/carlist_htv_reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignBaseline="@+id/carlist_htv_tiezi"
-        android:layout_alignBottom="@+id/carlist_htv_tiezi"
-        android:layout_toRightOf="@+id/carlist_htv_tiezi"
-        android:text="回复:234" 
-        android:layout_marginLeft="8dp"
-        android:textColor="@color/header_bar_color"/>
+        android:layout_alignBottom="@+id/carlist_hiv_reply"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/carlist_hiv_reply"
+        android:text="566"
+        android:textColor="@color/car_header" />
 
 </RelativeLayout>

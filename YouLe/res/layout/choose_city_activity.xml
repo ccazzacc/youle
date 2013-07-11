@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
+    android:background="@color/main_bg"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:orientation="vertical" 
-        android:background="@drawable/bar_top_bg">
+        android:background="@drawable/top_bar_bg">
 
         <TextView
             android:id="@+id/text_city"
@@ -20,7 +20,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:textSize="25dp" 
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
 
    <!--  <LinearLayout

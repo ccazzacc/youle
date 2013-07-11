@@ -1,147 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
-    android:orientation="vertical" >
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/text_me_loc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginLeft="40dp"
-            android:drawableLeft="@drawable/point_icon"
-            android:textColor="@color/header_cancel_color"
-            android:textSize="20dp"
-            android:text="@string/locationing" />
-    </LinearLayout>
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ff2e3034"
+                android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="40dp" >
-
-        <ImageView
-            android:id="@+id/iv_road"
-            style="@style/wrap_content" 
-            android:scaleType="center"/>
-
-        <ImageView
-            android:id="@+id/iv_road_top"
-            style="@style/wrap_content"
-            android:layout_alignBottom="@+id/iv_road"
-            android:layout_alignLeft="@+id/iv_road"
-            android:layout_alignRight="@+id/iv_road"
-            android:layout_alignTop="@+id/iv_road"
-            android:background="@drawable/event_bg2"
-             />
+            android:id="@+id/main_tab_group"
+            android:layout_width="fill_parent"
+            android:layout_height="56dip"
+            android:layout_gravity="left|bottom"
+            android:background="@drawable/top_bar_bg"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true" android:layout_alignParentLeft="true">
 
         <Button
-            android:id="@+id/button_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="点击播放"
-            android:visibility="gone" />
+                android:id="@+id/btn_re_ok_canel"
+                style="@style/wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bar_button_close_normal" android:layout_alignParentStart="false"/>
 
         <TextView
-            android:id="@+id/text_say"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/event_bg_re"
-            android:textColor="@color/header_cancel_color"
-            android:visibility="gone" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发布路况"
+                android:id="@+id/map_title" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                android:textSize="20dp"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/relativeLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp" >
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_margin="30dp"
+            android:id="@+id/relativeLayout" android:layout_above="@+id/reok_img_even"
+            android:layout_centerHorizontal="true" android:layout_below="@+id/main_tab_group">
+
+        <ImageView
+                android:id="@+id/iv_road"
+                style="@style/wrap_content"
+                android:scaleType="fitCenter" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+
+        <Button
+                android:id="@+id/button_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" android:background="@drawable/bofang"/>
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="点亮图标分享"
-            android:textColor="@color/header_cancel_color" />
-
-        <Button
-            android:id="@+id/btn_share_sina"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/buton_sinaweibo_selected" />
-
-        <Button
-            android:id="@+id/btn_share_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/btn_share_sina"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@+id/btn_share_sina"
-            android:background="@drawable/buton_tencent_selected" />
-
-        <ProgressBar
-            android:id="@+id/pb_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" 
-            android:visibility="gone"/>
-
+                android:id="@+id/text_say"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                android:layout_centerVertical="true" android:layout_centerHorizontal="true" android:textSize="20dp"/>
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/bottom_bar_bg" >
-
-        <Button
-            android:id="@+id/btn_re_ok_canel"
+    <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/ok_cancel_normal" />
-
-        <Button
             android:id="@+id/btn_re_ok_send"
+            android:background="@drawable/bar_button_ok_normal" android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+    <RelativeLayout android:orientation="vertical" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/relativeLayout2"
+                    android:background="@drawable/prompt_bg"
+                    android:layout_above="@+id/btn_re_ok_send" android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="一品天下大街一品天下222大街"
+                  android:id="@+id/text_me_loc" android:layout_gravity="center" android:textSize="20dp"
+                  android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                />
+    </RelativeLayout>
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/button_upload" />
-    </RelativeLayout>
+            android:id="@+id/reok_img_even"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/crowd_normal" android:layout_above="@+id/relativeLayout2"
+            android:layout_centerHorizontal="true"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="堵车"
+            android:id="@+id/reok_txt_even" android:layout_above="@+id/relativeLayout2"
+            android:layout_centerHorizontal="true" android:layout_marginBottom="29dp"/>
 
 </RelativeLayout>

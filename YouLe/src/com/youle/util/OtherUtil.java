@@ -4,18 +4,15 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.*;
 import android.location.Address;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -41,7 +38,7 @@ public class OtherUtil {
 	/**
 	 * 验证是否是邮箱格式
 	 * 
-	 * @param strEmail
+	 * @param email
 	 * @return
 	 */
 	public static boolean isEmail(String email) {
@@ -319,7 +316,7 @@ public class OtherUtil {
 	 * 保存图片到SD卡上
 	 * 
 	 * @param bm
-	 * @param fileName
+	 * @param file
 	 * 
 	 */
 	public static void saveFile(Bitmap bm, File file) {
@@ -371,5 +368,76 @@ public class OtherUtil {
         }
         Log.i("1234",""+f.getAbsolutePath());
         return f.getAbsolutePath();
+    }
+    /**
+     * 图片倒圆角
+     *
+     * @param bitmap
+     * @param pixels
+     *
+     */
+    public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
+
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = pixels;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
+    /**
+     *要转换的毫秒数
+     * @param ms
+     * @return 该毫秒数转换为 * days * hours * minutes * seconds 后的格式
+     * @author fy.zhang
+     */
+    public static String formatDuring(long ms) {
+        long currentTime=System.currentTimeMillis()/1000;
+
+        long mss=currentTime-ms;
+        long days = mss / ( 60 * 60 * 24);
+        long hours = (mss % ( 60 * 60 * 24)) / ( 60 * 60);
+        long minutes = (mss % ( 60 * 60)) / ( 60);
+        long seconds = (mss % ( 60)) / 1000;
+        if(days>0){
+            return days+"天以前";
+        }else if(hours>0){
+            return hours+"小时以前";
+        }else if(minutes>0){
+            return minutes+"分钟以前";
+        }else {
+            return seconds+"秒以前";
+        }
+//        return days + " days " + hours + " hours " + minutes + " minutes "
+//                + seconds + " seconds ";
+    }
+
+    /**
+     * 字符串转换成日期
+     * @param str
+     * @return date
+     */
+    public static Date StrToDate(String str) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = format.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

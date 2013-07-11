@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/me_center_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical" >
+
+    <include 
+        android:id="@+id/me_actLay"
+        android:visibility="gone"
+        layout="@layout/twobtn_header" />
+
+    <RelativeLayout
+        style="@style/full_screen"
+        android:layout_weight="1.0" >
+
+        <com.youle.view.XListView
+            android:id="@+id/me_center_listview"
+            style="@style/wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:listSelector="@color/transparent"
+            android:scrollbars="none" >
+        </com.youle.view.XListView>
+
+        <TextView
+            android:id="@+id/me_center_tv"
+            style="@style/full_screen"
+            android:gravity="center"
+            android:text="@string/no_info"
+            android:visibility="gone" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
+
+            <Button
+                android:id="@+id/me_center_tab_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bar_button_record_normal" />
+
+            <Button
+                android:id="@+id/me_center_tab_quan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/me_center_tab_record"
+                android:background="@drawable/bar_button_near_coupons_normal" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

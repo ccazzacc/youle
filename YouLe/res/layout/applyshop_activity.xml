@@ -1,215 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
+    android:id="@+id/appshop_ly"
+    style="@style/full_screen"
+    android:background="@color/main_bg"
     android:orientation="vertical" >
 
     <include layout="@layout/twobtn_header" />
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10.0dip"
-        android:layout_marginRight="10.0dip"
-        android:layout_marginTop="12.0dip"
-        android:background="@drawable/shape_bg"
-        android:gravity="center_vertical"
-        android:minHeight="50.0dip"
-        android:orientation="vertical" >
 
+    <ScrollView style="@style/horizontal_stretch" >
 
+        <LinearLayout style="@style/horizontal_stretch" 
+            android:orientation="vertical">
 
-        <LinearLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="12.0dip"
+                android:background="@drawable/shape_bg"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:minHeight="50.0dip"
+                android:orientation="vertical" >
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="15.0dip"
-                    android:text="商户类别"
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50.0dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/shop_name"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+
+                    <EditText
+                        android:id="@+id/applyshop_etShop"
+                        style="@style/full_screen"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="1.0dip"
+                        android:layout_marginLeft="15.0dip"
+                        android:layout_marginRight="15.0dip"
+                        android:layout_marginTop="1.0dip"
+                        android:background="@color/white"
+                        android:focusable="true"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/set_link"
+                        android:textSize="16.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50.0dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15.0dip"
+                        android:text="商户类别 :"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+
+                    <Button
+                        android:id="@+id/choose_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:layout_marginLeft="15.0dip"
+                        android:background="@null" 
+                        android:textSize="16.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50.0dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/shop_num"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+
+                    <EditText
+                        android:id="@+id/appshop_etLicense"
+                        style="@style/full_screen"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="1.0dip"
+                        android:layout_marginLeft="15.0dip"
+                        android:layout_marginRight="15.0dip"
+                        android:layout_marginTop="1.0dip"
+                        android:background="@color/white"
+                        android:focusable="true"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/set_link"
+                        android:textSize="16.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50.0dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/linkMan"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+
+                    <EditText
+                        android:id="@+id/applyshop_etLinkman"
+                        style="@style/full_screen"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="1.0dip"
+                        android:layout_marginLeft="15.0dip"
+                        android:layout_marginRight="15.0dip"
+                        android:layout_marginTop="1.0dip"
+                        android:background="@color/white"
+                        android:focusable="true"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/set_link"
+                        android:textSize="16.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50.0dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/phoneNum"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+
+                    <EditText
+                        android:id="@+id/applyshop_etPhone"
+                        style="@style/full_screen"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="1.0dip"
+                        android:layout_marginLeft="15.0dip"
+                        android:layout_marginRight="15.0dip"
+                        android:layout_marginTop="1.0dip"
+                        android:background="@color/white"
+                        android:focusable="true"
+                        android:gravity="left|center_vertical"
+                        android:maxLength="11"
+                        android:numeric="integer"
+                        android:singleLine="true"
+                        android:textColor="@color/set_link"
+                        android:textSize="16.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="100.0dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/address"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+
+                    <EditText
+                        android:id="@+id/applyshop_etAdress"
+                        style="@style/full_screen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="25dp"
+                        android:layout_toRightOf="@+id/textView"
+                        android:background="@color/white"
+                        android:focusable="true"
+                        android:gravity="left|center_vertical"
+                        android:hint="请输入街道、门牌号"
+                        android:singleLine="true"
+                        android:textColor="@color/set_link"
+                        android:textSize="16.0sp" />
+
+                    <ImageView
+                        android:id="@+id/applyshop_imgSer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/location"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/applyshop_txtCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_toRightOf="@+id/textView"
+                        android:textColor="@color/set_link"
+                        android:textSize="@dimen/font_size_large" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:paddingLeft="15dip" >
+
+                <TextView
+                    android:id="@+id/appshop_tv"
+                    style="@style/wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/shop_pho"
                     android:textColor="@color/set_link"
                     android:textSize="@dimen/font_size_large" />
+
+                <ImageView
+                    android:id="@+id/appshop_ivPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_toRightOf="@+id/appshop_tv"
+                    android:src="@drawable/shop_default" />
+
+            </RelativeLayout>
+
             <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="点击选择"
-                    android:id="@+id/button" android:layout_marginLeft="15dp"/>
-
-        </LinearLayout>
-        <View
+                android:id="@+id/applyshop_btnCommit"
                 android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:background="@drawable/shape_line" />
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="15.0dip"
-                    android:text="@string/shop_name"
-                    android:textColor="@color/set_link"
-                    android:textSize="@dimen/font_size_large" />
-
-            <EditText
-                    android:id="@+id/applyshop_etShop"
-                    style="@style/full_screen"
-                    android:layout_width="match_parent"
-                    android:layout_marginBottom="1.0dip"
-                    android:layout_marginLeft="15.0dip"
-                    android:layout_marginRight="15.0dip"
-                    android:layout_marginTop="1.0dip"
-                    android:background="@color/white"
-                    android:focusable="true"
-                    android:gravity="left|center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/set_link"
-                    android:textSize="16.0sp" />
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0px"
-            android:background="@drawable/shape_line" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50.0dip"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:paddingLeft="15.0dip"
-                android:text="@string/linkMan"
-                android:textColor="@color/set_link"
-                android:textSize="@dimen/font_size_large" />
-
-            <EditText
-                android:id="@+id/applyshop_etLinkman"
-                style="@style/full_screen"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="1.0dip"
-                android:layout_marginLeft="15.0dip"
-                android:layout_marginRight="15.0dip"
-                android:layout_marginTop="1.0dip"
-                android:background="@color/white"
-                android:focusable="true"
-                android:gravity="left|center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/set_link"
-                android:textSize="16.0sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0px"
-            android:background="@drawable/shape_line" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50.0dip"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:paddingLeft="15.0dip"
-                android:text="@string/phoneNum"
-                android:textColor="@color/set_link"
-                android:textSize="@dimen/font_size_large" />
-
-            <EditText
-                android:id="@+id/applyshop_etPhone"
-                style="@style/full_screen"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="1.0dip"
-                android:layout_marginLeft="15.0dip"
-                android:layout_marginRight="15.0dip"
-                android:layout_marginTop="1.0dip"
-                android:background="@color/white"
-                android:focusable="true"
-                android:gravity="left|center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/set_link"
-                android:textSize="16.0sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1.0px"
-            android:background="@drawable/shape_line" />
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="100.0dip"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:paddingLeft="15.0dip"
-                android:text="@string/address"
-                android:textColor="@color/set_link"
-                android:textSize="@dimen/font_size_large" android:id="@+id/textView" android:layout_marginTop="20dp"/>
-
-            <EditText
-                android:id="@+id/applyshop_etAdress"
-                android:hint="请输入街道、门牌号"
-                style="@style/full_screen"
-                android:layout_width="match_parent"
-                android:background="@color/white"
-                android:focusable="true"
-                android:gravity="left|center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/set_link"
-                android:textSize="16.0sp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/textView"
-                android:layout_marginBottom="25dp"/>
-            <ImageView
-                android:id="@+id/applyshop_imgSer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bar_icon_map"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="12.0dip"
+                android:background="@drawable/btn_cancel"
                 android:gravity="center"
-                android:layout_alignParentTop="true" android:layout_alignParentRight="true"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/set_link"
-                    android:textSize="@dimen/font_size_large"
-                    android:id="@+id/applyshop_txtCity" android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/textView" android:layout_marginTop="20dp"/>
-        </RelativeLayout>
-    </LinearLayout>
-	<Button
-            android:id="@+id/applyshop_btnCommit"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10.0dip"
-            android:layout_marginRight="10.0dip"
-            android:layout_marginTop="12.0dip"
-            android:background="@drawable/btn_cancel"
-            android:gravity="center"
-            android:text="@string/commit_apply"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+                android:text="@string/commit_apply"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

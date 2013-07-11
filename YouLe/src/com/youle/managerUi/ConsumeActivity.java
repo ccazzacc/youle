@@ -3,25 +3,22 @@ package com.youle.managerUi;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.youle.R;
-import com.youle.managerData.info.ConsumeInfo;
-import com.youle.managerData.info.MainInfo;
-
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ConsumeActivity extends Activity{
+import com.baidu.mobstat.StatActivity;
+import com.youle.R;
+import com.youle.managerData.info.ConsumeInfo;
+
+public class ConsumeActivity extends StatActivity{
 	private Button btnHistory;
 	private ListView lvHistory;
 	private List<ConsumeInfo> listCon;
@@ -52,7 +49,7 @@ public class ConsumeActivity extends Activity{
 			}
 		});
 		Button btnBack = (Button)findViewById(R.id.twobtn_header_left);
-		btnBack.setBackgroundResource(R.drawable.bar_icon_back);
+		btnBack.setBackgroundResource(R.drawable.bar_button_back_normal);
 		btnBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -63,7 +60,7 @@ public class ConsumeActivity extends Activity{
 		});
 		btnBack.setVisibility(View.VISIBLE);
 		TextView tvTitle = (TextView)findViewById(R.id.twobtn_header_tv);
-		tvTitle.setText("消费记录");
+		tvTitle.setText(R.string.consume);
 		
 	}
 	private class ConsumeAdapter extends BaseAdapter {

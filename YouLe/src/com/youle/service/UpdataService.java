@@ -8,9 +8,11 @@ import android.util.Log;
 import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
 import com.youle.util.ToastUtil;
+import com.youle.view.ShowDialog;
 
 public class UpdataService extends Service {
 
+    private int radio_id;
     private double lat;
     private double lng;
     private float spd;
@@ -29,6 +31,7 @@ public class UpdataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        radio_id = intent.getIntExtra("radio_id", 0);
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
         spd = intent.getFloatExtra("spd", 0);
@@ -54,10 +57,10 @@ public class UpdataService extends Service {
         @Override
         protected String doInBackground(String... strings) {
             if (Utility.hasToken() && Utility.isSessionValid()) {
-                YouLe.upTrack(UpdataService.this, lng, lat, place, spd, mark, aud, aud_t, img, txt);
+                YouLe.upTrack(UpdataService.this, radio_id,lng, lat, place, spd, mark, aud, aud_t, img, txt);
             }else{
                 YouLe.refreshToken(UpdataService.this,Utility.mToken.getRefresh_token());
-                YouLe.upTrack(UpdataService.this, lng, lat, place, spd, mark, aud, aud_t, img, txt);
+                YouLe.upTrack(UpdataService.this, radio_id,lng, lat, place, spd, mark, aud, aud_t, img, txt);
             }
             Log.i("1234",lng+ lat+place+ spd+mark+ aud+aud_t+img+ txt);
             return null;
@@ -66,7 +69,14 @@ public class UpdataService extends Service {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            ToastUtil.show(UpdataService.this,"上传成功");
+            Intent intent=new Intent(UpdataService.this, ShowDialog.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("showTwo",true);
+            intent.putExtra("dialog_title","提  示");
+            intent.putExtra("dialog_text","发布成功！");
+
+//            startActivity(intent);
+            ToastUtil.show(UpdataService.this,"发布成功");
             UpdataService.this.stopSelf();
         }
     }

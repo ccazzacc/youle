@@ -2,10 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
+    android:background="@color/bg_color"
     android:orientation="vertical" >
 
-    <include layout="@layout/twobtn_header" />
+    <include 
+        android:id="@+id/coupon_header"
+        android:visibility="gone"
+        layout="@layout/twobtn_header" />
 
     <ListView
         android:id="@+id/coupon_listview"
@@ -16,7 +19,16 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="10dp"
-        android:listSelector="@color/transparent" >
+        android:listSelector="@color/transparent"
+        android:scrollbars="none" >
     </ListView>
+
+    <TextView
+        android:id="@+id/coupon_tv_no"
+        style="@style/full_screen"
+        android:gravity="center"
+        android:text="@string/no_coupon"
+        android:visibility="gone" >
+    </TextView>
 
 </LinearLayout>

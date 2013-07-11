@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+	<com.youle.view.ImageZoomView
+	    android:id="@+id/zoomView"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" >
+
+    </com.youle.view.ImageZoomView>
+
+    <Button
+        android:id="@+id/large_btn_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        android:drawableLeft="@drawable/save_photo_btn"
+        android:text = "@string/save"/>
+
+</RelativeLayout>

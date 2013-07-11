@@ -1,16 +1,17 @@
 package com.youle.managerUi;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 
 /**
  * Created by zhaofuchao on 13-5-27.
  */
-public class ForgotPsdActivity extends Activity implements View.OnClickListener{
+public class ForgotPsdActivity extends StatActivity implements View.OnClickListener{
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

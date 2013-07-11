@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sys_set_sc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
-    android:orientation="vertical" >
-	<include layout="@layout/twobtn_header" />
-	
-	<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:background="@color/main_bg" >
+
     <LinearLayout
         style="@style/horizontal_stretch"
         android:orientation="vertical" >
-        <TextView
+
+        <!--
+             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12.0dip"
@@ -123,6 +120,7 @@
                     android:textSize="16.0sp" />
             </LinearLayout>
         </LinearLayout>
+        -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -180,6 +178,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/sysset_view_pass"
                 android:layout_width="fill_parent"
                 android:layout_height="1.0px"
                 android:background="@drawable/shape_line" />
@@ -217,6 +216,7 @@
                     android:textColor="@color/set_link"
                     android:textSize="16.0sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1.0px"
@@ -230,6 +230,7 @@
                 android:orientation="horizontal" >
 
                 <TextView
+                    android:id="@+id/sysset_tvShop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
@@ -255,6 +256,7 @@
                     android:textColor="@color/set_link"
                     android:textSize="16.0sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1.0px"
@@ -268,6 +270,7 @@
                 android:orientation="horizontal" >
 
                 <TextView
+                    android:id="@+id/sysset_tvTaxi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
@@ -351,6 +354,7 @@
                 android:background="@drawable/shape_line" />
 
             <LinearLayout
+                android:id="@+id/sysset_clearCache"
                 android:layout_width="fill_parent"
                 android:layout_height="50.0dip"
                 android:gravity="center_vertical"
@@ -440,4 +444,3 @@
     </LinearLayout>
 
 </ScrollView>
-</LinearLayout>

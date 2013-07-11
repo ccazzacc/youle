@@ -1,36 +1,34 @@
 package com.youle.managerData.info;
 
 public class CarMainInfo {
-	private String avaUrl;
+	private String logoUrl;
 	private String name;
-	private String num;
-	public String getAvaUrl() {
-		return avaUrl;
+	private String totalPosts;
+	private String forumId;
+	private String radioId;
+	public CarMainInfo(String logoUrl, String name, String totalPosts,
+			String forumId, String radioId) {
+		super();
+		this.logoUrl = logoUrl;
+		this.name = name;
+		this.totalPosts = totalPosts;
+		this.forumId = forumId;
+		this.radioId = radioId;
 	}
-	public void setAvaUrl(String avaUrl) {
-		this.avaUrl = avaUrl;
+	public String getLogoUrl() {
+		return logoUrl;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public String getTotalPosts() {
+		return totalPosts;
 	}
-	public String getNum() {
-		return num;
+	public String getForumId() {
+		return forumId;
 	}
-	public void setNum(String num) {
-		this.num = num;
-	}
-	public CarMainInfo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public CarMainInfo(String avaUrl, String name, String num) {
-		super();
-		this.avaUrl = avaUrl;
-		this.name = name;
-		this.num = num;
+	public String getRadioId() {
+		return radioId;
 	}
 	
 }

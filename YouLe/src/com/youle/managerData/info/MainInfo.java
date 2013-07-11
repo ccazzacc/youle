@@ -6,8 +6,9 @@ import com.amap.api.maps.model.LatLng;
 public class MainInfo{
 	private String trackId;
 	private String userId;
+    private String username;
 	private String avaUrl;
-	private int created;
+	private String created;
 	private String text;
 	private int mark;
 	private String audUrl;
@@ -19,6 +20,7 @@ public class MainInfo{
 	private int flags;
 	private int width;
 	private int height;
+	private int uType;
 //	private double lat;
 //	private double lng;
 //	private String avaUrl;
@@ -34,10 +36,13 @@ public class MainInfo{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public int getCreated() {
+    public String getUserName(){
+        return username;
+    }
+	public String getCreated() {
 		return created;
 	}
-	public void setCreated(int created) {
+	public void setCreated(String created) {
 		this.created = created;
 	}
 	public String getText() {
@@ -113,13 +118,27 @@ public class MainInfo{
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	public MainInfo(String trackId, String userId, String avaUrl,
-			int created, String text, int mark, String audUrl, int audTime,
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public int getUtype() {
+		return uType;
+	}
+	public void setUtype(int uType) {
+		this.uType = uType;
+	}
+	public MainInfo(String trackId, String userId, String username ,String avaUrl,
+			String created, String text, int mark, String audUrl, int audTime,
 			String imgUrl, String orImgUrl, LatLng latLng, String place,
-			int flags, int width, int height) {
+			int flags, int width, int height,int uType) {
 		super();
 		this.trackId = trackId;
 		this.userId = userId;
+        this.username=username;
 		this.avaUrl = avaUrl;
 		this.created = created;
 		this.text = text;
@@ -133,6 +152,7 @@ public class MainInfo{
 		this.flags = flags;
 		this.width = width;
 		this.height = height;
+		this.uType = uType;
 	}
 	public MainInfo() {
 		super();

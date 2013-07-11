@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" android:id="@+id/sysmsg_item_accept"
+            android:visibility="visible" android:layout_marginRight="50dp" android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp">
+        <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/sysmsg_item2_accav" android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp" android:background="@drawable/avatars"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/left_message"
+                android:layout_alignTop="@+id/sysmsg_item2_accav" android:layout_toRightOf="@+id/sysmsg_item2_accav"
+                android:layout_marginTop="10dp" android:id="@+id/relativeLayout">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_item2_acctxt"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                    android:textSize="20sp" android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="20dp"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_item2_accimg" android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/sysmsg_item2_accDate"
+                android:layout_below="@+id/relativeLayout" android:layout_alignLeft="@+id/relativeLayout"
+                android:layout_marginLeft="40dp" android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+            android:id="@+id/sysmsg_item_send" android:layout_marginRight="5dp" android:layout_marginTop="15dp"
+            android:layout_marginLeft="50dp" android:visibility="visible">
+
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/right_message"
+                android:id="@+id/relativeLayout2" android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/sysmsg_item2_sendtxt"
+                      android:textColor="@color/black" android:textSize="20sp"
+                      android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+                      android:layout_marginLeft="10dp" android:layout_marginTop="15dp" android:layout_marginBottom="15dp"/>
+            <LinearLayout
+                    android:id="@+id/sysmsg_item2_sendaud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/sound_play_bg"
+                    android:visibility="visible"
+                    android:layout_centerVertical="true" android:layout_centerHorizontal="true">
+
+                <ImageView
+                        android:id="@+id/msg_iv_sAnim"
+                        style="@style/wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:layout_marginLeft="8dp"
+                        />
+
+                <View
+                        android:layout_width="12.0dip"
+                        android:layout_height="1dip"
+                        android:layout_weight="1"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ne"
+                        android:id="@+id/sysmsg_item2_aud_time" android:layout_marginRight="8dp" android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:id="@+id/sysmsg_item2_sendimg"
+                       android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/sysmsg_item2_sendDate" android:layout_below="@+id/relativeLayout2"
+                android:layout_alignParentRight="true" android:layout_marginRight="80dp"
+                android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+</RelativeLayout>

@@ -2,16 +2,20 @@
 <resources>
 
     <!-- A -->
-    <string name="app_name">有乐</string>
-    <string name="account_set">帐号设置</string>
-    <string name="ava">头像</string>
-    <string name="age">年龄</string>
-    <string name="about">关于听车</string>
+    <string name="app_name">新生活</string>
+    <string name="account_set">账号设置</string>
+    <string name="ava">头像:</string>
+    <string name="age">年龄:</string>
+    <string name="about">关于新生活</string>
     <string name="address">地址：</string>
     <string name="apply_car">申请出租车用户</string>
     <string name="apply_shop">申请商户</string>
     <string name="apply_carUser">申请成为出租车用户</string>
     <string name="apply_shopUser">申请成为商户</string>
+    <string name="already_shop">您已成为商户</string>
+    <string name="already_taxi">您已成为出租车用户</string>
+    <string name="accident">事故</string>
+    <string name="apply_success">申请已提交!</string>
     <!-- B -->
     <string name="back">返回</string>
     <!-- C -->
@@ -38,26 +42,38 @@
     <string name="coupon">附近优惠券</string>
     <string name="coupon_me">我的优惠券</string>
 	<string name="coupon_detail">优惠券详情</string>
-    <string name="coupon_use">该优惠劵可以正常使用</string>
-    <string name="coupon_past">该优惠劵已经过期</string>
-    <string name="coupon_used">该优惠劵已被使用</string>
+    <string name="coupon_use">优惠劵可以使用,确认使用？</string>
+    <string name="coupon_past">优惠劵已经过期</string>
+    <string name="coupon_used">优惠劵已使用</string>
     <string name="clear_cache">清除缓存</string>
-    <string name = "camera">相机</string>
-    <string name="car_friend">车友圈子</string>
+    <string name = "camera">拍照</string>
+    <string name="car_friend">车友圈</string>
     <string name="commit_apply">提交申请</string>
     <string name="carNum">车牌号：</string>
+    <string name="consume">消费记录</string>
+    <string name="clear_ok">清除成功！</string>
+    <string name="crop_save_text" msgid="8140440041190264400">"保存"</string>
+    <string name="crop_rotate_text">旋转</string>
+    <string name="crop_discard_text" msgid="5303657888280340603">"舍弃"</string>
+    <string name="chose_login">选择登录方式</string>
     <!-- D -->
+    <string name="driverName">司机姓名：</string>
+    <string name="danger">危险</string>
+    <string name="distance">%1$s米</string>
     <!-- E -->
     <string name="email">Email</string>
     <string name="error_userName_short">用户名不少于2位</string>
     <string name="error_pw_short">密码不少于6位</string>
+    <string name="error_samePw">密码重复</string>
     <string name="error_email_duplicated">邮箱重复</string>
     <string name="error_name_duplicated">用户名重复</string>
+    <string name="expire_at">截止期：%1$s</string>
     <!-- F -->
     <string name="function_set">功能设置</string>
     <string name="forgot_password">忘记密码</string>
+    <string name="fix_ok">设置成功！</string>
     <!-- G -->
-    <string name = "gallery">相册</string>
+    <string name = "gallery">从相册选取</string>
     <!-- H -->
     <string name="home">主页</string>
     <!-- I -->
@@ -68,28 +84,41 @@
     <string name="im_notos">相片</string>
     <string name="im_shop">我是商家</string>
     <string name="info">堵车，不是一个人的事情</string>
+    <string name="inf">信息:</string>
+    <string name="is_img">[图片]</string>
+    <string name="is_aud">[声音]</string>
+    <string name="image_save">图片保存到 "sdcard/DCIM/Camera/"</string>
     <!-- J -->
     <!-- K -->
     <!-- L -->
     <string name="login">登录</string>
     <string name="locationing">定位中...</string>
-    <string name="logout">注销</string>
+    <string name="logout">退出登录</string>
     <string name="linkMan">联系人：</string>
+    <string name = "level">等级：%1$s</string>
     <!-- M -->
     <string name="menu_settings">Settings</string>
     <string name="message">消息</string>
     <string name="me">我的主页</string>
     <string name="me_info">个人信息设置</string>
+    <string name="monitor">电子眼</string>
     <!-- N -->
     <string name="no_used">无法对焦请用后置摄像头</string>
     <string name="name">昵称</string>
     <string name="noThing">没有内容</string>
+    <string name="new_life">新生活</string>
+    <string name="net_no">当前网络不稳定，请稍后再试</string>
+    <string name="no_info">你还没有分享路况信息，赶快尝试一下吧！</string>
+    <string name="no_coupon">暂无可用优惠券</string>
     <!-- O -->
     <string name="oauth_fail">邮箱或密码不正确！</string>
     <string name="open_sound">开启提示音</string>
     <string name="other">其他</string>
+    <string name="out_date">过期时间：</string>
+    <string name="other_login"><u>其他登录</u></string>
     <!-- P -->
-    <string name="please_wait">请稍后...</string>
+    <string name="please_wait">请稍候...</string>
+    <string name="please_rest">休息一下吧！</string>
     <string name="press_again">再按一次退出程序</string>
     <string name="please_check_net">请检查网络连接</string>
     <string name="pw_fix">密码修改</string>
@@ -101,6 +130,11 @@
     <string name="phoneNum">手机号：</string>
     <string name="publish">发帖</string>
     <string name="press_talk">按住说话</string>
+    <string name="police">警察</string>
+    <string name="put_road">发布路况</string>
+    <string name = "points">经验值：%1$s</string>
+    <string name="please_choice">请选择照片来源</string>
+    <string name="please_com">请完善信息</string>
     <!-- Q -->
     <!-- R -->
     <string name="register">注册</string>
@@ -111,33 +145,43 @@
     <string name="recorde_short">录音时间过短！</string>
     <string name="request_fail">请求失败</string>
     <string name="reply">回复</string>
+    <string name="roads">修路</string>
+    <string name="radio">电台用户</string>
     <!-- S -->
     <string name="shop">我是商家</string>
     <string name="set">设置</string>
     <string name="share">分享</string>
-    <string name="set_account">设置帐号密码</string>
+    <string name="set_account">设置账号密码</string>
     <string name="set_info">设置基本资料</string>
-    <string name="sex">性别</string>
+    <string name="sex">性别：</string>
     <string name="serviceNum">营运号：</string>
     <string name="service_company">所属服务公司：</string>
     <string name="shop_name">商户名称：</string>
+    <string name="shop_num">营业执照号：</string>
+    <string name="shop_pho">店铺照片：</string>
+    <string name="scan">二维码扫描</string>
+    <string name = "save">保存到相册</string>
     <!-- T -->
     <string name="today">今天</string>
     <string name="thisMonth">本月</string>
     <string name="total">全部</string>
+    <string name="traffic">堵车</string>
+    <string name="taxi">出租车</string>
     <!-- U -->
     <string name="use">使用</string>
+    <string name="user_name">姓名:</string>
     <!-- V -->
+    <string name="version">V %1$s</string>
     <!-- W -->
     <string name="weibo_sina">新浪微博</string>
     <string name="weibo_tent">腾讯微博</string>
     <!-- X -->
-    <string name="xlistview_header_hint_normal">Pull down to refresh</string>
-    <string name="xlistview_header_hint_ready">Release to refresh</string>
-    <string name="xlistview_header_hint_loading">Loading...</string>
-    <string name="xlistview_header_last_time">Last update: </string>
-    <string name="xlistview_footer_hint_normal">More...</string>
-    <string name="xlistview_footer_hint_ready">Release to see more</string>
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <!-- Y -->
     <!-- Z -->
 

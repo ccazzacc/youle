@@ -1,7 +1,9 @@
 package com.youle.managerData.SharedPref;
 
 
+import com.youle.managerData.info.MeInfo;
 import com.youle.managerData.info.Token;
+import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 
 import android.content.Context;
@@ -10,11 +12,6 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 public class YLSession {
-	private static final String ACCESS_TOKEN = "Access_token";
-	private static final String EXPIRES_IN = "Expires_in";
-	private static final String REFRESH_TOKEN = "Refresh_token";
-	private static final String USER_ID = "User_id";
-	private static final String CUR_TIME = "Cur_time";
 	private SharedPreferences sharedPref;
 	private Editor editor;
 	private static final String SHARED = "Travel_Preferences";
@@ -26,36 +23,71 @@ public class YLSession {
 	}
 
 	public void storeToken(Token token) {
-		editor.putString(ACCESS_TOKEN, token.getAccess_token());
-		editor.putLong(EXPIRES_IN, token.getExpires_in());
-		editor.putString(REFRESH_TOKEN, token.getRefresh_token());
-		editor.putString(USER_ID, token.getUser_id());
-		editor.putInt(CUR_TIME, token.getCurrent_time());
-//		new UserIdShared(context).isStore(token.getUser_id());
+		editor.putString(GlobalData.ACCESS_TOKEN, token.getAccess_token());
+		editor.putLong(GlobalData.EXPIRES_IN, token.getExpires_in());
+		editor.putString(GlobalData.REFRESH_TOKEN, token.getRefresh_token());
 		editor.commit();
 	}
-	
-	
-	
+	public void storeMe(MeInfo info)
+	{
+		editor.putString(GlobalData.USER_ID, info.getUserId());
+		editor.putInt(GlobalData.TYPE, info.getType());
+		editor.putString(GlobalData.AVATAR_URL, info.getAvaUrl());
+		editor.commit();
+	}
+	public void storeMe(String uId,int type,String avaUrl)
+	{
+		editor.putString(GlobalData.USER_ID, uId);
+		editor.putInt(GlobalData.TYPE, type);
+		editor.putString(GlobalData.AVATAR_URL, avaUrl);
+		editor.commit();
+	}
+	public MeInfo getMe()
+	{
+		return new MeInfo(sharedPref.getString(GlobalData.USER_NAME, null), 
+				sharedPref.getString(GlobalData.USER_ID, null), 
+				sharedPref.getInt(GlobalData.TYPE, 0), 
+				sharedPref.getInt(GlobalData.GENDER, 0), 
+				sharedPref.getString(GlobalData.AVATAR_URL, null), 
+				"", "");
+	}
+	public String getUserId()
+	{
+		return sharedPref.getString(GlobalData.USER_ID, null);
+	}
 	public void resetToken() {
-		editor.putString(ACCESS_TOKEN, null);
-		editor.putLong(EXPIRES_IN, 0);
-		editor.putString(REFRESH_TOKEN, null);
-		editor.putLong(USER_ID, 0);
-		editor.putInt(CUR_TIME, 0);
+		editor.putString(GlobalData.ACCESS_TOKEN, null);
+		editor.putLong(GlobalData.EXPIRES_IN, 0);
+		editor.putString(GlobalData.REFRESH_TOKEN, null);
+		editor.putString(GlobalData.USER_ID, null);
+		editor.putInt(GlobalData.TYPE, 0);
+		editor.putString(GlobalData.AVATAR_URL, null);
+		editor.putBoolean("shop", false);
+		editor.putBoolean("taxi", false);
 		editor.commit();
 	}
-
+	public void storeShop()
+	{
+		editor.putBoolean("shop", true);
+		editor.commit();
+	}
+	public void storeTaxi()
+	{
+		editor.putBoolean("taxi", true);
+		editor.commit();
+	}
+	public boolean getShopTaxi()
+	{
+		return (sharedPref.getBoolean("shop", false)||sharedPref.getBoolean("taxi", false));
+	}
 	public Token getToken() {
-		String access_token = sharedPref.getString(ACCESS_TOKEN, null);
-		long expires_in = sharedPref.getLong(EXPIRES_IN, 0);
-		String refresh_token = sharedPref.getString(REFRESH_TOKEN, null);
-		String user_id = sharedPref.getString(USER_ID, null);
-		int cur_time = sharedPref.getInt(CUR_TIME, 0);
-		if (!OtherUtil.isNullOrEmpty(access_token) && !OtherUtil.isNullOrEmpty(refresh_token)
-				&& !OtherUtil.isNullOrEmpty(user_id) && cur_time != 0)
-			return new Token(access_token, expires_in, refresh_token, user_id,cur_time);
+		String access_token = sharedPref.getString(GlobalData.ACCESS_TOKEN, null);
+		long expires_in = sharedPref.getLong(GlobalData.EXPIRES_IN, 0);
+		String refresh_token = sharedPref.getString(GlobalData.REFRESH_TOKEN, null);
+		if (!OtherUtil.isNullOrEmpty(access_token) && !OtherUtil.isNullOrEmpty(refresh_token))
+			return new Token(access_token, expires_in, refresh_token);
 		else
 			return null;
 	}
+	
 }

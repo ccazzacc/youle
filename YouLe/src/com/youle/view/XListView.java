@@ -9,7 +9,6 @@
 package com.youle.view;
 
 import com.youle.R;
-import com.youle.managerUi.SlidingActivity;
 
 import android.content.Context;
 import android.util.AttributeSet;

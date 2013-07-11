@@ -23,7 +23,7 @@ public class CircleProgress extends View{
 	
 	 private  static final int DEFAULT_MAX_VALUE = 100;					// 默认进度条最大值
 	 private  static final int DEFAULT_PAINT_WIDTH = 10;				// 默认画笔宽度
-	 private  static final int DEFAULT_PAINT_COLOR = 0xffffcc00;		// 默认画笔颜色
+	 private  static final int DEFAULT_PAINT_COLOR = 0xff3571b7;		// 默认画笔颜色
 	 private  static final boolean DEFAULT_FILL_MODE = true;			// 默认填充模式
 	 private  static final int DEFAULT_INSIDE_VALUE = 0;				// 默认缩进距离
 	
@@ -90,9 +90,13 @@ public class CircleProgress extends View{
 	    mSubCurProgress = 0;					
 		 
 	}
-	 
-	 
-	@Override
+
+    @Override
+    public void setOnLongClickListener(OnLongClickListener l) {
+        super.setOnLongClickListener(l);
+    }
+
+    @Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {		// 设置视图大小
 		// TODO Auto-generated method stub
 	//	super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -134,11 +138,11 @@ public class CircleProgress extends View{
 		
 		
 		float subRate = (float)mSubCurProgress / mMaxProgress;
-		float subSweep = 360 * subRate;
+		float subSweep = 350 * subRate;
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos, subSweep, mCircleAttribute.mBRoundPaintsFill, mCircleAttribute.mSubPaint);
 		
 		float rate = (float)mMainCurProgress / mMaxProgress;
-		float sweep = 360 * rate;
+		float sweep = 350 * rate;
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos, sweep, mCircleAttribute.mBRoundPaintsFill, mCircleAttribute.mMainPaints);
 	
 	

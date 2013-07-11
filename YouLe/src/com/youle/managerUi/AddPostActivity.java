@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.ExifInterface;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -39,29 +39,32 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
 import com.youle.view.PicPopu;
 
-public class AddPostActivity extends Activity implements OnClickListener,
+public class AddPostActivity extends StatActivity implements OnClickListener,
 		OnLongClickListener, OnTouchListener {
 	private boolean isPub = false, isRecording, isClick;
-	private ImageView ivPic, ivDel, mImageVol, ivSoundDel;
+	private ImageView ivPic;
 	private PicPopu pop;
 	private Bitmap photo;
 	private File tempFile = OtherUtil.fileCreate("comment.jpg", false);
 	private CheckBox cbText;
 	private RelativeLayout rlSound;
 	private TextView tvSound;
-	private Button btnRecord;
+	private Button btnRecord,btnPlay;
 	private File fSound;
 	private MediaRecorder mr;
+	private MediaPlayer mediaPlay;
 	private AudioManager audioService;
 	private int audioVolume, mIntentType, mEvenType;
 	private String mIntentString;
 	private long mRecordTime, mRecordTimeEnd;
+	private int i=1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +81,11 @@ public class AddPostActivity extends Activity implements OnClickListener,
 		} else
 			isPub = false;
 		Button btnBack = (Button) findViewById(R.id.twobtn_header_left);
-		btnBack.setBackgroundResource(R.drawable.bar_icon_back);
+		btnBack.setBackgroundResource(R.drawable.bar_button_close_normal);
 		btnBack.setOnClickListener(this);
 		btnBack.setVisibility(View.VISIBLE);
 		Button btnPub = (Button) findViewById(R.id.twobtn_header_right);
-		btnPub.setText(R.string.publish);
-		btnPub.setBackgroundResource(R.drawable.bar_btn_nothing);
+		btnPub.setBackgroundResource(R.drawable.bar_button_done_normal);
 		btnPub.setOnClickListener(this);
 		btnPub.setVisibility(View.VISIBLE);
 		TextView tvTitle = (TextView) findViewById(R.id.twobtn_header_tv);
@@ -98,7 +100,11 @@ public class AddPostActivity extends Activity implements OnClickListener,
 		rlSound = (RelativeLayout) findViewById(R.id.addpost_rlSound);
 		tvSound = (TextView) findViewById(R.id.addpost_tvSound);
 		cbText = (CheckBox) findViewById(R.id.addpost_cbSound);
-		mImageVol = (ImageView) findViewById(R.id.addpost_imageVol);
+		btnPlay = (Button)findViewById(R.id.addpost_btn_play);
+		btnPlay.setOnClickListener(this);
+		btnRecord = (Button) findViewById(R.id.addpost_btn_record);
+		btnRecord.setOnLongClickListener(this);
+		btnRecord.setOnTouchListener(this);
 		cbText.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -106,21 +112,19 @@ public class AddPostActivity extends Activity implements OnClickListener,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
+					if(null != fSound && fSound.exists())
+						fSound.delete();
 					tvSound.setVisibility(View.VISIBLE);
 					rlSound.setVisibility(View.VISIBLE);
+					btnRecord.setVisibility(View.VISIBLE);
+					btnPlay.setVisibility(View.GONE);
 				} else
 					rlSound.setVisibility(View.GONE);
 			}
 		});
 		ivPic = (ImageView) findViewById(R.id.addpost_ivPhoto);
 		ivPic.setOnClickListener(this);
-		ivDel = (ImageView) findViewById(R.id.addpost_ivDel);
-		ivDel.setOnClickListener(this);
-		btnRecord = (Button) findViewById(R.id.addpost_btn_record);
-		btnRecord.setOnLongClickListener(this);
-		btnRecord.setOnTouchListener(this);
-		ivSoundDel = (ImageView) findViewById(R.id.addpost_ivSoundDel);
-		ivSoundDel.setOnClickListener(this);
+		
 	}
 
 	@Override
@@ -138,32 +142,85 @@ public class AddPostActivity extends Activity implements OnClickListener,
 					.hideSoftInputFromWindow(AddPostActivity.this
 							.getCurrentFocus().getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
-			if (null == photo) {
-				pop = new PicPopu(AddPostActivity.this, itemOnClick);
-				pop.showAtLocation(
-						AddPostActivity.this.findViewById(R.id.addpost_act),
-						Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-			}
+			pop = new PicPopu(AddPostActivity.this, itemOnClick);
+			pop.showAtLocation(
+					AddPostActivity.this.findViewById(R.id.addpost_act),
+					Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 			break;
-		case R.id.addpost_ivDel:
-			if (photo != null) {
-				photo = null;
-			}
-			ivPic.setImageBitmap(null);
-			ivPic.setBackgroundResource(R.drawable.avatars);
-			ivDel.setVisibility(View.GONE);
-			break;
-		case R.id.addpost_ivSoundDel:
-			if (null != fSound && fSound.exists()) {
-				fSound.delete();
-				isRecording = false;
-				ivSoundDel.setVisibility(View.GONE);
-				tvSound.setVisibility(View.VISIBLE);
+		case R.id.addpost_btn_play:
+			if (mediaPlay == null)
+				mediaPlay = new MediaPlayer();
+			if ((mediaPlay != null && mediaPlay.isPlaying()) == true)
+				i++;
+			if(i%2 == 1)
+			{
+				btnPlay.setBackgroundResource(R.drawable.car_play);
+				try {
+					mediaPlay.reset();
+					mediaPlay.setDataSource(fSound.getAbsolutePath());
+					mediaPlay.prepare();
+					mediaPlay.start();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				new Thread() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						super.run();
+
+						Message msg = new Message();
+						try {
+							while ((mediaPlay != null && mediaPlay
+									.isPlaying()) == true) {
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch
+							// block
+							e.printStackTrace();
+						}
+						msg.what = 1;
+						handler.sendMessage(msg);
+					}
+
+				}.start();
+			}else  
+			{
+				if ((mediaPlay != null && mediaPlay.isPlaying()) == true)
+				{
+					mediaPlay.stop();
+					mediaPlay = null;
+				}
+				i = 1;
+				btnPlay.setBackgroundResource(R.drawable.car_stop);
 			}
 			break;
 		}
 	}
+	private Handler handler = new Handler() {
 
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			if (msg.what == 1) {
+				i=1;
+				btnPlay.setBackgroundResource(R.drawable.car_stop);
+			}
+		}
+
+	};
 	private OnClickListener itemOnClick = new OnClickListener() {
 
 		public void onClick(View v) {
@@ -252,26 +309,26 @@ public class AddPostActivity extends Activity implements OnClickListener,
 				photo = ThumbnailUtils.extractThumbnail(
 						BitmapFactory.decodeStream(fis, null, opts), 96, 96,
 						ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-				try {
-					if (!OtherUtil.isNullOrEmpty(path)) {
-						ExifInterface exif = new ExifInterface(path);
+				if (!OtherUtil.isNullOrEmpty(path)) {
+					ExifInterface exif;
+					try {
+						exif = new ExifInterface(path);
 						int picWidth = Integer.valueOf(exif
 								.getAttribute(ExifInterface.TAG_IMAGE_WIDTH));
 						int picHeight = Integer.valueOf(exif
 								.getAttribute(ExifInterface.TAG_IMAGE_LENGTH));
-						if (picWidth < 640 && picHeight < 400) {
+						if (picWidth < 320 && picHeight < 320) {
 							ToastUtil.showToast(AddPostActivity.this, "");
 							photo = null;
 						} else {
 							tempPath = path;
 							ivPic.setImageBitmap(photo);
-							ivDel.setVisibility(View.VISIBLE);
 						}
-					} else
-						ivDel.setVisibility(View.GONE);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -317,7 +374,7 @@ public class AddPostActivity extends Activity implements OnClickListener,
 		}
 		pauseMusic();
 		mr.start();
-		new GetVolume().start();
+//		new GetVolume().start();
 	}
 
 	private void pauseMusic() {
@@ -326,53 +383,30 @@ public class AddPostActivity extends Activity implements OnClickListener,
 		audioService.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
 	}
 
-	private class GetVolume extends Thread {
-		public GetVolume() {
-			isRecording = true;
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			// 记录时长
-			mRecordTime = System.currentTimeMillis();
-			while (isRecording) {
-				int vuSize = 0;
-				if (mr != null) {
-					vuSize = 100 * mr.getMaxAmplitude() / 32768;
-					handler.sendEmptyMessage(vuSize);
-					try {
-						sleep(150);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
-
-	Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			int vol = msg.what;
-			Log.i("test", "vol: " + vol);
-			if (vol < 5) {
-				mImageVol.setBackgroundResource(R.drawable.vol1);
-			} else if (vol > 5 && vol < 20) {
-				mImageVol.setBackgroundResource(R.drawable.vol2);
-			} else if (vol > 20 && vol < 36) {
-				mImageVol.setBackgroundResource(R.drawable.vol3);
-			} else if (vol > 36 && vol < 55) {
-				mImageVol.setBackgroundResource(R.drawable.vol4);
-			} else if (vol > 55 && vol < 70) {
-				mImageVol.setBackgroundResource(R.drawable.vol5);
-			} else if (vol > 70) {
-				mImageVol.setBackgroundResource(R.drawable.vol6);
-			}
-		}
-	};
+//	private class GetVolume extends Thread {
+//		public GetVolume() {
+//			isRecording = true;
+//		}
+//
+//		@Override
+//		public void run() {
+//			super.run();
+//			// 记录时长
+//			mRecordTime = System.currentTimeMillis();
+//			while (isRecording) {
+//				int vuSize = 0;
+//				if (mr != null) {
+//					vuSize = 100 * mr.getMaxAmplitude() / 32768;
+//					try {
+//						sleep(150);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -383,7 +417,6 @@ public class AddPostActivity extends Activity implements OnClickListener,
 				isClick = false;
 				mRecordTimeEnd = System.currentTimeMillis();
 				if (mr != null) {
-					ivSoundDel.setVisibility(View.VISIBLE);
 					// 恢复音量
 					audioService.setStreamVolume(AudioManager.STREAM_MUSIC,
 							audioVolume, 0);
@@ -393,7 +426,8 @@ public class AddPostActivity extends Activity implements OnClickListener,
 					if ((mRecordTimeEnd - mRecordTime) > 1000) {
 						mIntentType = 0;
 						mIntentString = fSound.getAbsolutePath();
-
+						btnRecord.setVisibility(View.GONE);
+						btnPlay.setVisibility(View.VISIBLE);
 					} else {
 						isRecording = false;
 						ToastUtil.show(AddPostActivity.this,
@@ -405,4 +439,13 @@ public class AddPostActivity extends Activity implements OnClickListener,
 
 		return false;
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if (null != photo)
+			photo = null;
+	}
+
 }

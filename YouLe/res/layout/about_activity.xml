@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg" >
+    android:background="@drawable/hy_bg" >
 
     <include layout="@layout/twobtn_header" />
 
@@ -13,42 +13,45 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:src="@drawable/ic_launcher" />
-    
+        android:src="@drawable/about_icon" />
+
     <TextView
-        android:id="@+id/tvInfo"
+        android:id="@+id/about_tvVer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="@string/info"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tvVer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvInfo"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textColor="@color/white"
         android:text="V1.0.0"
         />
-
+	<TextView
+        android:id="@+id/about_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about_tvVer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/line_button"
+        android:text="http://radiotrip.com"
+        android:autoLink="web" 
+        android:gravity="center"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/tvNull"
+        android:textColor="@color/white"
          android:text="有乐版权所有" />
     <TextView
         android:id="@+id/tvNull"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="18dp"/>
+        android:layout_marginBottom="2dp"/>
 
 </RelativeLayout>

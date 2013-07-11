@@ -1,23 +1,29 @@
 package com.youle.managerUi;
 
-import com.youle.R;
-
-import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class AboutActivity extends Activity{
+import com.baidu.mobstat.StatActivity;
+import com.youle.R;
+
+public class AboutActivity extends StatActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_activity);
+		TextView txtVer = (TextView) findViewById(R.id.about_tvVer);
+		String ver = getResources().getString(R.string.version);
+		txtVer.setText(String.format(ver, getAppVersionName()));
 		Button btnBack = (Button) findViewById(R.id.twobtn_header_left);
-		btnBack.setBackgroundResource(R.drawable.bar_icon_back);
+		btnBack.setBackgroundResource(R.drawable.bar_button_back_normal);
 		btnBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -30,5 +36,18 @@ public class AboutActivity extends Activity{
 		TextView tvTitle = (TextView) findViewById(R.id.twobtn_header_tv);
 		tvTitle.setText(R.string.about);
 	}
-	
+	private String getAppVersionName() {
+		String versionName = "";
+		try {
+			PackageManager pm = getPackageManager();
+			PackageInfo pi = pm.getPackageInfo(getPackageName(), 0);
+			versionName = pi.versionName;
+			if (versionName == null || versionName.length() <= 0) {
+				return "";
+			}
+		} catch (Exception e) {
+			Log.e("VersionInfo", "Exception", e);
+		}
+		return versionName;
+	}
 }

@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:orientation="vertical" 
-         android:background="@color/grgray"
-        >
+         android:background="@drawable/bar_list"
+         android:id="@+id/city_item_layout">
 
         <TextView
             android:id="@+id/city_item_tit"
@@ -20,7 +20,7 @@
             android:layout_gravity="left|center_vertical"
             android:layout_margin="8dp"
             android:textColor="@color/black"
-            android:textSize="25dp" />
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:layout_margin="8dp"
-        android:textSize="18dp" 
+        android:textSize="22sp"
         android:textColor="@color/black"/>
 
 </LinearLayout>

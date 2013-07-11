@@ -1,30 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:orientation="vertical">
+ <!--   <RelativeLayout
+            android:id="@+id/main_tab_group"
+            android:layout_width="fill_parent"
+            android:layout_height="56dip"
+            android:layout_gravity="left|bottom"
+            android:background="@drawable/top_bar_bg"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true" android:layout_alignParentLeft="true">
 
+        <Button
+                android:id="@+id/center_tab_menu"
+                style="@style/wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bar_button_navigation_normal"/>
 
-        <fragment
+        <Button
+                android:id="@+id/center_tab_quan"
+                style="@style/wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bar_button_list_normal"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电台之音"
+                android:id="@+id/map_title" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                android:textSize="20dp"/>
+    </RelativeLayout>-->
+
+    <fragment
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.amap.api.maps.SupportMapFragment" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|left"
-            android:background="#24ffD000"
-            android:orientation="vertical"
-            android:padding="5dp" >
-
-            <Button
-                android:id="@+id/map_cBtn_list"
+            class="com.amap.api.maps.SupportMapFragment"
+            android:layout_alignParentLeft="true" android:layout_below="@+id/include"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true">
+        <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bar_icon_list" />
-        </LinearLayout>
+                android:id="@+id/map_button_record" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                android:background="@drawable/bar_button_record_normal"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/map_button_near" android:layout_centerVertical="true" android:layout_toRightOf="@+id/map_button_record"
+                android:background="@drawable/bar_button_near_coupons_normal" android:layout_marginLeft="15dp"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/map_button_car" android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/map_button_record" android:layout_marginRight="15dp"
+                android:background="@drawable/chezaimoshi"/>
+    </RelativeLayout>
 
-</FrameLayout>
+
+</RelativeLayout>

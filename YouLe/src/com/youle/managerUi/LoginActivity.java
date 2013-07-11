@@ -1,6 +1,15 @@
 package com.youle.managerUi;
 
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Map.Entry;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,27 +22,24 @@ import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.sharesdk.framework.AbstractWeibo;
 import cn.sharesdk.framework.WeiboActionListener;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.weibo.TencentWeibo;
+
+import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.SharedPref.YLSession;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-public class LoginActivity extends Activity {
+public class LoginActivity extends StatActivity {
     public WeiboActionListener weiboListener = new WeiboActionListener() {
 
         @Override
@@ -112,13 +118,15 @@ public class LoginActivity extends Activity {
                     mWeibo.setWeiboActionListener(weiboListener);
                     mWeibo.showUser(null);
                     break;
-                case R.id.twobtn_header_right:
+                case R.id.login_btn_login:
                     submit();
                     break;
                 case R.id.text_reg:
-                    startActivity(new Intent(LoginActivity.this,
-                            RegisterActivity.class));
-                    finish();
+                	Intent its = new Intent(LoginActivity.this,
+                            RegisterActivity.class);
+                	if(isLogout)
+                		its.putExtra("logout", true);
+                    startActivity(its);
                     break;
                 case R.id.text_forgot_psd:
                     Intent it = new Intent(Intent.ACTION_VIEW);
@@ -127,22 +135,31 @@ public class LoginActivity extends Activity {
                     startActivity(it);
                     finish();
                     break;
+                case R.id.twobtn_header_left:
+                	if(isLogout)
+                		MyApplication.getInstance().exit();
+                	else
+                		LoginActivity.this.finish();
+                	break;
             }
         }
 
     };
+	
     private Button mSinaLogin, mQQLogin, mClose;
     private AbstractWeibo mWeibo;
     private EditText mEditUname, mEditPsd;
     private Button mBtnSub;
     private String mWbName, mWbUid, mWbAvatar;
-
+    private boolean isSns,isLogout;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         AbstractWeibo.initSDK(this);
         initView();
+        MyApplication.getInstance().addActivity(this);
     }
 
     private void initView() {
@@ -153,20 +170,20 @@ public class LoginActivity extends Activity {
         mEditPsd = (EditText) findViewById(R.id.edit_upsd);
         mEditPsd.setOnKeyListener(onkey);
         mEditUname = (EditText) findViewById(R.id.edit_uname);
-        mBtnSub = (Button) findViewById(R.id.twobtn_header_right);
-        mBtnSub.setBackgroundResource(R.drawable.bar_btn_login);
+        mBtnSub = (Button) findViewById(R.id.login_btn_login);
         mBtnSub.setOnClickListener(click);
-        mBtnSub.setVisibility(View.VISIBLE);
+//        mBtnSub.setVisibility(View.VISIBLE);
         Button close = (Button) findViewById(R.id.twobtn_header_left);
         close.setBackgroundResource(R.drawable.bar_button_close_normal);
         close.setVisibility(View.VISIBLE);
+        close.setOnClickListener(click);
         TextView tit = (TextView) findViewById(R.id.twobtn_header_tv);
         tit.setText(getString(R.string.login));
         TextView reg = (TextView) findViewById(R.id.text_reg);
         reg.setOnClickListener(click);
         TextView forgot = (TextView) findViewById(R.id.text_forgot_psd);
         forgot.setOnClickListener(click);
-
+        isLogout = this.getIntent().getBooleanExtra("logout", false);
     }
 
     private void submit() {
@@ -239,11 +256,43 @@ public class LoginActivity extends Activity {
                 mEditUname.setText("");
             } else {
                 // 登录成功
-                startActivity(new Intent(LoginActivity.this,MapActivity.class));
+
+                startActivity(new Intent(LoginActivity.this,SlidActivity.class));
                 finish();
             }
         }
-
     }
+    private Boolean isExit = false;
+	private Boolean hasTask = false;
+	Timer tExit = new Timer();
+	TimerTask task = new TimerTask() {
+
+		@Override
+		public void run() {
+			isExit = false;
+			hasTask = true;
+		}
+	};
+
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if(isLogout)
+			{
+				if (isExit == false) {
+					isExit = true;
+					Toast.makeText(LoginActivity.this, R.string.press_again,
+							Toast.LENGTH_SHORT).show();
+					if (!hasTask) {
+						tExit.schedule(task, 2000);
+					}
+				} else {
+					MyApplication.getInstance().exit();
+				}
+			}else
+				LoginActivity.this.finish();
+		}
+		return true;
+	}
 
 }

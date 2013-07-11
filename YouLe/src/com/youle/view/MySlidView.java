@@ -374,11 +374,11 @@ public class MySlidView extends RelativeLayout {
 		if (menuState == GlobalData.MENU_STATE_CLOSE) {
 			menuState = GlobalData.MENU_STATE_OPEN;
 			// mSlidView.setEnabled(false);
-			System.out.println("菜单将打开");
+//			System.out.println("菜单将打开");
 		} else {
 			menuState = GlobalData.MENU_STATE_CLOSE;
 			// mSlidView.setEnabled(true);
-			System.out.println("菜单将关闭");
+//			System.out.println("菜单将关闭");
 		}
 	}
 

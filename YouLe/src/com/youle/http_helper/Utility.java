@@ -120,10 +120,7 @@ public class Utility {
 
 	public static boolean isSessionValid() {
 		// Log.i("test", "mToken.getExpires_in():" + mToken.getExpires_in());
-		return (hasToken())&&(mToken.getExpires_in() == 0
-				|| ((mToken.getExpires_in() != 0) && (((int) Math.floor(System
-						.currentTimeMillis() / 1000) - mToken.getCurrent_time()) < mToken
-						.getExpires_in())));
+		return hasToken();
 	}
 
 	
@@ -327,9 +324,11 @@ public class Utility {
 			if (method.equals("GET")) {
 				if (params != null)
 					url = url + "?" + encodeUrl(params);
+				Log.i("test", "url:"+url);
 				HttpGet get = new HttpGet(url);
 				request = get;
-			} else if (method.equals("POST")) {
+			}
+			else if (method.equals("POST")) {
 				HttpPost post = new HttpPost(url);
 				byte[] data = null;
 				if(OtherUtil.isNullOrEmpty(filePic) && OtherUtil.isNullOrEmpty(fileAud))
@@ -404,14 +403,14 @@ public class Utility {
 			HttpResponse response = client.execute(request);
 			StatusLine status = response.getStatusLine();
 			int statusCode = status.getStatusCode();
-			Log.i("test", "----statusCode:" + statusCode);
+			Log.i("test", "-------statusCode:" + statusCode);
 			if (method.equals("GET") && statusCode == 400) {
 				return statusCode + "";
 			}
 			if(statusCode == 200)
 			{
 				result = read(response);
-				// Log.i("test", "200 right:" + result);
+//				Log.i("test", "200 right:" + result);
 //				if (TextUtils.isEmpty(result)) {
 //					result = statusCode + "";
 //				}

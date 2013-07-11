@@ -1,42 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res/com.youle"
-    xmlns:miles="http://schemas.android.com/apk/res/com.youle"
     android:id="@+id/rlPhoto"
     style="@style/wrap_content"
-    android:background="#787878" >
+    >
 
     <ImageView
         android:id="@+id/msg_header_ivPhoto"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/im_notos"
-        android:scaleType="centerCrop" />
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/head_bg" />
+    <TextView
+	    android:id="@+id/msg_tv_hUname"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/msg_iv_Head_ava"
+	    android:layout_toRightOf="@+id/msg_iv_Head_buttom"
+	    android:layout_marginTop="4dp"
+	    android:layout_marginLeft="14dp"
+	    android:textColor="@color/me_title"
+	    android:textSize="18sp"
+	    />
+	<ImageView
+	    android:id="@+id/msg_iv_hClass"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/msg_tv_hUname"
+	    android:layout_marginTop="4dp"
+	    android:layout_alignLeft="@+id/msg_tv_hUname"
+	    />
+	<TextView
+	    android:id="@+id/msg_tv_hClass"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/msg_iv_hClass"
+	    android:layout_toRightOf="@+id/msg_iv_hClass"
+	    android:layout_marginLeft="14dp"
+	    android:textColor="@color/me_title"
+	    android:textSize="14sp"
+	    />
 	
-    <ImageView
-        android:id="@+id/msg_header_ivPhotoCover"
-        style="@style/horizontal_stretch"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/feedcell_photo_cover"
-        android:contentDescription="@string/im_notos" />
+	<!-- com.youle.view.CircleProgress  com.youle.view.CircularImage-->
     <ImageView
 	    android:id="@+id/msg_iv_Head_buttom"
-        android:layout_width="82.0dip"
-        android:layout_height="82.0dip"
-        android:layout_marginLeft="36.5dp"
+	    android:layout_width="82.0dip"  
+	    android:layout_height="82.0dip"
+	    android:layout_marginLeft="36.5dp"
         android:layout_marginTop="43dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/avatar_mask_128" />
+	    android:background="@drawable/avatar_mask_128"    
+		/>
 	<com.youle.view.CircularImage
-        android:id="@+id/msg_iv_Head_ava"
-        android:layout_width="76.0dip"
-        android:layout_height="76.0dip"
-        android:layout_alignTop="@+id/msg_iv_Head_buttom"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/avatars" />
-    
+	    android:id="@+id/msg_iv_Head_ava"
+	    android:layout_width="76.0dip"
+	    android:layout_height="76.0dip"
+	    android:layout_marginLeft="39.5dp"
+        android:layout_marginTop="46dp"
+	    android:background="@drawable/avatar_cir" />
+
+	<ImageView
+	    android:id="@+id/msg_iv_hJinyan"
+	    android:layout_width="fill_parent"
+	    android:layout_height="18dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_alignLeft="@+id/msg_iv_hClass"
+	    android:layout_below="@+id/msg_iv_hClass"
+	    android:layout_marginTop="10dp"
+	    android:background="@drawable/jindutiao"/>
+    <TextView
+	    android:id="@+id/msg_tv_hJinyan"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/msg_iv_hClass"
+	    android:layout_below="@+id/msg_iv_hClass"
+	    android:text="经验值:5897"
+	    android:layout_marginTop="8dp"
+	    android:textColor="@color/me_title"
+	    android:textSize="14sp" />
+    <TextView
+	    android:id="@+id/msg_tv_hLevel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@+id/msg_tv_hJinyan"
+	    android:layout_below="@+id/msg_iv_hClass"
+	    android:text="等级:5"
+	    android:layout_marginTop="8dp"
+	    android:layout_marginLeft="8dp"
+	    android:textColor="@color/me_title"
+	    android:textSize="14sp" />
 </RelativeLayout>

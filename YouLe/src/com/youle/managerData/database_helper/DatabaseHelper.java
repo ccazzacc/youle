@@ -27,7 +27,7 @@ public class DatabaseHelper {
     private static final int DB_VERSION = 1;
     //创建一个表
     private static final String DB_CREATE = "CREATE TABLE " + DB_TABLE + " (" + KEY_ID + " INTEGER PRIMARY KEY,title text,"
-            + KEY_NUM + " INTERGER," + KEY_DATA + " TEXT,sender text,date text,qtype INTERGER)";
+            + KEY_NUM + " INTEGER," + KEY_DATA + " TEXT,sender text,date text,qtype INTEGER)";
     // 本地Context对象
     private Context mContext = null;
     // 执行open（）打开数据库时，保存返回的数据库对象

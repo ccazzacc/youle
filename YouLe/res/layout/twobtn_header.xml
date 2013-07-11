@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:layout_width="fill_parent"
         android:layout_height="48dip"
-        android:background="@drawable/home_nav_bg" 
+        android:background="@drawable/top_bar_bg" 
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <Button
             style="@style/twobtn_head_style"
             android:id="@+id/twobtn_header_left"
             android:layout_marginLeft="4dip"
-            android:background="@drawable/bar_button_close_normal"
+            android:background="@drawable/bar_button_back_normal"
             android:visibility="invisible"/>
 		<TextView
             android:id="@+id/twobtn_header_tv"
