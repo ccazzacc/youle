@@ -1,5 +1,7 @@
 package com.youle.managerData.info;
 
+import java.io.Serializable;
+
 import com.amap.api.maps.model.LatLng;
 
 

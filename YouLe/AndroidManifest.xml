@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.youle"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="2"
+    android:versionName="1.1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -53,7 +53,7 @@
 		<!-- 日志发送策略 为SET_TIME_INTERVAL时，需设定时间间隔(取消下行注释)。取值为1-24的整数，默认为1 -->
 		<!-- <meta-data android:name="BaiduMobAd_TIME_INTERVAL" android:value="2" />  -->
 		<!-- 日志仅在wifi网络下发送，默认为false -->
-		<meta-data android:name="BaiduMobAd_ONLY_WIFI" android:value="true" />
+		<meta-data android:name="BaiduMobAd_ONLY_WIFI" android:value="false" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="637254f3cad5db17f30d29ecab33b9d5" />
@@ -80,17 +80,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.youle.managerUi.SlidingActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".managerUi.AboutActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.youle.managerUi.SlidingMeActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -172,7 +162,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".managerUi.CarToatlActivity"
+            android:name=".managerUi.WebMeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.youle.managerUi.CarReplyActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -185,6 +179,22 @@
         </activity>
         <activity
             android:name=".managerUi.AddPostActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.HotActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.HotDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.HotCommentActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".managerUi.HotReplyActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -219,6 +229,9 @@
                 android:screenOrientation="portrait"/>
         <activity android:name="com.youle.managerUi.RoadMapActivity"/>
         <activity android:name="com.youle.fragment.SlipMainCenter"/>
+        <activity android:name=".managerUi.SysPrivateMsgActivity"/>
+        <activity android:name=".managerUi.SysMessageActivity"/>
+        <activity android:name=".managerUi.SysPrivateActivity"/>
         <!-- ShareSdk -->
     </application>
 

@@ -1,13 +1,10 @@
 package com.youle.util;
 
-
-import com.koushikdutta.async.http.AsyncHttpClientMiddleware.GetSocketData;
-import com.youle.R;
-
 import android.content.Context;
 import android.widget.Toast;
 
 public class ToastUtil {
+
 	public static void show(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
@@ -15,16 +12,18 @@ public class ToastUtil {
 	public static void show(Context context, int resId) {
 		Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
 	}
+
 	public static void showToast(Context context, String result) {
-		if(result.equals(GlobalData.ERROR_204) || result.equals(GlobalData.ERROR_404) || result.equals(GlobalData.ERROR_502))
-		{
-			show(context, "http:"+result);
+		if(OtherUtil.isNullOrEmpty(result))
 			return;
-		}
-		else
-		{
+		if (result.equals("404")
+				|| result.equals("401")
+				|| result.equals("403")
+				|| result.equals("502")
+				|| result.equals("204")) {
+			show(context, "http:" + result);
+			return;
+		} else
 			show(context, result);
-			return;
-		}
 	}
 }

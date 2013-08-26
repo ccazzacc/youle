@@ -56,4 +56,7 @@
     <color name="shop_color">#EDEDED</color>
     <color name="shop_text">#393939</color>
     <color name="me_title">#E9E9EA</color>
+    <color name="hot_bottom">#F4F4F4</color>
+    <color name="hot_back">#EFEFEF</color>
+    <color name="hot_say">#525252</color>
 </resources>

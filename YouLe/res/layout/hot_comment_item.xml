@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:miles="http://schemas.android.com/apk/res/com.youle"
+    style="@style/wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingRight="8dp"
+    android:background="#EFEFEF" >
+
+    <com.youle.view.RoundedCornersImage
+        android:id="@+id/comment_ivAva"
+        android:layout_width="48.0dip"
+        android:layout_height="48.0dip"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginTop="4.0dip"
+        android:background="@drawable/avatars"
+        android:scaleType="centerCrop" 
+        miles:cornerRadius="4.0dip"/>
+
+    <TextView
+        android:id="@+id/comment_tvName"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/comment_ivAva"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2.0dip"
+        android:singleLine="true"
+        android:text="www"
+        android:textColor="@color/car_reply"
+        android:textSize="18.0sp" />
+
+    <TextView
+        android:id="@+id/comment_tvNreply"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/comment_tvName"
+        android:lineSpacingExtra="2.0dip"
+        android:text="回复"
+        android:textColor="@color/car_content"
+        android:textSize="18.0sp" />
+
+    <TextView
+        android:id="@+id/comment_tvRName"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/comment_tvNreply"
+        android:ellipsize="end"
+        android:text="123333"
+        android:lineSpacingExtra="2.0dip"
+        android:singleLine="true"
+        android:textColor="@color/car_reply"
+        android:textSize="18.0sp" />
+	<TextView
+        android:id="@+id/comment_tvTime"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_alignParentRight="true"
+        android:lineSpacingExtra="2.0dip"
+        android:text="2013-7"
+        android:textColor="@color/car_content"
+        android:textSize="18.0sp" />
+    <RelativeLayout
+        android:id="@+id/comment_chat"
+        style="@style/horizontal_stretch"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/comment_ivAva"
+        android:layout_below="@+id/comment_tvName"
+        android:layout_marginTop="4dp"
+        >
+
+        <TextView
+            android:id="@+id/comment_tvContent"
+            style="@style/horizontal_stretch"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:text="点撒发射点发 斯蒂芬斯蒂芬森达发射点发生的说法撒旦法"
+            android:lineSpacingExtra="2.0dip"
+            android:textColor="@color/car_header"
+            android:textSize="16.0sp" />
+
+        <FrameLayout
+            android:id="@+id/comment_ly_chat"
+            android:layout_below="@+id/comment_tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/comment_iv_photo"
+                style="@style/wrap_content"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/comment_iv_photoTop"
+                style="@style/wrap_content"
+                android:scaleType="fitXY" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/comment_lout_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/sound_play_bg"
+            android:layout_below="@+id/comment_ly_chat"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/comment_iv_sAnim"
+                style="@style/wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="8dp" />
+
+            <View
+                android:layout_width="12.0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/comment_tv_sTime"
+                style="@style/wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="8dp"
+                android:text="4s"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+	<TextView
+        android:id="@+id/comment_tvReply"
+        style="@style/wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:lineSpacingExtra="2.0dip"
+        android:layout_below="@+id/comment_chat"
+        android:text="回复"
+        android:textColor="@color/car_content"
+        android:textSize="18.0sp" />
+
+</RelativeLayout>

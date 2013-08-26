@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/full_screen"
+    android:background="@color/hot_back"
+    android:orientation="vertical" >
+
+    <include layout="@layout/twobtn_header" />
+
+    <LinearLayout
+        style="@style/wrap_content"
+        android:layout_weight="1.0"
+        android:orientation="vertical" >
+        <com.youle.view.PullUpListView
+            android:id="@+id/hot_com_listLv"
+            style="@style/horizontal_stretch"
+            android:cacheColorHint="@color/transparent"
+            android:divider="#D0D0D0"
+            android:dividerHeight="2dp"
+            android:listSelector="@color/transparent"
+            android:scrollbars="none" >
+        </com.youle.view.PullUpListView>
+        <TextView 
+            android:id="@+id/hot_com_listTvTitle"
+            style="@style/full_screen"
+            android:gravity="center"
+            android:text="@string/car_title"
+            android:visibility="gone"/>
+    </LinearLayout>
+	<LinearLayout
+        style="@style/horizontal_stretch"
+        android:id="@+id/hot_com_ly"
+        android:orientation="horizontal"
+        android:background="@color/hot_bottom" >
+        <ImageView 
+            style="@style/wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shuoshuo"/>
+        <TextView 
+            android:id="@+id/hot_com_listTvTitle"
+            style="@style/full_screen"
+            android:layout_margin="8dp"
+            android:textColor="@color/hot_say"
+            android:gravity="center_vertical"
+            android:text="@string/me_say"/>
+    </LinearLayout>
+</LinearLayout>

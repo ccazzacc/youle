@@ -1,9 +1,7 @@
 package com.youle.managerUi;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.AlertDialog;
+import android.content.*;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,9 +15,11 @@ import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.AsyncHttpResponse;
 import com.youle.R;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
+import com.youle.util.ToastUtil;
 import com.youle.view.ShowDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +55,7 @@ public class ChooseCity extends StatActivity {
         intentFilter.addAction(GlobalData.BROADCAST_COUNTER_ACTION);
         reciver = new MyBroadcastReciver();
         this.registerReceiver(reciver, intentFilter);
-
+        MyApplication.getInstance().addActivity(this);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ChooseCity extends StatActivity {
 
     private void initView() {
         mTxtCity = (TextView) findViewById(R.id.text_city);
-        mTxtCity.setText("当前城市：" + mSharedPref.getCity());
+        mTxtCity.setText(getString(R.string.current_city) + mSharedPref.getCity());
         mCityList = (ListView) findViewById(R.id.city_list);
         mCityList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -82,16 +82,19 @@ public class ChooseCity extends StatActivity {
                     mSharedPref.saveCity(mCityData.get(postiton - 1).city_id, mCityData.get(postiton - 1).city_name);
                     isRadio = true;
                     mCityId = mCityData.get(postiton - 1).city_id;
+
                 } else {
                     if (isCity) {
                         mSharedPref.saveCity(mCityId, mLocCity);
                         isRadio = true;
                     } else {
-                        Intent intent = new Intent(ChooseCity.this, ShowDialog.class);
-                        intent.putExtra("showTwo", false);
-                        intent.putExtra("dialog_title", "提  示");
-                        intent.putExtra("dialog_text", "我们正在努力奔赴"+mLocCity+"，目前仅为热门城市服务！");
-                        startActivity(intent);
+                        String s=String.format(getString(R.string.trying_togo),mLocCity);
+                        ToastUtil.show(ChooseCity.this,s);
+//                        Intent intent = new Intent(ChooseCity.this, ShowDialog.class);
+//                        intent.putExtra("showTwo", false);
+//                        intent.putExtra("dialog_title", "提  示");
+//                        intent.putExtra("dialog_text", "我们正在努力奔赴" + mLocCity + "，目前仅为热门城市服务！");
+//                        startActivity(intent);
                         return;
                     }
                 }
@@ -109,7 +112,8 @@ public class ChooseCity extends StatActivity {
     private void getData() {
         mLocCity = getString(R.string.locationing);
         if (isRadio) {
-            url = new StringBuffer().append(YouLe.BASE_URL).append("radios/" + mCityId).toString();
+            url = new StringBuffer().append(YouLe.BASE_URL).append("radios?city_id=" + mCityId).toString();
+            Log.i("1234", "yrl: " + url);
         }
         AsyncHttpClient.getDefaultInstance().get(url, new AsyncHttpClient.JSONObjectCallback() {
             // Callback is invoked with any exceptions/errors, and the result, if available.
@@ -122,8 +126,16 @@ public class ChooseCity extends StatActivity {
                 System.out.println("I got a JSONObject: " + result);
                 if (isRadio) {
                     try {
-                        Log.i("1234", "电台名字：" + result.getString("name"));
-                        mSharedPref.saveRadio(result.getInt("radio_id"), result.getString("name"));
+                        JSONArray jsonArray = result.getJSONArray("radios");
+                        String radio_name = "";
+                        int radio_id = 0;
+//                        for(int i=0;i<jsonArray.length();i++){
+                        JSONObject obj = jsonArray.getJSONObject(0);
+                        radio_id = obj.getInt("radio_id");
+                        radio_name = obj.getString("name");
+//                        }
+                        Log.i("1234", "电台名字：" + radio_id + " " + radio_name);
+                        mSharedPref.saveRadio(radio_id, radio_name);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -183,7 +195,7 @@ public class ChooseCity extends StatActivity {
                 holder = new ViewHolder();
                 holder.tit = (TextView) view.findViewById(R.id.city_item_tit);
                 holder.text = (TextView) view.findViewById(R.id.city_item);
-                holder.layout=(LinearLayout)view.findViewById(R.id.city_item_layout);
+                holder.layout = (LinearLayout) view.findViewById(R.id.city_item_layout);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -193,7 +205,7 @@ public class ChooseCity extends StatActivity {
                 holder.tit.setVisibility(View.GONE);
             }
             if (position > 0) {
-                holder.tit.setText("热门城市");
+                holder.tit.setText(getString(R.string.hot_city));
                 holder.text.setText(mCityData.get(position - 1).city_name);
                 if (Pattern.compile(mCityData.get(position - 1).city_name).matcher(mLocCity).find()) {
                     Log.i("1234", Pattern.compile(mCityData.get(position - 1).city_name).matcher(mLocCity).find() + " " + mCityData.get(position - 1).city_name);
@@ -202,7 +214,7 @@ public class ChooseCity extends StatActivity {
                 }
 
             } else {
-                holder.tit.setText("定位城市");
+                holder.tit.setText(getString(R.string.loc_city));
                 holder.text.setText(mLocCity);
             }
             return view;
@@ -222,18 +234,21 @@ public class ChooseCity extends StatActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                ChooseCity.this.unregisterReceiver(MyBroadcastReciver.this);
+                if (!mIsUnRegister) {
+                    ChooseCity.this.unregisterReceiver(MyBroadcastReciver.this);
+                }
+                if (!address[3].equals("中国")) {
+                    OtherUtil.showCloseDialog(ChooseCity.this);
+                }
                 mIsUnRegister = true;
                 mLocCity = address[0];
                 if (mMyAdapter != null)
                     mMyAdapter.notifyDataSetChanged();
-
             }
         };
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
             String action = intent.getAction();
             Log.i("1234", "onReceive  " + action);
             if (action.equals(GlobalData.BROADCAST_COUNTER_ACTION)) {
@@ -245,16 +260,15 @@ public class ChooseCity extends StatActivity {
 
                     @Override
                     public void run() {
-                        address = OtherUtil.getDesc(ChooseCity.this,
-                                lat, lng);
+                        address = OtherUtil.getDesc(ChooseCity.this, lat, lng);
                         handler.sendEmptyMessage(0);
                         super.run();
                     }
                 }.start();
-
             }
-
         }
+
+
 
     }
 

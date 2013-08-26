@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.baidu.mobstat.StatActivity;
 import com.youle.R;
+import com.youle.managerData.MyApplication;
 
 /**
  * Created by zhaofuchao on 13-5-27.
@@ -17,6 +18,7 @@ public class ForgotPsdActivity extends StatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_psd_activity);
         initView();
+        MyApplication.getInstance().addActivity(this);
     }
 
     private void initView() {

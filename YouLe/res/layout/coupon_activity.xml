@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:orientation="vertical" >
+    android:background="@color/bg_color" >
 
-    <include 
-        android:id="@+id/coupon_header"
-        android:visibility="gone"
-        layout="@layout/twobtn_header" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/coupon_listview"
-        style="@style/horizontal_stretch"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:cacheColorHint="@color/transparent"
-        android:divider="@color/transparent"
-        android:dividerHeight="10dp"
-        android:listSelector="@color/transparent"
-        android:scrollbars="none" >
-    </ListView>
+        <include
+            android:id="@+id/coupon_header"
+            layout="@layout/twobtn_header"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/coupon_listview"
+            style="@style/horizontal_stretch"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:listSelector="@color/transparent"
+            android:scrollbars="none" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/coupon_tv_no"
+            style="@style/full_screen"
+            android:gravity="center"
+            android:text="@string/no_coupon"
+            android:visibility="gone" >
+        </TextView>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/coupon_tv_no"
-        style="@style/full_screen"
-        android:gravity="center"
-        android:text="@string/no_coupon"
-        android:visibility="gone" >
-    </TextView>
+        android:id="@+id/coupon_tv_infos"
+        style="@style/horizontal_stretch"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:text="到店展示二维码，扫描即可享受优惠"
+        android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -28,11 +28,13 @@ import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.info.CarMainInfo;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
+import com.youle.view.CustomProgressDialog;
 import com.youle.view.PullUpListView;
 import com.youle.view.PullUpListView.PullListViewListener;
 
@@ -42,6 +44,7 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 	private CarInfoAdapter adapter;
 	private int mPage = 1;
 	private int loadM = 0;
+	private boolean isFirst = true;
 	private GestureDetector detector;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.carmain_activity);
 		initView();
+		MyApplication.getInstance().addActivity(this);
 	}
 	@SuppressWarnings("deprecation")
 	private void initView()
@@ -59,20 +63,22 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 		SlipMainCenter.btnRight.setVisibility(View.INVISIBLE);
 		SlipMainCenter.tvName.setText(R.string.car_friend);
 		SlipMainCenter.btnMsgtop.setVisibility(View.GONE);
-		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000108.png", "大众汽车帮派", "512","1","1001"));
-		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000095.png", "奥迪汽车帮派", "1117","1","1002"));
-		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000033.png", "宝马汽车帮派", "2554","1","1003"));
-		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000069.png", "AA汽车帮派", "851","1","1004"));
-		CarInfoAdapter adapter = new CarInfoAdapter(this);
-		lvCar.setAdapter(adapter);
-//		geneItems(mPage);
+//		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000108.png", "大众汽车帮派", "512","1","1001"));
+//		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000095.png", "奥迪汽车帮派", "1117","1","1002"));
+//		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000033.png", "宝马汽车帮派", "2554","1","1003"));
+//		listCar.add(new CarMainInfo("http://api.pathtrip.com/avatars/128/1000069.png", "AA汽车帮派", "851","1","1004"));
+//		CarInfoAdapter adapter = new CarInfoAdapter(this);
+//		lvCar.setAdapter(adapter);
+		geneItems(mPage);
 		lvCar.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(CarMainActivity.this,CarListActivity.class));
+				Intent it = new Intent(CarMainActivity.this,CarListActivity.class);
+				it.putExtra(GlobalData.FORUM_ID, listCar.get(arg2).getForumId());
+				startActivity(it);
 			}
 		});
 		detector = new GestureDetector(new OnGestureListener() {
@@ -137,13 +143,34 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 	private class ForumTask extends AsyncTask<Integer, Void, String>
 	{
 		private List<CarMainInfo> tList = new ArrayList<CarMainInfo>();
+		
+		@Override
+		protected void onCancelled() {
+			// TODO Auto-generated method stub
+			super.onCancelled();
+			if (isFirst)
+				CustomProgressDialog.stopProgressDialog(CarMainActivity.this);
+			isFirst = false;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (isFirst)
+				CustomProgressDialog.showMsg(CarMainActivity.this,getString(R.string.please_wait));
+		}
 
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			if (isFirst) {
+				CustomProgressDialog.stopProgressDialog(CarMainActivity.this);
+				adapter = new CarInfoAdapter(CarMainActivity.this);
+			}
 			if (!OtherUtil.isNullOrEmpty(result)
-					&& result.equals(GlobalData.RESULT_OK)) {
+					&& result.startsWith(GlobalData.RESULT_OK)) {
 				if (tList != null) {
 					if (null == listCar || listCar.size() == 0)
 						listCar = tList;
@@ -153,11 +180,12 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 				if (mPage > 1 && listCar != null)
 					adapter.notifyDataSetChanged();
 				else if (null != listCar) {
-					adapter = new CarInfoAdapter(CarMainActivity.this);
 					lvCar.setAdapter(adapter);
 					lvCar.setXListViewListener(CarMainActivity.this);
 				}
-			}
+			}else
+				ToastUtil.showToast(CarMainActivity.this, result);
+			isFirst = false;
 			onLoad();
 		}
 
@@ -169,8 +197,7 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 					&& res.startsWith(GlobalData.RESULT_OK)) {
 				tList = YouLe.jsonForums(res.substring(3));
 				return GlobalData.RESULT_OK;
-			}else if(mPage > 1)
-				mPage--;
+			}
 			return res;
 		}
 		
@@ -234,7 +261,7 @@ public class CarMainActivity extends StatActivity implements PullListViewListene
 		} else {
 			onLoad();
 			ToastUtil.show(CarMainActivity.this,
-					R.string.please_check_net);
+					R.string.net_no);
 		}
 	}
 

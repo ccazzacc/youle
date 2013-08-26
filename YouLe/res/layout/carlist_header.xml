@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingBottom="8.0dip">
 <!-- com.youle.view.RoundedCornersImage -->
-    <ImageView
+    <com.youle.view.RoundedCornersImage
         android:id="@+id/carlist_hiv_ava"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -25,7 +25,6 @@
         android:layout_marginTop="28dp"
         android:layout_toRightOf="@+id/carlist_hiv_ava"
         android:singleLine="true"
-        android:text="大众汽车帮派"
         android:textColor="@color/car_header"
         android:textSize="20.0sp" />
 
@@ -43,16 +42,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/carlist_hiv_tiezi"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/carlist_hiv_tiezi"
-        android:text="234"
         android:textColor="@color/car_header" />
 
     <ImageView
         android:id="@+id/carlist_hiv_reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/carlist_htv_tiezi"
+        android:layout_alignBottom="@+id/carlist_hiv_tiezi"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/carlist_htv_tiezi"
         android:src="@drawable/comment" />
@@ -63,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/carlist_hiv_reply"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="4dp"
         android:layout_toRightOf="@+id/carlist_hiv_reply"
-        android:text="566"
         android:textColor="@color/car_header" />
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,8 +34,9 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 	private EditText etEmail, etName, etPw;
 	private Context context;
 	private ImageView ivEmail, ivName, ivPw;
-	private int i=0;
+	private int i = 0;
 	private boolean isLogout;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -69,7 +71,7 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == 66) {
 					i++;
-					if(i%2==1)
+					if (i % 2 == 1)
 						register();
 				}
 				return false;
@@ -90,8 +92,7 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 					if (!TextUtils.isEmpty(etEmail.getText().toString())
 							&& !OtherUtil.isEmail(etEmail.getText().toString())) {
 						ivEmail.setVisibility(View.VISIBLE);
-						ToastUtil.show(context,
-								getString(R.string.input_correct_email));
+						ToastUtil.show(context, R.string.input_correct_email);
 					} else
 						ivEmail.setVisibility(View.GONE);
 				}
@@ -101,8 +102,7 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 					if (!TextUtils.isEmpty(etName.getText().toString())
 							&& etName.getText().toString().length() < 2) {
 						ivName.setVisibility(View.VISIBLE);
-						ToastUtil.show(context,
-								getString(R.string.error_userName_short));
+						ToastUtil.show(context, R.string.error_userName_short);
 					} else
 						ivName.setVisibility(View.GONE);
 				}
@@ -112,8 +112,7 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 					if (!TextUtils.isEmpty(etPw.getText().toString())
 							&& etPw.getText().toString().length() < 6) {
 						ivPw.setVisibility(View.VISIBLE);
-						ToastUtil.show(context,
-								getString(R.string.error_pw_short));
+						ToastUtil.show(context, R.string.error_pw_short);
 					} else
 						ivPw.setVisibility(View.GONE);
 				}
@@ -128,7 +127,8 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			CustomProgressDialog.showMsg(context, getString(R.string.please_wait));
+			CustomProgressDialog.showMsg(context,
+					getString(R.string.please_wait));
 		}
 
 		@Override
@@ -143,13 +143,18 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			CustomProgressDialog.stopProgressDialog(RegisterActivity.this);
-			if (result.equals(GlobalData.RESULT_OK)) {
+			if (result.startsWith(GlobalData.RESULT_OK)) {
 				startActivity(new Intent(RegisterActivity.this,
 						SlidActivity.class));
 				overridePendingTransition(R.anim.push_left_in,
 						R.anim.push_left_out);
-				ToastUtil.show(context, R.string.register_success);
+				String point = RegisterActivity.this.getResources().getString(R.string.register_success);
+				ToastUtil.show(context, String.format(point, result.substring(3)));
 				RegisterActivity.this.finish();
+			} else if (result.equals("duplicated username")) {
+				ToastUtil.show(context, R.string.user_exist);
+			} else if (result.equals("duplicated email")) {
+				ToastUtil.show(context, R.string.email_exist);
 			} else {
 				ToastUtil.showToast(context, result);
 			}
@@ -179,8 +184,7 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if(isLogout)
-			{
+			if (isLogout) {
 				if (isExit == false) {
 					isExit = true;
 					Toast.makeText(RegisterActivity.this, R.string.press_again,
@@ -191,7 +195,7 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 				} else {
 					MyApplication.getInstance().exit();
 				}
-			}else
+			} else
 				RegisterActivity.this.finish();
 		}
 		return true;
@@ -209,31 +213,29 @@ public class RegisterActivity extends StatActivity implements OnClickListener {
 				|| (etEmail.getText().toString()).equals("")
 				|| !OtherUtil.isEmail(etEmail.getText().toString())) {
 			if (!OtherUtil.isEmail(etEmail.getText().toString()))
-				ToastUtil
-						.show(context, getString(R.string.input_correct_email));
+				ToastUtil.show(context, R.string.input_correct_email);
 			else
-				ToastUtil.show(context, getString(R.string.input_email));
+				ToastUtil.show(context, R.string.input_email);
 		} else if (TextUtils.isEmpty(etName.getText().toString())
 				|| (etName.getText().toString()).equals("")
 				|| etName.getText().toString().length() < 2) {
 			if (etName.getText().toString().length() < 2)
-				ToastUtil.show(context,
-						getString(R.string.error_userName_short));
+				ToastUtil.show(context, R.string.error_userName_short);
 			else
-				ToastUtil.show(context, getString(R.string.input_name));
+				ToastUtil.show(context, R.string.input_name);
 		} else if (TextUtils.isEmpty(etPw.getText().toString())
 				|| (etPw.getText().toString()).equals("")
 				|| etPw.getText().toString().length() < 6) {
 			if (etPw.getText().toString().length() < 6)
-				ToastUtil.show(context, getString(R.string.error_pw_short));
+				ToastUtil.show(context, R.string.error_pw_short);
 			else
-				ToastUtil.show(context, getString(R.string.input_pw));
+				ToastUtil.show(context, R.string.input_pw);
 		} else {
 			if (OtherUtil.is3gWifi(RegisterActivity.this)) {
 				new UpMsgTask().execute();
 			} else {
-				ToastUtil.show(RegisterActivity.this,
-						getString(R.string.please_check_net));
+				ToastUtil
+						.show(RegisterActivity.this, R.string.net_no);
 			}
 		}
 	}

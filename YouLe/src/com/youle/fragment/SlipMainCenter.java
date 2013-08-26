@@ -17,16 +17,11 @@ import android.widget.TextView;
 
 import com.youle.R;
 import com.youle.http_helper.Utility;
-import com.youle.managerUi.CarMainActivity;
-import com.youle.managerUi.CouponActivity;
-import com.youle.managerUi.MainActivity;
-import com.youle.managerUi.MeActivity;
-import com.youle.managerUi.RoadMapActivity;
-import com.youle.managerUi.ShopMainActivity;
-import com.youle.managerUi.SlidActivity;
-import com.youle.managerUi.SysMsgActivity;
-import com.youle.managerUi.SysSetActivity;
+import com.youle.managerData.MyApplication;
+import com.youle.managerData.info.MainInfo;
+import com.youle.managerUi.*;
 import com.youle.util.GlobalData;
+import com.youle.util.OtherUtil;
 
 public class SlipMainCenter extends Fragment {
     protected static LocalActivityManager mLocalActivityManager;
@@ -36,6 +31,7 @@ public class SlipMainCenter extends Fragment {
     public static TextView tvName,tvSubName;
     public static LinearLayout lyButtom;
     private int flag = 0;
+    private static String mainStr;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ct = (SlidActivity) getActivity();
@@ -59,10 +55,14 @@ public class SlipMainCenter extends Fragment {
         btnMsgtop=(Button)view.findViewById(R.id.sysmsg_top);
         mLocalActivityManager = new LocalActivityManager((SlidActivity)ct, true);
         mBoday=(FrameLayout)view.findViewById(R.id.frame);
-        
         Bundle states = savedInstanceState != null? (Bundle) savedInstanceState.getBundle("one") : null;
         mLocalActivityManager.dispatchCreate(states);
-        slidIntent(0);
+        mainStr = ((SlidActivity) ct).getIntent().getStringExtra("mainStr");
+        flag = ((SlidActivity) ct).getIntent().getIntExtra("flag", 0);
+		if(flag == 0 && null != mainStr && !OtherUtil.isNullOrEmpty(mainStr))
+			slidIntent(flag,true);
+		else
+			slidIntent(0,false);
         return view;
     }
 	
@@ -71,23 +71,28 @@ public class SlipMainCenter extends Fragment {
 		// TODO Auto-generated method stub
 		super.onStart();
 		flag = ((SlidActivity) ct).getIntent().getIntExtra("flag", 0);
+		if(flag == 7)
+			slidIntent(flag,true);
 		if(flag != 0)
-			slidIntent(flag);
+			slidIntent(flag,false);
 	}
 
-	public static void slidIntent(int i)
+	public static void slidIntent(int i,boolean isData)
 	{
 		Intent intent = null;
 		switch (i) {
 		case 0:
 			intent = new Intent(ct, RoadMapActivity.class);
+			if(isData)
+				intent.putExtra("mainStr", mainStr);
 			break;
 		case 1:
 			intent = new Intent(ct, MainActivity.class);
 			break;
 		case 2:
 			intent = new Intent(ct, MeActivity.class);
-			intent.putExtra(GlobalData.U_ID, Utility.mSession.getUserId());
+			if(null != Utility.mSession && !OtherUtil.isNullOrEmpty(Utility.mSession.getUserId()))
+				intent.putExtra(GlobalData.U_ID, Utility.mSession.getUserId());
 			break;
 		case 3:
 			intent = new Intent(ct,
@@ -100,7 +105,7 @@ public class SlipMainCenter extends Fragment {
 			break;
 		case 5:
 			intent = new Intent(ct,
-					SysMsgActivity.class);
+					SysMessageActivity.class);
 			break;
 		case 6:
 			intent = new Intent(ct,
@@ -109,7 +114,17 @@ public class SlipMainCenter extends Fragment {
 		case 7:
 			intent = new Intent(ct,
 					ShopMainActivity.class);
+			if(isData)
+				intent.putExtra("scan_data", GlobalData.RESULT);
 			break;
+        case 8:
+            intent = new Intent(ct,
+                    SysPrivateActivity.class);
+            break;
+        case 9:
+            intent = new Intent(ct,
+                    HotActivity.class);
+            break;
 		}
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         View v = mLocalActivityManager.startActivity("one", intent).getDecorView();

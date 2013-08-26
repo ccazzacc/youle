@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:miles="http://schemas.android.com/apk/res/com.youle"
+    style="@style/wrap_content"
+    android:background="@drawable/list_bg" >
+
+    <com.youle.view.RoundedCornersImage
+        android:id="@+id/cartotal_ivAva"
+        android:layout_width="48.0dip"
+        android:layout_height="48.0dip"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginTop="8.0dip"
+        android:background="@drawable/avatars"
+        android:scaleType="centerCrop" 
+        miles:cornerRadius="4.0dip"/>
+
+    <TextView
+        android:id="@+id/cartotal_tvName"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_ivAva"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2.0dip"
+        android:singleLine="true"
+        android:textColor="@color/car_content"
+        android:textSize="18.0sp" />
+
+    <TextView
+        android:id="@+id/cartotal_tvNreply"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_tvName"
+        android:lineSpacingExtra="2.0dip"
+        android:text="回复"
+        android:textColor="@color/car_reply"
+        android:textSize="18.0sp" />
+
+    <TextView
+        android:id="@+id/cartotal_tvRName"
+        style="@style/wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_tvNreply"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2.0dip"
+        android:singleLine="true"
+        android:textColor="@color/car_content"
+        android:textSize="18.0sp" />
+    <!--
+    <TextView
+        android:id="@+id/cartotal_tvContent"
+        android:layout_below="@+id/cartotal_tvName"
+        style="@style/horizontal_stretch"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_ivAva"
+        android:layout_marginRight="15.0dip"
+        android:lineSpacingExtra="2.0dip"
+        android:textColor="@color/car_header"
+        android:textSize="16.0sp" />
+
+    <ImageView
+        android:id="@+id/cartotal_ivPho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cartotal_tvName"
+        android:layout_below="@+id/cartotal_tvContent"
+        android:visibility="gone"/>
+    -->
+
+    <RelativeLayout
+        android:id="@+id/cartotal_chat"
+        style="@style/horizontal_stretch"
+        android:layout_marginLeft="10.0dip"
+        android:layout_toRightOf="@+id/cartotal_ivAva"
+        android:layout_below="@+id/cartotal_tvName"
+        android:layout_marginTop="4dp"
+        >
+
+        <TextView
+            android:id="@+id/cartotal_tvContent"
+            style="@style/horizontal_stretch"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:lineSpacingExtra="2.0dip"
+            android:textColor="@color/car_header"
+            android:textSize="16.0sp" />
+
+        <FrameLayout
+            android:id="@+id/cartotal_ly_chat"
+            android:layout_below="@+id/cartotal_tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/cartotal_iv_photo"
+                style="@style/wrap_content"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/cartotal_iv_photoTop"
+                style="@style/wrap_content"
+                android:scaleType="fitXY" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/cartotal_lout_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/sound_play_bg"
+            android:layout_below="@+id/cartotal_ly_chat"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/cartotal_iv_sAnim"
+                style="@style/wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="8dp" />
+
+            <View
+                android:layout_width="12.0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/cartotal_tv_sTime"
+                style="@style/wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="8dp"
+                android:text="4s"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/horizontal_stretch"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/cartotal_chat"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            style="@style/wrap_content"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_time_b" />
+
+        <TextView
+            android:id="@+id/cartotal_tvTime"
+            style="@style/wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/car_content"
+            android:textSize="14.0sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/cartotal_ivReply"
+            style="@style/wrap_content"
+            android:src="@drawable/icon_comment_b" />
+
+        <TextView
+            android:id="@+id/cartotal_tvReply"
+            style="@style/wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/reply"
+            android:textColor="@color/car_content"
+            android:textSize="14.0sp" />
+    </LinearLayout>
+
+</RelativeLayout>

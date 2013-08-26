@@ -130,7 +130,8 @@ public class LoginActivity extends StatActivity {
                     break;
                 case R.id.text_forgot_psd:
                     Intent it = new Intent(Intent.ACTION_VIEW);
-                    it.setData(Uri.parse("http://www.baidu.com/"));
+                    String RESET_PSD_URL = "http://www.scyoule.com/reset_passwd1";
+                    it.setData(Uri.parse(RESET_PSD_URL));
                     it = Intent.createChooser(it, null);
                     startActivity(it);
                     finish();
@@ -152,7 +153,7 @@ public class LoginActivity extends StatActivity {
     private Button mBtnSub;
     private String mWbName, mWbUid, mWbAvatar;
     private boolean isSns,isLogout;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,7 +190,7 @@ public class LoginActivity extends StatActivity {
     private void submit() {
         if (OtherUtil.isNullOrEmpty(mEditUname.getText().toString())
                 || OtherUtil.isNullOrEmpty(mEditPsd.getText().toString())) {
-            ToastUtil.show(LoginActivity.this, "请输入完整信息");
+            ToastUtil.show(LoginActivity.this, getString(R.string.please_com));
             return;
         }
 
@@ -249,14 +250,21 @@ public class LoginActivity extends StatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.i("1234", "" + result);
+            Log.i("1234", "re: " + result);
             if (!result.startsWith(GlobalData.RESULT_OK)) {
+                if(result.equals("invalid email")){
+                    result=""+getString(R.string.input_correct_email);
+                }else if(result.equals("user not found")){
+                    result=""+getString(R.string.user_not_found);
+                }else if(result.equals("401")){
+                    result=""+getString(R.string.pw_err);
+                }
                 ToastUtil.showToast(LoginActivity.this,result);
                 mEditPsd.setText("");
                 mEditUname.setText("");
             } else {
                 // 登录成功
-
+            	
                 startActivity(new Intent(LoginActivity.this,SlidActivity.class));
                 finish();
             }

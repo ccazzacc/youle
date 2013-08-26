@@ -1,24 +1,23 @@
 package com.youle.managerUi;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.location.Location;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.*;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.*;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.LocationSource;
-import com.amap.api.maps.SupportMapFragment;
+import com.amap.api.maps.*;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -30,7 +29,11 @@ import com.koushikdutta.async.http.MultipartFormDataBody;
 import com.youle.R;
 import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
+import com.youle.util.GlobalData;
+import com.youle.util.OtherUtil;
+import com.youle.util.ToastUtil;
 import net.tsz.afinal.FinalBitmap;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,11 +50,11 @@ public class CouponMapActivity extends FragmentActivity implements
     AMap.OnMarkerClickListener markerClick = new AMap.OnMarkerClickListener() {
         @Override
         public boolean onMarkerClick(Marker marker) {
-            marker.showInfoWindow();
-            LatLng latlng = new LatLng(marker.getPosition().latitude + 0.01, marker.getPosition().longitude);
-            aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+//            marker.showInfoWindow();
+//            LatLng latlng = new LatLng(marker.getPosition().latitude + 0.01, marker.getPosition().longitude);
+//            aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
 
-            return true;
+            return false;
         }
 
 
@@ -79,6 +82,7 @@ public class CouponMapActivity extends FragmentActivity implements
     private List<MerInfo> mMerList = new ArrayList<MerInfo>();
     private List<CouInfo> mCouList = new ArrayList<CouInfo>();
     private int mTemp = 1;
+    private Marker mMarker;
 
     @Override
     protected void onRestart() {
@@ -91,6 +95,7 @@ public class CouponMapActivity extends FragmentActivity implements
         fb = FinalBitmap.create(this);
         fb.onResume();
         initView();
+        MyApplication.getInstance().addActivity(this);
     }
 
     @Override
@@ -158,9 +163,9 @@ public class CouponMapActivity extends FragmentActivity implements
     private void getData() {
         String url = new StringBuffer().append(YouLe.BASE_URL).append("coupons")
                 .append("?access_token=").append(Utility.mToken.getAccess_token())
-                .append("&map=1&radio_id=")
+                .append("&radio_id=")
                 .append(new SharedPref(CouponMapActivity.this).getRadioId())
-                .append("&distance=").append(6000)
+                .append("&distance=").append(60000)
                 .append("&lng=").append(lng)
                 .append("&lat=").append(lat).toString();
         Log.i("1234", "get url: " + url);
@@ -320,7 +325,7 @@ public class CouponMapActivity extends FragmentActivity implements
     private class MapInfoWindowAdapter implements AMap.InfoWindowAdapter {
         private final View mContents;
         private int i;
-        private String cname, type, clogo_url,phone;
+        private String cname, type, clogo_url, phone;
 
         MapInfoWindowAdapter() {
             mContents = getLayoutInflater().inflate(
@@ -342,6 +347,7 @@ public class CouponMapActivity extends FragmentActivity implements
         }
 
         private void render(final Marker marker, View view) {
+            mMarker=marker;
             final ImageView iv = (ImageView) view.findViewById(R.id.infowindow_av);
             final TextView name = (TextView) view.findViewById(R.id.infowindow_name);
             final TextView textPhone = (TextView) view.findViewById(R.id.infowindow_phone);
@@ -373,7 +379,7 @@ public class CouponMapActivity extends FragmentActivity implements
                     try {
                         cname = jsonObject.getString("name");
                         type = jsonObject.getString("category");
-                        phone=jsonObject.getString("phone");
+                        phone = jsonObject.getString("phone");
                         clogo_url = jsonObject.getString("logo_url");
                         Log.i("1234", cname + " " + MapInfoWindowAdapter.this.type + " " + clogo_url);
                         JSONArray array = jsonObject.getJSONArray("coupons");
@@ -409,10 +415,32 @@ public class CouponMapActivity extends FragmentActivity implements
                     } else {
                         list.setAdapter(new MyAdapter());
                     }
+                    setListViewHeightBasedOnChildren(list);
                 }
             });
 
 
+        }
+        public void setListViewHeightBasedOnChildren(ListView listView) {
+
+            ListAdapter listAdapter = listView.getAdapter();
+            if (listAdapter == null) {
+                return;
+            }
+            int totalHeight = 0;
+            for (int i = 0; i < listAdapter.getCount(); i++) {
+                View listItem = listAdapter.getView(i, null, listView);
+                listItem.measure(0, 0);
+                if(i<3){
+                    totalHeight += listItem.getMeasuredHeight();
+                }
+            }
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+            params.height = totalHeight
+                    + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+//            ((ViewGroup.MarginLayoutParams) params).setMargins(10, 10, 10, 10); // 可删除
+            listView.setLayoutParams(params);
         }
 
         public class MyAdapter extends BaseAdapter {
@@ -435,6 +463,9 @@ public class CouponMapActivity extends FragmentActivity implements
             @Override
             public View getView(final int i, View convertView, ViewGroup viewGroup) {
                 View view = null;
+//                if(mCouList.get(i).remains<=0){
+//                    return view;
+//                }
                 final ViewHolder holder;
                 if (convertView == null || view == null) {
                     view = getLayoutInflater().inflate(R.layout.coupon_map_infolist,
@@ -451,6 +482,9 @@ public class CouponMapActivity extends FragmentActivity implements
                     holder.btn.setBackgroundResource(R.drawable.rob_button);
                 } else {
                     holder.btn.setBackgroundResource(R.drawable.rob_reopened);
+                }
+                if (mCouList.get(i).remains < 1) {
+                    holder.btn.setVisibility(View.INVISIBLE);
                 }
                 holder.btn.setTag(i + "");
                 holder.btn.setOnClickListener(new View.OnClickListener() {
@@ -483,10 +517,64 @@ public class CouponMapActivity extends FragmentActivity implements
                             return;
                         }
                         Log.i("1234", "JSONObjectCallback: " + jsonObject);
+                        try {
+                            String username = jsonObject.getString("username");
+                            if (!OtherUtil.isNullOrEmpty(username)) {
+                                ToastUtil.show(CouponMapActivity.this, getString(R.string.congratulations));
+                                jumpPoint();
+                                return;
+                            }
+                        } catch (JSONException ee) {
+                            ee.printStackTrace();
+                        }
+                        try {
+                            String err = jsonObject.getString(GlobalData.ERROR_DESCRIPTION);
+                            if (err.equals("invalid radio_id")) {
+                                ToastUtil.show(CouponMapActivity.this, getString(R.string.cannot_get_coupon));
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+
 
                     }
                 });
 
+            }
+            public void jumpPoint() {
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                long[] pattern = {10, 100}; // 停止 开启 停止 开启
+                vibrator.vibrate(pattern, -1);
+
+                final Marker marker=mMarker;
+                final LatLng latLng=new LatLng(mMarker.getPosition().latitude,mMarker.getPosition().longitude);
+
+                final Handler handler = new Handler();
+                final long start = SystemClock.uptimeMillis();
+                Projection proj = aMap.getProjection();
+                Point startPoint = proj.toScreenLocation(latLng);
+                startPoint.offset(0, -100);
+                final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+                final long duration = 1500;
+
+                final Interpolator interpolator = new BounceInterpolator();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        long elapsed = SystemClock.uptimeMillis() - start;
+                        float t = interpolator.getInterpolation((float) elapsed
+                                / duration);
+                        double lng = t * latLng.longitude + (1 - t)
+                                * startLatLng.longitude;
+                        double lat = t * latLng.latitude + (1 - t)
+                                * startLatLng.latitude;
+                        marker.setPosition(new LatLng(lat, lng));
+                        if (t < 1.0) {
+                            handler.postDelayed(this, 16);
+                        }
+                    }
+                });
+                marker.showInfoWindow();
             }
 
             private class ViewHolder {

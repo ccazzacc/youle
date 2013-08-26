@@ -1,25 +1,22 @@
 package com.youle.managerUi;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.*;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.*;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.LocationSource;
-import com.amap.api.maps.SupportMapFragment;
+import com.amap.api.maps.*;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -28,11 +25,15 @@ import com.youle.R;
 import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.AsyncLoader;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.info.MainInfo;
+import com.youle.service.SystemMsgService;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import net.tsz.afinal.FinalBitmap;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class RoadMapActivity extends FragmentActivity implements
     private LocationManagerProxy mAMapLocationManager;
     private LocationSource.OnLocationChangedListener mListener;
     private List<MainInfo> list;
-    private List<LatLng> latList = new ArrayList<LatLng>();
+//    private List<LatLng> latList = new ArrayList<LatLng>();
     private FinalBitmap fb;
     private SharedPref sharedPref;
     private Double lat = 0.0, lng = 0.0;
@@ -80,7 +81,7 @@ public class RoadMapActivity extends FragmentActivity implements
 
             switch (view.getId()) {
                 case R.id.header_right:
-                    SlipMainCenter.slidIntent(1);
+                    SlipMainCenter.slidIntent(1,false);
                     break;
                 case R.id.map_button_record:
                     GlobalData.isIn_Vehicle = false;
@@ -142,6 +143,14 @@ public class RoadMapActivity extends FragmentActivity implements
         fb.onResume();
         infoWindowAdapter = new CustomInfoWindowAdapter();
         initView();
+        MyApplication.getInstance().addActivity(this);
+        startService(new Intent(RoadMapActivity.this, SystemMsgService.class));
+    }
+
+    @Override
+    protected void onResume() {
+
+
     }
 
     private void initView() {
@@ -199,7 +208,6 @@ public class RoadMapActivity extends FragmentActivity implements
 
         aMap.setLocationSource(this);
         aMap.setMyLocationEnabled(true);
-        aMap.moveCamera(CameraUpdateFactory.zoomTo(14));
         aMap.setOnMapLongClickListener(longClick);
         aMap.setOnMarkerClickListener(markClick);
 
@@ -258,54 +266,137 @@ public class RoadMapActivity extends FragmentActivity implements
     }
 
     private void drawMarkers() {
+        int[] marker_icon={R.drawable.pin_crowd,R.drawable.pin_accident,R.drawable.pin_danger,R.drawable.pin_road,
+                R.drawable.pin_often,R.drawable.pin_webcam};
+
         if (null != list && list.size() > 0)
             for (int i = 0, j = list.size(); i < j; i++) {
-                switch (list.get(i).getMark()) {
-                    case 1:
-                        aMap.addMarker(new MarkerOptions()
-                                .position(list.get(i).getLatLng())
-                                .title(i + "")
-                                .icon(BitmapDescriptorFactory
-                                        .fromResource(R.drawable.pin_crowd)));
-                        break;
-                    case 2:
-                        aMap.addMarker(new MarkerOptions()
-                                .position(list.get(i).getLatLng())
-                                .title(i + "")
-                                .icon(BitmapDescriptorFactory
-                                        .fromResource(R.drawable.pin_accident)));
-                        break;
-                    case 3:
-                        aMap.addMarker(new MarkerOptions()
-                                .position(list.get(i).getLatLng())
-                                .title(i + "")
-                                .icon(BitmapDescriptorFactory
-                                        .fromResource(R.drawable.pin_danger)));
-                        break;
-                    case 4:
-                        aMap.addMarker(new MarkerOptions()
-                                .position(list.get(i).getLatLng())
-                                .title(i + "")
-                                .icon(BitmapDescriptorFactory
-                                        .fromResource(R.drawable.pin_road)));
-                        break;
-                    case 5:
-                        aMap.addMarker(new MarkerOptions()
-                                .position(list.get(i).getLatLng())
-                                .title(i + "")
-                                .icon(BitmapDescriptorFactory
-                                        .fromResource(R.drawable.pin_often)));
-                        break;
-                    case 6:
-                        aMap.addMarker(new MarkerOptions()
-                                .position(list.get(i).getLatLng())
-                                .title(i + "")
-                                .icon(BitmapDescriptorFactory
-                                        .fromResource(R.drawable.pin_webcam)));
-                        break;
-                }
+                aMap.addMarker(new MarkerOptions()
+                        .position(list.get(i).getLatLng())
+                        .title(i + "")
+                        .icon(BitmapDescriptorFactory
+                                .fromResource(marker_icon[list.get(i).getMark()-1])));
+
+//                switch (list.get(i).getMark()) {
+//                    case 1:
+//                        aMap.addMarker(new MarkerOptions()
+//                                .position(list.get(i).getLatLng())
+//                                .title(i + "")
+//                                .icon(BitmapDescriptorFactory
+//                                        .fromResource(R.drawable.pin_crowd)));
+//                        break;
+//                    case 2:
+//                        aMap.addMarker(new MarkerOptions()
+//                                .position(list.get(i).getLatLng())
+//                                .title(i + "")
+//                                .icon(BitmapDescriptorFactory
+//                                        .fromResource(R.drawable.pin_accident)));
+//                        break;
+//                    case 3:
+//                        aMap.addMarker(new MarkerOptions()
+//                                .position(list.get(i).getLatLng())
+//                                .title(i + "")
+//                                .icon(BitmapDescriptorFactory
+//                                        .fromResource(R.drawable.pin_danger)));
+//                        break;
+//                    case 4:
+//                        aMap.addMarker(new MarkerOptions()
+//                                .position(list.get(i).getLatLng())
+//                                .title(i + "")
+//                                .icon(BitmapDescriptorFactory
+//                                        .fromResource(R.drawable.pin_road)));
+//                        break;
+//                    case 5:
+//                        aMap.addMarker(new MarkerOptions()
+//                                .position(list.get(i).getLatLng())
+//                                .title(i + "")
+//                                .icon(BitmapDescriptorFactory
+//                                        .fromResource(R.drawable.pin_often)));
+//                        break;
+//                    case 6:
+//                        aMap.addMarker(new MarkerOptions()
+//                                .position(list.get(i).getLatLng())
+//                                .title(i + "")
+//                                .icon(BitmapDescriptorFactory
+//                                        .fromResource(R.drawable.pin_webcam)));
+//                        break;
+//                }
+            }
+        if(RoadMapActivity.this.getIntent().getExtras()==null){
+            return;
+        }
+        String info=RoadMapActivity.this.getIntent().getStringExtra("mainStr");
+        Log.i("1234","info: "+info);
+        MainInfo mainInfo=null;
+        if(info!=null){
+            try {
+                JSONObject obj=new JSONObject(info);
+                String latLng = obj.getString(GlobalData.LOCATION);
+                mainInfo=new MainInfo(
+                        obj.getString(GlobalData.TRACK_ID),
+                        obj.getString(GlobalData.USER_ID),
+                        obj.getString(GlobalData.USER_NAME),
+                        obj.getString(GlobalData.AVATAR_URL),
+                        obj.getString(GlobalData.CREATED),
+                        obj.getString(GlobalData.TEXT), obj
+                        .getInt(GlobalData.MARK), obj
+                        .getString(GlobalData.AUDIO_URL), obj
+                        .getInt(GlobalData.AUDIO_TIME), obj
+                        .getString(GlobalData.IMAGE_URL), obj
+                        .getString(GlobalData.ORIGIN_IMAGE_URL),
+                        new LatLng(Double.parseDouble(latLng.substring(
+                                latLng.indexOf(",") + 1,
+                                latLng.lastIndexOf("]"))), Double
+                                .parseDouble(latLng.substring(1,
+                                        latLng.indexOf(",")))), obj
+                        .getString(GlobalData.PLACE), obj
+                        .getInt(GlobalData.FLAGS), obj
+                        .getInt(GlobalData.WIDTH), obj
+                        .getInt(GlobalData.HEIGHT), obj
+                        .getInt(GlobalData.USER_TYPE));
+                list.add(mainInfo);
+                Log.i("1234","mainInfo: "+latLng+list.get(1).getLatLng());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+            Marker marker=aMap.addMarker(new MarkerOptions()
+                    .position(mainInfo.getLatLng())
+                    .title(list.size()-1 + "")
+                    .icon(BitmapDescriptorFactory
+                            .fromResource(marker_icon[mainInfo.getMark()-1])));
+            jumpPoint(marker,mainInfo.getLatLng());
+        }
+    }
+
+    public void jumpPoint(final Marker marker, final LatLng latLng) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = aMap.getProjection();
+        Point startPoint = proj.toScreenLocation(latLng);
+        startPoint.offset(0, -100);
+        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+        final long duration = 1500;
+
+        final Interpolator interpolator = new BounceInterpolator();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * latLng.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * latLng.latitude + (1 - t)
+                        * startLatLng.latitude;
+                marker.setPosition(new LatLng(lat, lng));
+                if (t < 1.0) {
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
+        marker.showInfoWindow();
     }
 
     private class GetInfoTask extends AsyncTask<Void, Void, String> {
@@ -318,14 +409,14 @@ public class RoadMapActivity extends FragmentActivity implements
             } else {
                 mDistance = 0;
             }
-            String res = YouLe.getInfoList(RoadMapActivity.this, mDistance, lng, lat, 1, 20);
+            String res = YouLe.getInfoList(RoadMapActivity.this, mDistance, lng, lat, 1, 50);
             if (res.startsWith(GlobalData.RESULT_OK)) {
-                latList = new ArrayList<LatLng>();
+//                latList = new ArrayList<LatLng>();
                 list = YouLe.jsonInfo(res);
-                if (null != list && list.size() > 0)
-                    for (int i = 0, j = list.size(); i < j; i++) {
-                        latList.add(list.get(i).getLatLng());
-                    }
+//                if (null != list && list.size() > 0)
+//                    for (int i = 0, j = list.size(); i < j; i++) {
+//                        latList.add(list.get(i).getLatLng());
+//                    }
                 return GlobalData.RESULT_OK;
             } else
                 return res;
@@ -374,7 +465,8 @@ public class RoadMapActivity extends FragmentActivity implements
         private void render(final Marker marker, View view) {
             int[] drP = {R.drawable.crowd_normal, R.drawable.accident_normal, R.drawable.danger_normal, R.drawable.road_normal, R.drawable.often_normal, R.drawable.webcam_normal};
             String[] eve = {getString(R.string.traffic), getString(R.string.accident), getString(R.string.danger), getString(R.string.roads), getString(R.string.police), getString(R.string.monitor)};
-            i = latList.indexOf(marker.getPosition());
+//            i = latList.indexOf(marker.getPosition());
+            i= Integer.parseInt(marker.getTitle());
             ImageView ava = (ImageView) view.findViewById(R.id.custom_av);
             TextView uname = (TextView) view.findViewById(R.id.custom_uname);
             fb.display(ava, list.get(i).getAvaUrl());
@@ -408,7 +500,7 @@ public class RoadMapActivity extends FragmentActivity implements
                     marker.hideInfoWindow();
                 }
             });
-//            Log.i("1234", "txt:" + content + "img:" + mPhoto + "aud:" + sound + " avatar: " + list.get(i).getAvaUrl());
+            Log.i("1234", "index: "+list.get(i).getLatLng()+" txt:" + content + "img:" + mPhoto + "aud:" + sound + " avatar: " + list.get(i).getAvaUrl());
             if (!OtherUtil.isNullOrEmpty(sound)) {
                 mediaPlayer = new MediaPlayer();
                 ivPho.setVisibility(View.GONE);

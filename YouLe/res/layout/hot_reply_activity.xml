@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hotreply_act"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical" >
+
+    <include layout="@layout/twobtn_header" />
+
+    <LinearLayout
+        android:id="@+id/hotreply_lyName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/wrap_content"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15.0dip"
+            android:text="@string/reply"
+            android:textColor="@color/header_bar_color"
+            android:textSize="@dimen/font_size_large" />
+
+        <TextView
+            android:id="@+id/hotreply_tvReName"
+            style="@style/wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:layout_marginLeft="4dp"
+            android:text="test:"
+            android:textColor="@color/header_bar_color"
+            android:textSize="16.0sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="160.0dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:id="@+id/hotreply_etComment"
+            style="@style/full_screen"
+            android:gravity="top"
+            android:maxLength="140"
+            android:textSize="15sp"/>
+
+        <RelativeLayout
+            android:id="@+id/hotreply_rlSound"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone">
+			<TextView
+                android:id="@+id/hotreply_tvSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/hotreply_btn_record"
+                android:layout_centerHorizontal="true"
+                android:text="@string/press_talk" />
+            <Button
+                android:id="@+id/hotreply_btn_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/microphone_l" />
+			<Button
+                android:id="@+id/hotreply_btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/car_play"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <CheckBox
+            android:id="@+id/hotreply_cbSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:button="@drawable/check_sound_word"
+            android:checked="false" />
+
+        <ImageView
+            android:id="@+id/hotreply_ivPhoto"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/hotreply_cbSound"
+            android:src="@drawable/car_photo" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

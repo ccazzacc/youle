@@ -25,11 +25,13 @@
             android:textSize="@dimen/font_size_large" />
 
         <TextView
+            android:id="@+id/addpost_tvReName"
             style="@style/wrap_content"
             android:layout_width="match_parent"
             android:gravity="left|center_vertical"
             android:singleLine="true"
-            android:text=" test:"
+            android:layout_marginLeft="4dp"
+            android:text="test:"
             android:textColor="@color/header_bar_color"
             android:textSize="16.0sp" />
     </LinearLayout>

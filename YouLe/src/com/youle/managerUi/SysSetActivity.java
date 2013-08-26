@@ -1,20 +1,18 @@
 package com.youle.managerUi;
 
 import net.tsz.afinal.FinalBitmap;
-import android.R.color;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -24,10 +22,13 @@ import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.Utility;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
-import com.youle.managerData.SharedPref.YLSession;
+import com.youle.service.SystemMsgService;
 import com.youle.util.ToastUtil;
 import com.youle.view.CustomProgressDialog;
+import com.youle.view.SlipButton;
+import com.youle.view.SlipButton.OnChangedListener;
 
 public class SysSetActivity extends StatActivity implements OnClickListener {
 	// private Button mBtnSina, mBtnQQ;
@@ -37,7 +38,7 @@ public class SysSetActivity extends StatActivity implements OnClickListener {
 	private TextView tvTaxi, tvShop;
 	private View vSetPass;
 	private GestureDetector detector;
-
+	private SlipButton sb;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -46,6 +47,7 @@ public class SysSetActivity extends StatActivity implements OnClickListener {
 		initView();
 		// connected();
 		// AbstractWeibo.initSDK(this);
+		MyApplication.getInstance().addActivity(this);
 	}
 
 	// private void connected() {
@@ -93,7 +95,6 @@ public class SysSetActivity extends StatActivity implements OnClickListener {
 		tvTaxi = (TextView) findViewById(R.id.sysset_tvTaxi);
 		tvShop = (TextView) findViewById(R.id.sysset_tvShop);
 		int type = Utility.mSession.getMe().getType();
-		Log.e("test", "Utility.mSession.getShopTaxi():"+Utility.mSession.getShopTaxi());
 		if (type == 1 || type == 2) {
 			lyTaxi.setBackgroundResource(R.drawable.list_round_bottom);
 			lyShop.setBackgroundResource(R.drawable.list_round_center);
@@ -110,6 +111,22 @@ public class SysSetActivity extends StatActivity implements OnClickListener {
 			lyTaxi.setOnClickListener(this);
 			lyShop.setOnClickListener(this);
 		}
+		sb = (SlipButton)findViewById(R.id.sysset_sound);
+		if(null != Utility.mSession && Utility.mSession.getSound() == 0)
+			sb.setCheck(true);
+		else
+			sb.setCheck(false);
+		sb.SetOnChangedListener(new OnChangedListener() {
+			
+			@Override
+			public void OnChanged(boolean CheckState) {
+				// TODO Auto-generated method stub
+				if(CheckState && null != Utility.mSession)
+					Utility.mSession.storeSound(0);
+				else if(null != Utility.mSession)
+					Utility.mSession.storeSound(1);
+			}
+		});
 		((LinearLayout) findViewById(R.id.sysset_clearCache))
 				.setOnClickListener(this);
 		detector = new GestureDetector(new OnGestureListener() {
@@ -195,6 +212,7 @@ public class SysSetActivity extends StatActivity implements OnClickListener {
 			Utility.mSession.resetToken();
 			Utility.mToken = null;
 			new SharedPref(SysSetActivity.this).resetSinaQQ();
+			SystemMsgService.MSGbadge = 0;
 			Intent it = new Intent(SysSetActivity.this, LoginActivity.class);
 			it.putExtra("logout", true);
 			startActivity(it);

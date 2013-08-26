@@ -10,7 +10,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.*;
 import android.location.Address;
@@ -31,6 +33,9 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.search.core.AMapException;
 import com.amap.api.search.geocoder.Geocoder;
+import com.youle.managerData.MyApplication;
+import com.youle.managerUi.CouponDetailActivity;
+import com.youle.managerUi.SlidActivity;
 
 public class OtherUtil {
 	public static AMapLocation amlocation = null;
@@ -219,10 +224,11 @@ public class OtherUtil {
 		}
 		if (address != null && address.size() > 0) {
 			Address addres = address.get(0);
-			String [] add=new String[3];
+            String [] add=new String[4];
 			add[0]=addres.getLocality();
 			add[1]=addres.getSubLocality();
 			add[2]=addres.getThoroughfare();
+            add[3]=addres.getCountryName();
 			String addressName = addres.getLocality()
 					+ addres.getSubLocality() + addres.getThoroughfare();
 			Log.i("1234", "" + addressName);
@@ -230,6 +236,7 @@ public class OtherUtil {
 		}
 		return null;
 	}
+
     public static String getSDcard(){
         // 获取SdCard状态
         String state = android.os.Environment.getExternalStorageState();
@@ -397,32 +404,6 @@ public class OtherUtil {
 
         return output;
     }
-    /**
-     *要转换的毫秒数
-     * @param ms
-     * @return 该毫秒数转换为 * days * hours * minutes * seconds 后的格式
-     * @author fy.zhang
-     */
-    public static String formatDuring(long ms) {
-        long currentTime=System.currentTimeMillis()/1000;
-
-        long mss=currentTime-ms;
-        long days = mss / ( 60 * 60 * 24);
-        long hours = (mss % ( 60 * 60 * 24)) / ( 60 * 60);
-        long minutes = (mss % ( 60 * 60)) / ( 60);
-        long seconds = (mss % ( 60)) / 1000;
-        if(days>0){
-            return days+"天以前";
-        }else if(hours>0){
-            return hours+"小时以前";
-        }else if(minutes>0){
-            return minutes+"分钟以前";
-        }else {
-            return seconds+"秒以前";
-        }
-//        return days + " days " + hours + " hours " + minutes + " minutes "
-//                + seconds + " seconds ";
-    }
 
     /**
      * 字符串转换成日期
@@ -439,5 +420,41 @@ public class OtherUtil {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public static void gotoAim(Context context ,int type, int re_id) {
+        Intent intent = null;
+        switch (type) {
+            case 1:
+                intent = new Intent(context, CouponDetailActivity.class);
+                intent.putExtra("uc_id", re_id + "");
+                break;
+            case 2:
+                intent = new Intent(context, SlidActivity.class);
+                intent.putExtra("flag", 1);
+                break;
+            case 4:
+                intent = new Intent(context, SlidActivity.class);
+                intent.putExtra("flag", 7);
+                break;
+            case 5:
+                intent = new Intent(context, SlidActivity.class);
+                intent.putExtra("flag", 1);
+                break;
+        }
+        context.startActivity(intent);
+    }
+    public static void showCloseDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("我们当前只为中国地区用户服务。其他地区用户暂时不能使用");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                MyApplication.getInstance().exit();
+            }
+        });
+        builder.create().show();
     }
 }

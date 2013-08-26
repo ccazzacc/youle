@@ -39,6 +39,7 @@ import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.SharedPref.YLSession;
 import com.youle.util.GlobalData;
+import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
 
 public class GuideActivity extends StatActivity implements OnClickListener {
@@ -208,7 +209,10 @@ public class GuideActivity extends StatActivity implements OnClickListener {
 			 nameAndPsd[0] = weibo.getId()+"";
 			 nameAndPsd[1] = weibo.getDb().getWeiboId();
 			 nameAndPsd[2] = weibo.getDb().get("nickname");
-			new SubmitTask().execute(nameAndPsd);
+			 if(!OtherUtil.is3gWifi(GuideActivity.this))
+		        	ToastUtil.show(GuideActivity.this, R.string.net_no);
+		        else
+		        	new SubmitTask().execute(nameAndPsd);
 
 			if (weibo.getId() == 1) {
 				try {

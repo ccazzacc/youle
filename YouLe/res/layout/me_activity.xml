@@ -12,16 +12,17 @@
         layout="@layout/twobtn_header" />
 
     <RelativeLayout
-        style="@style/full_screen"
-        android:layout_weight="1.0" >
+        style="@style/full_screen">
 
         <com.youle.view.XListView
             android:id="@+id/me_center_listview"
             style="@style/wrap_content"
             android:layout_gravity="left|center_vertical"
             android:cacheColorHint="@color/transparent"
-            android:divider="@color/transparent"
-            android:listSelector="@color/transparent"
+            android:divider="@null"
+            android:listSelector="@color/bg_color"
+            android:headerDividersEnabled="false"
+            android:footerDividersEnabled="false"
             android:scrollbars="none" >
         </com.youle.view.XListView>
 

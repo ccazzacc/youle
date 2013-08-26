@@ -57,6 +57,8 @@ public class GlobalData {
 	public static final String TYPE = "type";
 	public static final String LEVEL = "level";
 	public static final String POINTS = "points";
+	public static final String SYS_UNREAD = "system_unread";
+	public static final String PRI_UNREAD = "private_unread";
 	//优惠券
 	public static final String MAP = "map";
 	public static final String CODE = "code";
@@ -101,9 +103,19 @@ public class GlobalData {
 	public static final String NO = "no";
 	//获取论坛列表
 	public static final String FORUMS = "forums";
+	public static final String FORUM = "forum";
 	public static final String LOGO_URL = "logo_url";
 	public static final String TOTAL_POSTS = "total_posts";
 	public static final String FORUM_ID = "forum_id";
+	public static final String POST_ID = "post_id";
+	public static final String CONTENT = "content";
+	public static final String REPLIES = "replies";
+	public static final String POSTS = "posts";
+	public static final String TOPIC_ID = "topic_id";
+	
+	public static final String TODAY = "today";
+	public static final String MONTH = "month";
+	public static final String YEAR = "year";
 	//用户资料编辑
 	public static final String AGE = "age";
 	// 结果为null
@@ -113,13 +125,10 @@ public class GlobalData {
 	// json错误
 	public static final String JSON_ERROR_CODE = "103";
 	
-	public static final String ERROR_502 = "502";
-	public static final String ERROR_204 = "204";
-	public static final String ERROR_404 = "404";
-	public static final String ERROR_401 = "401";
 	public static final String REQUEST_FAIL = "request fail";
 	public static final String YOULE = "/youle/";
 	public static final String CACHE = "/.cache";
+	public static String RESULT;
 
 	// 发送定位广播
 	public static String BROADCAST_COUNTER_ACTION = "com.youle.chooseCity";

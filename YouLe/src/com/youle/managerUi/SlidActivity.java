@@ -3,6 +3,7 @@ package com.youle.managerUi;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +22,7 @@ import com.baidu.mobstat.StatService;
 import com.youle.R;
 import com.youle.fragment.SlidLeftFragment;
 import com.youle.fragment.SlipMainCenter;
+import com.youle.http_helper.YouLe;
 import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.util.GlobalData;
@@ -45,6 +47,8 @@ public class SlidActivity extends FragmentActivity{
         }
 		init();
 		MyApplication.getInstance().addActivity(this);
+        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(YouLe.NOTIFICATION_ID);
 	}
 	
 	private void init(){

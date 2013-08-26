@@ -31,6 +31,7 @@ import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.info.MeInfo;
 import com.youle.util.GlobalData;
 import com.youle.util.ImageUtil;
@@ -58,6 +59,7 @@ public class MeSetActivity extends StatActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.meset_activity);
 		initView();
+		MyApplication.getInstance().addActivity(this);
 	}
 	@Override
 	protected void onRestart() {
@@ -92,12 +94,18 @@ public class MeSetActivity extends StatActivity implements OnClickListener{
 				if (keyCode == 66) {
 					i++;
 					if(i%2==1)
-						new SetMeTask().execute();
+						if(!OtherUtil.is3gWifi(MeSetActivity.this))
+				        	ToastUtil.show(MeSetActivity.this, R.string.net_no);
+				        else
+				        	new SetMeTask().execute();
 				}
 				return false;
 			}
 		});
-		new GetMeTask().execute();
+		if(!OtherUtil.is3gWifi(this))
+        	ToastUtil.show(this, R.string.net_no);
+        else
+        	new GetMeTask().execute();
 	}
 	@Override
 	public void onClick(View v) {
@@ -212,11 +220,11 @@ public class MeSetActivity extends StatActivity implements OnClickListener{
 			if(!OtherUtil.isNullOrEmpty(result) && result.startsWith(GlobalData.RESULT_OK))
 			{
 				ToastUtil.show(MeSetActivity.this,
-						getString(R.string.fix_ok));
+						R.string.fix_ok);
 				MeSetActivity.this.finish();
 			}else
 			{
-				ToastUtil.show(MeSetActivity.this,
+				ToastUtil.showToast(MeSetActivity.this,
 						result);
 			}
 		}
@@ -370,7 +378,7 @@ public class MeSetActivity extends StatActivity implements OnClickListener{
 			new uploadTask().execute();
 		} else {
 			ToastUtil.show(MeSetActivity.this,
-					getString(R.string.please_check_net));
+					getString(R.string.net_no));
 		}
 	}
 	@Override

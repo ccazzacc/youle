@@ -1,5 +1,6 @@
 package com.youle.managerUi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,18 +33,20 @@ import com.baidu.mobstat.StatActivity;
 import com.youle.R;
 import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.info.CouponListInfo;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
+import com.youle.view.CustomProgressDialog;
 
 public class CouponActivity extends StatActivity{
 	private ListView lvCoupon;
 	private List<CouponListInfo> listCou;
 	private FinalBitmap fb;
 	private String tag;
-	private TextView tvNo;
+	private TextView tvNo,tvInfo;
 	private GestureDetector detector;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +56,14 @@ public class CouponActivity extends StatActivity{
 		initView();
 		fb = FinalBitmap.create(this);
 		fb.onResume();
+		MyApplication.getInstance().addActivity(this);
 	}
 	@SuppressWarnings("deprecation")
 	private void initView()
 	{
 		lvCoupon = (ListView)findViewById(R.id.coupon_listview);
 		tvNo = (TextView)findViewById(R.id.coupon_tv_no);
+		tvInfo = (TextView)findViewById(R.id.coupon_tv_infos);
 		listCou = new ArrayList<CouponListInfo>();
 		tag = this.getIntent().getStringExtra("tag");
 		LinearLayout header = (LinearLayout)findViewById(R.id.coupon_header);
@@ -69,7 +74,10 @@ public class CouponActivity extends StatActivity{
 			SlipMainCenter.lyButtom.setVisibility(View.GONE);
 			SlipMainCenter.btnRight.setVisibility(View.INVISIBLE);
 			SlipMainCenter.btnMsgtop.setVisibility(View.GONE);
-			new GetMeCouponTask().execute();
+			if(!OtherUtil.is3gWifi(this))
+	        	ToastUtil.show(this, R.string.net_no);
+	        else
+	        	new GetMeCouponTask().execute();
 			lvCoupon.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
@@ -77,7 +85,8 @@ public class CouponActivity extends StatActivity{
 						long arg3) {
 					// TODO Auto-generated method stub
 					Intent it = new Intent(CouponActivity.this,CouponDetailActivity.class);
-					it.putExtra(GlobalData.COUPON, listCou.get(arg2));
+					it.putExtra(GlobalData.COUPON, (Serializable)listCou);
+					it.putExtra("pos", arg2);
 					startActivity(it);
 					overridePendingTransition(
 							R.anim.push_left_in, R.anim.push_left_out);
@@ -175,7 +184,10 @@ public class CouponActivity extends StatActivity{
 				}
 			});
 			btnMap.setVisibility(View.VISIBLE);
-			new GetCouponTask().execute();
+			if(!OtherUtil.is3gWifi(this))
+	        	ToastUtil.show(this, R.string.net_no);
+	        else
+	        	new GetCouponTask().execute();
 		}
 		
 		
@@ -199,12 +211,20 @@ public class CouponActivity extends StatActivity{
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			CustomProgressDialog
+			.stopProgressDialog(CouponActivity.this);
 			if(!OtherUtil.isNullOrEmpty(result) && result.startsWith(GlobalData.RESULT_OK))
 			{
 				if(null == listCou || listCou.size() == 0)
+				{
 					tvNo.setVisibility(View.VISIBLE);
+					tvInfo.setVisibility(View.GONE);
+				}
 				else
+				{
 					tvNo.setVisibility(View.GONE);
+					tvInfo.setVisibility(View.VISIBLE);
+				}
 				CouponAdapter adapter = new CouponAdapter(CouponActivity.this,listCou);
 				lvCoupon.setAdapter(adapter);
 			}else
@@ -212,6 +232,22 @@ public class CouponActivity extends StatActivity{
 				ToastUtil.showToast(CouponActivity.this, result);
 			}
 				
+		}
+
+		@Override
+		protected void onCancelled() {
+			// TODO Auto-generated method stub
+			super.onCancelled();
+			CustomProgressDialog
+			.stopProgressDialog(CouponActivity.this);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			CustomProgressDialog.showMsg(CouponActivity.this,
+					getString(R.string.please_wait));
 		}
 		
 	}
@@ -234,6 +270,8 @@ public class CouponActivity extends StatActivity{
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			CustomProgressDialog
+			.stopProgressDialog(CouponActivity.this);
 			if(!OtherUtil.isNullOrEmpty(result) && result.startsWith(GlobalData.RESULT_OK) && null != listCou)
 			{
 				CouponAdapter adapter = new CouponAdapter(CouponActivity.this,listCou);
@@ -243,6 +281,22 @@ public class CouponActivity extends StatActivity{
 				ToastUtil.showToast(CouponActivity.this, result);
 			}
 				
+		}
+
+		@Override
+		protected void onCancelled() {
+			// TODO Auto-generated method stub
+			super.onCancelled();
+			CustomProgressDialog
+			.stopProgressDialog(CouponActivity.this);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			CustomProgressDialog.showMsg(CouponActivity.this,
+					getString(R.string.please_wait));
 		}
 		
 	}

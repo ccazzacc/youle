@@ -15,6 +15,7 @@ import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.AsyncLoader;
 import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.info.MainInfo;
 import com.youle.managerData.info.MeInfo;
 import com.youle.util.GlobalData;
@@ -128,7 +129,9 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 			SlipMainCenter.btnRight.setVisibility(View.INVISIBLE);
 			lyMe.setVisibility(View.VISIBLE);
 		}
-		if (!OtherUtil.isNullOrEmpty(uId)) {
+		if(!OtherUtil.is3gWifi(this))
+        	ToastUtil.show(this, R.string.net_no);
+        else if (!OtherUtil.isNullOrEmpty(uId)) {
 			new GetUserTask().execute();
 			geneItems(page, 0);
 		}
@@ -199,6 +202,7 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 		ct = this;
 		fb = FinalBitmap.create(ct);
 		initView();
+		MyApplication.getInstance().addActivity(this);
 	}
 
 	private class GetUserTask extends AsyncTask<Void, Void, String> {
@@ -207,12 +211,13 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 		@Override
 		protected String doInBackground(Void... params) {
 			// TODO Auto-generated method stub
-			String res = YouLe.getUserInfo(ct, uId);
-			if (res.startsWith(GlobalData.RESULT_OK)) {
-				// if(uId.equals(Utility.mToken.getUser_id()))
-				// {
-				// info = YouLe.jsonUserInfo(res.substring(3),true);
-				// }else
+			String res;
+			if (!OtherUtil.isNullOrEmpty(uId)
+					&& uId.equals(Utility.mSession.getUserId()))
+				res = YouLe.getMeInfo(ct);
+			else
+				res = YouLe.getUserInfo(ct, uId);
+			if (!OtherUtil.isNullOrEmpty(res)&&res.startsWith(GlobalData.RESULT_OK)) {
 				info = YouLe.jsonUserInfo(res.substring(3), false);
 				return GlobalData.RESULT_OK;
 			} else
@@ -256,6 +261,7 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 					tvClass.setVisibility(View.GONE);
 					break;
 				}
+				
 			} else {
 				ToastUtil.showToast(ct, result);
 			}
@@ -661,8 +667,59 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 					break;
 				}
 				vc.tvAdd.setText(info.getPlace());
-			}
+				vc.tvAdd.setOnClickListener(new OnClickListener() {
 
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent it = new Intent(MeActivity.this,
+								SlidActivity.class);
+						it.putExtra("flag", 0);
+						// it.putExtra("maininfo", info);
+						String str = new StringBuffer().append("{").append("\"")
+								.append("track_id").append("\"").append(":")
+								.append(info.getTrackId()).append(",").append("\"")
+								.append("user_id").append("\"").append(":")
+								.append(info.getUserId()).append(",").append("\"")
+								.append("username").append("\"").append(":\"")
+								.append(info.getUsername()).append("\",")
+								.append("\"").append("avatar_url").append("\"")
+								.append(":\"").append(info.getAvaUrl()).append("\",")
+								.append("\"").append("created").append("\"")
+								.append(":\"").append(info.getCreated()).append("\",")
+								.append("\"").append("text").append("\"")
+								.append(":\"").append(info.getText()).append("\",")
+								.append("\"").append("mark").append("\"")
+								.append(":").append(info.getMark()).append(",")
+								.append("\"").append("audio_url").append("\"")
+								.append(":\"").append(info.getAudUrl()).append("\",")
+								.append("\"").append("audio_time").append("\"")
+								.append(":").append(info.getAudTime()).append(",")
+								.append("\"").append("image_url").append("\"")
+								.append(":\"").append(info.getImgUrl()).append("\",")
+								.append("\"").append("origin_image_url")
+								.append("\"").append(":\"")
+								.append(info.getOrImgUrl()).append("\",")
+								.append("\"").append("location").append("\"")
+								.append(":").append("[")
+								.append(info.getLatLng().longitude).append(",")
+								.append(info.getLatLng().latitude).append("]")
+								.append(",").append("\"").append("place")
+								.append("\"").append(":\"").append(info.getPlace())
+								.append("\",").append("\"").append("flags")
+								.append("\"").append(":").append(info.getFlags())
+								.append(",").append("\"").append("width")
+								.append("\"").append(":").append(info.getWidth())
+								.append(",").append("\"").append("height")
+								.append("\"").append(":").append(info.getHeight())
+								.append(",").append("\"").append("user_type")
+								.append("\"").append(":").append(info.getUtype())
+								.append("}").toString();
+						it.putExtra("mainStr", str);
+						startActivity(it);
+					}
+				});
+			}
 			return convertView;
 		}
 
@@ -704,7 +761,7 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 			new GetTracksTask().execute(page, type);
 		} else {
 			onLoad();
-			ToastUtil.show(ct, R.string.please_check_net);
+			ToastUtil.show(ct, R.string.net_no);
 		}
 	}
 
@@ -879,7 +936,7 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 		// ExifInterface exif = new ExifInterface(myCoverPath);
 		// if ((Integer.valueOf(exif
 		// .getAttribute(ExifInterface.TAG_IMAGE_WIDTH))) < 320) {
-		// ToastUtil.showToast(ct, "图片小");
+		// ToastUtil.show(ct, "图片小");
 		// myCoverPath = null;
 		// } else {
 		// if (OtherUtil.is3gWifi(ct)) {
@@ -1045,7 +1102,7 @@ public class MeActivity extends StatActivity implements IXListViewListener,
 			// ivMava.setImageBitmap(photo);
 			new uploadTask().execute();
 		} else {
-			ToastUtil.show(ct, getString(R.string.please_check_net));
+			ToastUtil.show(ct, getString(R.string.net_no));
 		}
 	}
 

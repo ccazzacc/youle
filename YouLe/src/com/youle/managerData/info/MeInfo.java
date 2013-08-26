@@ -10,7 +10,8 @@ public class MeInfo {
 	private String points;
 	private String age;
 	private String name;
-	
+	private int sysUnRead;
+	private int priUnRead;
 	public String getName() {
 		return name;
 	}
@@ -22,6 +23,19 @@ public class MeInfo {
 	}
 	public void setAge(String age) {
 		this.age = age;
+	}
+	
+	public int getSysUnRead() {
+		return sysUnRead;
+	}
+	public void setSysUnRead(int sysUnRead) {
+		this.sysUnRead = sysUnRead;
+	}
+	public int getPriUnRead() {
+		return priUnRead;
+	}
+	public void setPriUnRead(int priUnRead) {
+		this.priUnRead = priUnRead;
 	}
 	public MeInfo(String userName, String userId, int type, int gender,
 			String avaUrl, String level, String points) {

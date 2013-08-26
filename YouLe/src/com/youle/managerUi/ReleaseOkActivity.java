@@ -59,7 +59,7 @@ public class ReleaseOkActivity extends StatActivity {
     private ImageView mIvRoad;
     private Button/* mShareSina, mShareQQ,*/ mBtnUpload, mBtnPlay, mBtnUp, mBtnCanel;
     private boolean mIsUnRegister, isShareSina, isShareQQ;
-    private String[] address;
+    private String address;
     private String mAudPath, mImgPath, mTxt;
     private int mType, mEvenType, mAudTime;
     private AbstractWeibo mSWeibo, mQWeibo;
@@ -78,7 +78,6 @@ public class ReleaseOkActivity extends StatActivity {
 
         getData();
         initView();
-
     }
 
     @Override
@@ -101,7 +100,7 @@ public class ReleaseOkActivity extends StatActivity {
         String txtSay = getIntent().getStringExtra("txt");
         lat = getIntent().getDoubleExtra("lat", 0);
         lng = getIntent().getDoubleExtra("lng", 0);
-        address = getIntent().getStringArrayExtra("address");
+        address = getIntent().getStringExtra("address");
         int[] img = {R.drawable.crowd_normal, R.drawable.accident_normal, R.drawable.danger_normal, R.drawable.road_normal, R.drawable.often_normal, R.drawable.webcam_normal};
         String[] txt = {getString(R.string.traffic), getString(R.string.accident), getString(R.string.danger), getString(R.string.roads), getString(R.string.police), getString(R.string.monitor)};
         imgEven.setBackgroundResource(img[mEvenType]);
@@ -157,7 +156,7 @@ public class ReleaseOkActivity extends StatActivity {
 
     private void initView() {
         mTxtLoc = (TextView) findViewById(R.id.text_me_loc);
-        mTxtLoc.setText(" " + /*address[0] + address[1] +*/ address[2]);
+        mTxtLoc.setText(" " + /*address[0] + address[1] +*/ address);
         mBtnUpload = (Button) findViewById(R.id.btn_re_ok_send);
         mBtnUpload.setOnClickListener(click);
         mBtnCanel = (Button) findViewById(R.id.btn_re_ok_canel);
@@ -172,10 +171,10 @@ public class ReleaseOkActivity extends StatActivity {
         intent.putExtra("lat", lat);
         intent.putExtra("lng", lng);
         intent.putExtra("spd", spd);
-        if (!OtherUtil.isNullOrEmpty(address[0])) {
-            place = address[0] + address[1] + address[2];
+        if (!OtherUtil.isNullOrEmpty(address)) {
+            place =address;
         } else {
-            place = "";
+            place =new SharedPref(this).getCity() ;
         }
         intent.putExtra("place", place);
         intent.putExtra("mark", mEvenType + 1);

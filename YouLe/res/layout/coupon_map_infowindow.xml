@@ -47,7 +47,7 @@
     </RelativeLayout>
     <ListView
             android:layout_width="wrap_content"
-            android:layout_height="255dp"
+            android:layout_height="200dp"
             android:id="@+id/infowindow_list" android:layout_below="@+id/relativeLayout"
             android:layout_alignParentLeft="true" android:layout_alignRight="@+id/relativeLayout"
             android:background="@color/white" android:visibility="visible"/>

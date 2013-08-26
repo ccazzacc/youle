@@ -57,7 +57,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15.0dip"
                         android:layout_marginRight="15.0dip"
-                        android:background="@drawable/often_normal_ns"
+                        android:background="@drawable/avatar_cir"
                         android:gravity="center_vertical" />
 
                     <View

@@ -1,5 +1,6 @@
 package com.youle.managerUi;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.baidu.mobstat.StatActivity;
 import com.youle.R;
+import com.youle.managerData.MyApplication;
 
 public class AboutActivity extends StatActivity{
 
@@ -35,6 +37,15 @@ public class AboutActivity extends StatActivity{
 		btnBack.setVisibility(View.VISIBLE);
 		TextView tvTitle = (TextView) findViewById(R.id.twobtn_header_tv);
 		tvTitle.setText(R.string.about);
+		MyApplication.getInstance().addActivity(this);
+		((Button)findViewById(R.id.about_path)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(AboutActivity.this,WebMeActivity.class));
+			}
+		});
 	}
 	private String getAppVersionName() {
 		String versionName = "";

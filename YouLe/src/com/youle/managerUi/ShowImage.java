@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.baidu.mobstat.StatActivity;
 import com.youle.R;
+import com.youle.managerData.MyApplication;
 
 /**
  * Created by zhaofuchao on 13-6-21.
@@ -26,6 +27,7 @@ public class ShowImage extends StatActivity {
         ImageView iv=(ImageView)findViewById(R.id.show_image);
         fb.display(iv,url);
         iv.setOnTouchListener(new MulitPointTouchListener());
+        MyApplication.getInstance().addActivity(this);
     }
 
     public class MulitPointTouchListener implements View.OnTouchListener {

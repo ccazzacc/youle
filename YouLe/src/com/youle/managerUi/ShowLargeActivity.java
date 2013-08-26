@@ -22,6 +22,7 @@ import android.widget.Button;
 
 import com.baidu.mobstat.StatActivity;
 import com.youle.R;
+import com.youle.managerData.MyApplication;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
@@ -41,6 +42,7 @@ public class ShowLargeActivity extends StatActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.show_large_img);
+		MyApplication.getInstance().addActivity(this);
 		context = this;
 		Bundle bundle = this.getIntent().getExtras();
 		String imageUrl = null;

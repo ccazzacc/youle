@@ -82,6 +82,7 @@ public class ApplyShopActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.applyshop_activity);
 		coder = new Geocoder(this);
 		initView();
+		MyApplication.getInstance().addActivity(this);
 	}
 
 	private void initView() {
@@ -186,7 +187,11 @@ public class ApplyShopActivity extends Activity implements OnClickListener {
 				it.putExtra("flag", 6);
 				startActivity(it);
 				ApplyShopActivity.this.finish();
-			} else {
+			} else if(result.equals("merchant already applied"))
+			{
+				ToastUtil.show(ApplyShopActivity.this, R.string.applying);
+				ApplyShopActivity.this.finish();
+			}else{
 				ToastUtil.showToast(ApplyShopActivity.this, result);
 			}
 		}
@@ -238,16 +243,21 @@ public class ApplyShopActivity extends Activity implements OnClickListener {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				try {
-					List<Address> address = coder.getFromLocationName(name, 3);
-					if (address != null && address.size() > 0) {
-						Address addres = address.get(0);
-						latLng = addres.getLatitude() + ","
-								+ addres.getLongitude();
-						Log.i("1234", latLng);
-						handler.sendEmptyMessage(2);
-					}
-				} catch (AMapException e) {
+					try {
+						List<Address> address = coder.getFromLocationName(name, 3);
+						if (address != null && address.size() > 0) {
+							Address addres = address.get(0);
+							latLng = addres.getLatitude() + ","
+									+ addres.getLongitude();
+							Log.i("1234", latLng);
+							handler.sendEmptyMessage(2);
+						}
+					} catch (AMapException e) {
 
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
 			}
@@ -260,16 +270,21 @@ public class ApplyShopActivity extends Activity implements OnClickListener {
 			public void run() {
 
 				try {
-					List<List<Address>> lists = coder.getFromLocation(mlat,
-							mLon, 3, 3, 3, 500);
-					List<Address> address = lists.get(0);
-					if (address != null && address.size() > 0) {
-						Address addres = address.get(0);
-						addressName = addres.getSubLocality()
-								+ addres.getFeatureName();
-						handler.sendEmptyMessage(1);
+					try {
+						List<List<Address>> lists = coder.getFromLocation(mlat,
+								mLon, 3, 3, 3, 500);
+						List<Address> address = lists.get(0);
+						if (address != null && address.size() > 0) {
+							Address addres = address.get(0);
+							addressName = addres.getSubLocality()
+									+ addres.getFeatureName();
+							handler.sendEmptyMessage(1);
+						}
+					} catch (AMapException e) {
 					}
-				} catch (AMapException e) {
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
 			}
@@ -283,7 +298,10 @@ public class ApplyShopActivity extends Activity implements OnClickListener {
 				merchants_address.setText(addressName);
 			}else if(msg.what == 2)
 			{
-				new AppShopTask().execute();
+				if(!OtherUtil.is3gWifi(ApplyShopActivity.this))
+		        	ToastUtil.show(ApplyShopActivity.this, R.string.net_no);
+		        else
+		        	new AppShopTask().execute();
 			}
 		}
 	};
@@ -516,7 +534,7 @@ public class ApplyShopActivity extends Activity implements OnClickListener {
 					// ToastUtil.showToast(ApplyShopActivity.this, R.string.s);
 					// photo = null;
 					// } else {
-					tempPath = path;
+					tempPath = OtherUtil.saveBitmap(path);
 					ivPic.setImageBitmap(photo);
 					// }
 				}

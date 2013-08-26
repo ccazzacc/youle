@@ -28,7 +28,9 @@ import com.youle.fragment.SlipMainCenter;
 import com.youle.http_helper.AsyncLoader;
 import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
+import com.youle.managerData.MyApplication;
 import com.youle.managerData.SharedPref.SharedPref;
+import com.youle.service.SystemMsgService;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
 import com.youle.view.CircleProgress;
@@ -49,26 +51,59 @@ public class SysMsgActivity extends StatActivity {
     AdapterView.OnItemClickListener itemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
             if (mStatus == 1) {
-                mStatus = 2;
-                getPrivateMsg(mFromList.get(i).userId);
-                mSendId = mFromList.get(i).userId;
-                rl.setVisibility(View.VISIBLE);
-//                top.setVisibility(View.GONE);
-                SlipMainCenter.btnMsgtop.setVisibility(View.GONE);
-                SlipMainCenter.tvName.setText(mFromList.get(i).otherName);
-                SlipMainCenter.btnLeft.setBackgroundResource(R.drawable.bar_button_back_normal);
+                gotoPrivateMsg(mFromList.get(i).userId);
             } else if (mStatus == 2) {
 //                if(mPrivateList.get(i).imgUrl)
                 Log.i("1234", "img_url:" + mPrivateList.get(mPrivateList.size() - i - 1).imgUrl);
+            } else if (mStatus == 0) {
+                //message
+                Log.i("1234", msgInfoList.get(i).data);
+                OtherUtil.gotoAim(SysMsgActivity.this,msgInfoList.get(i).type, msgInfoList.get(i).relative_id);
+//                gotoAim(msgInfoList.get(i).type, msgInfoList.get(i).relative_id);
+//                startActivity(new Intent(SysMsgActivity.this,SysMessageActivity.class));
             }
         }
+
+        private void gotoPrivateMsg(String user_id) {
+            mStatus = 2;
+            getPrivateMsg(user_id);
+            mSendId = user_id;
+            rl.setVisibility(View.VISIBLE);
+            SlipMainCenter.btnMsgtop.setVisibility(View.GONE);
+//            SlipMainCenter.tvName.setText(mFromList.get(i).otherName);
+            SlipMainCenter.btnLeft.setBackgroundResource(R.drawable.bar_button_back_normal);
+        }
+
+        private void gotoAim(int type, int re_id) {
+            Intent intent = null;
+            switch (type) {
+                case 1:
+                    intent = new Intent(SysMsgActivity.this, CouponDetailActivity.class);
+                    intent.putExtra("uc_id", re_id + "");
+                    break;
+                case 2:
+                    intent = new Intent(SysMsgActivity.this, SlidActivity.class);
+                    intent.putExtra("flag", 1);
+                    break;
+                case 4:
+                    intent = new Intent(SysMsgActivity.this, SlidActivity.class);
+                    intent.putExtra("flag", 7);
+                    break;
+                case 5:
+                    intent = new Intent(SysMsgActivity.this, SlidActivity.class);
+                    intent.putExtra("flag", 1);
+                    break;
+            }
+            startActivity(intent);
+        }
+
     };
     View.OnLongClickListener longClick = new View.OnLongClickListener() {
 
         @Override
         public boolean onLongClick(View v) {
-            Log.i("1234", "1234");
             record();
             return false;
         }
@@ -135,37 +170,29 @@ public class SysMsgActivity extends StatActivity {
                     break;
                 case R.id.header_left:
                     if (mStatus == 2) {
-//                        fromListAdapter = new FromListAdapter();
-//                        getData();
-//                        listView.setAdapter(fromListAdapter);
+                        fromListAdapter = new FromListAdapter();
+                        listView.setAdapter(fromListAdapter);
                         getData();
                         rl.setVisibility(View.GONE);
                         SlipMainCenter.btnMsgtop.setVisibility(View.VISIBLE);
                         SlipMainCenter.btnLeft.setVisibility(View.VISIBLE);
                         SlipMainCenter.btnLeft.setBackgroundResource(R.drawable.bar_button_navigation_normal);
                         mStatus = 1;
-//                        InputMethodManager inputMethodManager = (InputMethodManager)
-//                                getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        inputMethodManager.hideSoftInputFromWindow(SysMsgActivity.this.getCurrentFocus().getWindowToken(),
-//                                InputMethodManager.HIDE_NOT_ALWAYS);
                     } else {
                         SlidActivity.showMenu();
-//                        finish();
-//                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                     }
                     break;
                 case R.id.sysmsg_top:
                     if (mStatus == 0) {
                         mStatus = 1;
                         view.setBackgroundResource(R.drawable.privateletter_tabs);
-                        getData();
-//                        fromListAdapter = new FromListAdapter();
-//                        listView.setAdapter(fromListAdapter);
+                        listView.setAdapter(fromListAdapter);
                         getData();
                     } else {
                         mStatus = 0;
                         view.setBackgroundResource(R.drawable.message_tabs);
-                        listView.setAdapter(new MsgAdapter());
+                        listView.setAdapter(msgAdapter);
+                        getMessage();
 //                        rl.setVisibility(View.GONE);
                     }
                     break;
@@ -212,7 +239,8 @@ public class SysMsgActivity extends StatActivity {
 
     };
     private MyAdapter myAdapter;
-    private FromListAdapter fromListAdapter;
+    private FromListAdapter fromListAdapter = new FromListAdapter();
+    private MsgAdapter msgAdapter = new MsgAdapter();
     private ListView listView;
     private TableLayout tl;
     private RelativeLayout rl, rlRecord, rlInput;
@@ -239,10 +267,12 @@ public class SysMsgActivity extends StatActivity {
         fb.onResume();
         mMyUserId = Integer.parseInt(Utility.mSession.getUserId());
         initView();
-        getMessage();
         mStatus = 0;
-//        startService(new Intent(SysMsgActivity.this, SystemMsgService.class));269081834
-
+        listView.setAdapter(msgAdapter);
+//        getMessage();
+        startActivity(new Intent(SysMsgActivity.this,SysPrivateActivity.class));
+        MyApplication.getInstance().addActivity(this);
+        SystemMsgService.MSGbadge=0;
     }
 
     @Override
@@ -313,9 +343,9 @@ public class SysMsgActivity extends StatActivity {
                         mFromList.add(fromInfo);
                     }
                     if (mFromList.size() > 0) {
-                        fromListAdapter = new FromListAdapter();
-                        listView.setAdapter(fromListAdapter);
-//                        fromListAdapter.notifyDataSetChanged();
+//                        fromListAdapter = new FromListAdapter();
+//                        listView.setAdapter(fromListAdapter);
+                        fromListAdapter.notifyDataSetChanged();
                     }
 
                 } catch (JSONException e1) {
@@ -387,7 +417,7 @@ public class SysMsgActivity extends StatActivity {
 //						MeActivity.class);
 //				its.putExtra(GlobalData.U_ID, Utility.mSession.getUserId());
 //				startActivity(its);
-                SlipMainCenter.slidIntent(2);
+                SlipMainCenter.slidIntent(2, false);
             }
         });
         SlipMainCenter.lyButtom.setVisibility(View.GONE);
@@ -450,9 +480,10 @@ public class SysMsgActivity extends StatActivity {
     private void getMessage() {
         String url = new StringBuffer().append(YouLe.BASE_URL).append("system_messages").append("?access_token=")
                 .append(Utility.mToken.getAccess_token())
-                .append("&page=1").append("&size=10")
+                .append("&page=1").append("&size=15")
                 .toString();
         Log.i("1234", "url: " + url);
+        msgInfoList = new ArrayList<MsgInfo>();
         AsyncHttpClient.getDefaultInstance().get(url, new AsyncHttpClient.JSONObjectCallback() {
             @Override
             public void onCompleted(Exception e, AsyncHttpResponse asyncHttpResponse, JSONObject jsonObject) {
@@ -468,12 +499,16 @@ public class SysMsgActivity extends StatActivity {
                         String name = new SharedPref(SysMsgActivity.this).getRadioName();
                         String content = obj.getString("content");
                         String date = YouLe.formatDate(obj.getLong("created"));
-                        String type = obj.getString("type");
-                        MsgInfo info = new MsgInfo(name, content, date, type);
+                        int type = obj.getInt("type");
+                        int msg_id = obj.getInt("message_id");
+                        int relative_id = obj.getInt("relative_id");
+                        MsgInfo info = new MsgInfo(name, content, date, type, msg_id, relative_id);
                         msgInfoList.add(info);
-                        if(msgInfoList.size()>0){
-                            MsgAdapter msgAdapter = new MsgAdapter();
-                            listView.setAdapter(msgAdapter);
+                        if (msgInfoList.size() > 0) {
+                            msgAdapter.notifyDataSetChanged();
+                        }
+                        if(type==4){
+                            Utility.mSession.storeType(relative_id);
                         }
                     }
                 } catch (JSONException e1) {
@@ -517,7 +552,10 @@ public class SysMsgActivity extends StatActivity {
                     e.printStackTrace();
                     return;
                 }
-
+                if (asyncHttpResponse.hashCode() != 200) {
+                    ToastUtil.show(SysMsgActivity.this, "服务器正忙，请稍后重试");
+                    return;
+                }
 //                getPrivateMsg(mSendId);
                 int id = Integer.parseInt(mSendId);
 //                Log.i("1234", asyncHttpResponse.toString() + " mSendaud: " + mAudFile.getAbsoluteFile() + " time:" + mSendAudT);
@@ -534,6 +572,7 @@ public class SysMsgActivity extends StatActivity {
         String url = new StringBuffer().append(YouLe.BASE_URL).append("private_messages/")
                 .append(id).append("?access_token=")
                 .append(Utility.mToken.getAccess_token()).append("&page=1").toString();
+        Log.i("1234",url);
         AsyncHttpClient.getDefaultInstance().get(url, new AsyncHttpClient.JSONObjectCallback() {
             @Override
             public void onCompleted(Exception e, AsyncHttpResponse asyncHttpResponse, JSONObject jsonObject) {
@@ -543,6 +582,7 @@ public class SysMsgActivity extends StatActivity {
                 }
                 mPrivateList = new ArrayList<PrivateMsgInfo>();
                 try {
+                    String sender="";
                     JSONArray jsonArray = jsonObject.getJSONArray("messages");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj1 = jsonArray.getJSONObject(i);
@@ -557,6 +597,11 @@ public class SysMsgActivity extends StatActivity {
                         String susername = obj3.getString("username");
                         String savatar_url = obj3.getString("avatar_url");
 
+                        if(Utility.mSession.getUserId().equals(suser_id+"")){
+                            sender=username;
+                        }else{
+                            sender=susername;
+                        }
                         boolean isRead = obj1.getBoolean("is_read");
                         String audUrl = obj1.getString("audio_url");
                         int aud_time = obj1.getInt("audio_time");
@@ -569,6 +614,7 @@ public class SysMsgActivity extends StatActivity {
                                 date, suser_id, susername, savatar_url);
                         mPrivateList.add(msgInfo);
                     }
+                    SlipMainCenter.tvName.setText(sender);
                     myAdapter = new MyAdapter();
                     listView.setAdapter(myAdapter);
                     listView.setSelection(mPrivateList.size() - 1);
@@ -692,13 +738,16 @@ public class SysMsgActivity extends StatActivity {
     }
 
     public class MsgInfo {
-        private String tit, data, date,type;
+        int msg_id, type, relative_id;
+        private String tit, data, date;
 
-        public MsgInfo(String tit, String data, String date, String type) {
+        public MsgInfo(String tit, String data, String date, int type, int msg_id, int relative_id) {
             this.tit = tit;
             this.data = data;
             this.date = date;
             this.type = type;
+            this.msg_id = msg_id;
+            this.relative_id = relative_id;
         }
     }
 
@@ -737,7 +786,8 @@ public class SysMsgActivity extends StatActivity {
             }
             if (mFromList != null && mFromList.size() > 0) {
                 holder.sender.setText(mFromList.get(i).username);
-                holder.sendDate.setText(mFromList.get(i).date);
+
+                holder.sendDate.setText(YouLe.formatDate(Long.parseLong(mFromList.get(i).date)));
 
                 fb.display(holder.avatar, mFromList.get(i).avUrl);
 //                fb.display(holder.avatar,mFromList.get(i).avUrl);
@@ -817,7 +867,8 @@ public class SysMsgActivity extends StatActivity {
                     //对方
                     holder.right.setVisibility(View.GONE);
                     fb.display(holder.accAv, mPrivateList.get(ii).sender_av);
-                    holder.caeateDate.setText(mPrivateList.get(ii).date);
+
+                    holder.caeateDate.setText(YouLe.formatDate(Long.parseLong(mPrivateList.get(ii).date)));
                     if (!OtherUtil.isNullOrEmpty(aud_url)) {
                         holder.accTxt.setVisibility(View.GONE);
                         holder.accImg.setVisibility(View.GONE);
@@ -836,7 +887,8 @@ public class SysMsgActivity extends StatActivity {
 
                 } else {
                     holder.left.setVisibility(View.GONE);
-                    holder.caeatesDate.setText(mPrivateList.get(ii).date);
+
+                    holder.caeatesDate.setText(YouLe.formatDate(Long.parseLong(mPrivateList.get(ii).date)));
                     if (!OtherUtil.isNullOrEmpty(aud_url)) {
                         holder.sendTxt.setVisibility(View.GONE);
                         holder.sendImg.setVisibility(View.GONE);

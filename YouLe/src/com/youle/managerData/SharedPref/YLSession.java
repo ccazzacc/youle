@@ -28,18 +28,37 @@ public class YLSession {
 		editor.putString(GlobalData.REFRESH_TOKEN, token.getRefresh_token());
 		editor.commit();
 	}
-	public void storeMe(MeInfo info)
+//	public void storeMe(MeInfo info)
+//	{
+//		if(OtherUtil.isNullOrEmpty(info.getUserId())||OtherUtil.isNullOrEmpty(info.getAvaUrl()))
+//			return;
+//		editor.putString(GlobalData.USER_ID, info.getUserId());
+//		editor.putInt(GlobalData.TYPE, info.getType());
+//		editor.putString(GlobalData.AVATAR_URL, info.getAvaUrl());
+//		editor.commit();
+//	}
+	public void storeMe(String uId,int type,String avaUrl,int sysUnread,int priUnread)
 	{
-		editor.putString(GlobalData.USER_ID, info.getUserId());
-		editor.putInt(GlobalData.TYPE, info.getType());
-		editor.putString(GlobalData.AVATAR_URL, info.getAvaUrl());
-		editor.commit();
-	}
-	public void storeMe(String uId,int type,String avaUrl)
-	{
+		if(OtherUtil.isNullOrEmpty(uId)||OtherUtil.isNullOrEmpty(avaUrl))
+			return;
 		editor.putString(GlobalData.USER_ID, uId);
 		editor.putInt(GlobalData.TYPE, type);
 		editor.putString(GlobalData.AVATAR_URL, avaUrl);
+		editor.putInt(GlobalData.SYS_UNREAD, sysUnread);
+		editor.putInt(GlobalData.PRI_UNREAD, priUnread);
+		editor.commit();
+	}
+	public int getSysUnread()
+	{
+		return sharedPref.getInt(GlobalData.SYS_UNREAD, 0);
+	}
+	public int getPriUnread()
+	{
+		return sharedPref.getInt(GlobalData.PRI_UNREAD, 0);
+	}
+	public void storeType(int type)
+	{
+		editor.putInt(GlobalData.TYPE, type);
 		editor.commit();
 	}
 	public MeInfo getMe()
@@ -89,5 +108,14 @@ public class YLSession {
 		else
 			return null;
 	}
-	
+	public void storeSound(int i)
+	{
+		editor.putInt("sound", i);
+		editor.commit();
+	}
+	public int getSound()
+	{
+		return sharedPref.getInt("sound", 0);
+	}
+
 }

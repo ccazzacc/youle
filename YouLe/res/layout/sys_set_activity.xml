@@ -340,6 +340,7 @@
                     android:layout_weight="1" />
 
                 <com.youle.view.SlipButton
+                    android:id="@+id/sysset_sound"
                     android:layout_width="100dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"

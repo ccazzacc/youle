@@ -9,6 +9,8 @@ import android.media.AudioManager;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -214,7 +216,7 @@ public class ReleaseActivity extends StatActivity {
     private TextView mTextView;
     private double lat = 0, lng = 0;
     private float spd = 0;
-    private String[] address;
+    private String address;
     private MyBroadcastReciver reciver;
     private TextWatcher mTextWatcher = new TextWatcher() {
 
@@ -269,7 +271,6 @@ public class ReleaseActivity extends StatActivity {
         intentFilter.addAction(GlobalData.BROADCAST_COUNTER_ACTION);
         reciver = new MyBroadcastReciver();
         this.registerReceiver(reciver, intentFilter);
-
     }
 
     @Override
@@ -529,17 +530,29 @@ public class ReleaseActivity extends StatActivity {
 
                     @Override
                     public void run() {
-                        address = OtherUtil.getDesc(ReleaseActivity.this,
+                       String[] add = OtherUtil.getDesc(ReleaseActivity.this,
                                 lat, lng);
-                        Log.i("1234", address[0] + address[1] + address[2]);
-//                        handler.sendEmptyMessage(0);
+                        address=add[2];
+                        Log.i("1234", address);
+                        Message msg=new Message();
+                        msg.obj=add[3];
+                        handler.sendMessage(msg);
                         super.run();
                     }
                 }.start();
 
             }
-
         }
+        Handler handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                String s= (String) msg.obj;
+                if(!s.equals("中国")){
+                    OtherUtil.showCloseDialog(ReleaseActivity.this);
+                }
+            }
+        };
 
     }
 

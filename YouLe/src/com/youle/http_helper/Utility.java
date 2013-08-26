@@ -106,7 +106,7 @@ public class Utility {
 	public static Token mToken;
 	public static YLSession mSession;
 	public static String mTripId;
-	public static String LANGUAGE = "zh";
+//	public static String LANGUAGE = "zh";
 	public static boolean hasToken() {
 		return (mToken == null) ? false : true;
 	}
@@ -155,11 +155,11 @@ public class Utility {
 				request.setHeader("Authorization","Token token="+mToken.getAccess_token());
 			}
 		}
-		if (LANGUAGE.equals("zh")) {
-			request.setHeader("Accept-Language", "zh-CN,zh;q=0.8");
-		} else {
-			request.setHeader("Accept-Language", "en-US,en;q=0.8");
-		}
+//		if (LANGUAGE.equals("zh")) {
+//			request.setHeader("Accept-Language", "zh-CN,zh;q=0.8");
+//		} else {
+//			request.setHeader("Accept-Language", "en-US,en;q=0.8");
+//		}
 	}
 
 	public static boolean isBundleEmpty(RequestParameters bundle) {
@@ -296,12 +296,20 @@ public class Utility {
 				String key = params.getKey(loc);
 				if (key.equals("img")) {
 					img = params.getValue(key);
+					Log.e("test", "openTrackUrl img:"+img);
 					if (!OtherUtil.isNullOrEmpty(img)) {
 						params.remove(key);
 					}
 				}
+				if (key.equals("test")) {
+					String test = params.getValue(key);
+					if (!OtherUtil.isNullOrEmpty(test)) {
+						params.remove(test);
+					}
+				}
 				if (key.equals("aud")) {
 					aud = params.getValue(key);
+					Log.e("test", "openTrackUrl aud:"+aud);
 					if (!OtherUtil.isNullOrEmpty(aud)) {
 						params.remove(key);
 					}
@@ -336,7 +344,8 @@ public class Utility {
 					bos = new ByteArrayOutputStream(1024 * 512);
 				}else
 					bos = new ByteArrayOutputStream(1024 * 1024 * 2);
-				Log.i("test", "--"+filePic+"--");
+//				Log.i("test", "filePic--"+filePic+"--");
+//				Log.i("test", "fileAud--"+fileAud+"--");
 				if (!OtherUtil.isNullOrEmpty(filePic)&& !filePic.equals("null")
 						&& OtherUtil.isNullOrEmpty(fileAud)
 						) {
@@ -347,7 +356,7 @@ public class Utility {
 							+ fileKeyPic);
 					Utility.imageContentToUpload(bos, filePic, fileKeyPic);
 					bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					Log.i("Other", "aud cos null");
+					Log.i("test", "aud is null");
 				} else if (OtherUtil.isNullOrEmpty(filePic)
 						&& !OtherUtil.isNullOrEmpty(fileAud)&&!fileAud.equals("null")
 						) {
@@ -356,14 +365,25 @@ public class Utility {
 							+ "; boundary=" + BOUNDARY);
 					Utility.imageContentToUpload(bos, fileAud, fileKeyAud);
 					bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
-					Log.i("Other", "pic cos null");
-				}else {
+					Log.i("test", "pic is null");
+				}else if(!OtherUtil.isNullOrEmpty(filePic)&& !filePic.equals("null")
+						&&!OtherUtil.isNullOrEmpty(fileAud)&&!fileAud.equals("null"))
+				{
+					Utility.paramToUpload(bos, params);
+					post.setHeader("Content-Type", MULTIPART_FORM_DATA
+							+ "; boundary=" + BOUNDARY);
+					Log.i("test", "filePic:" + filePic + " fileAud:"
+							+ fileAud);
+					Utility.imageContentToUpload(bos, filePic, fileKeyPic);
+					Utility.imageContentToUpload(bos, fileAud, fileKeyAud);
+					bos.write(("\r\n" + END_MP_BOUNDARY).getBytes());
+				}else{
 					post.setHeader("Content-Type",
 							"application/x-www-form-urlencoded");
 					String postParam = encodeParameters(params);
 					data = postParam.getBytes();
 					bos.write(data);
-					Log.i("Other", "else null");
+					Log.i("test", "else null");
 				}
 				try {
 					data = bos.toByteArray();
@@ -405,15 +425,12 @@ public class Utility {
 			int statusCode = status.getStatusCode();
 			Log.i("test", "-------statusCode:" + statusCode);
 			if (method.equals("GET") && statusCode == 400) {
+				Log.i("test", "GET 400:" + statusCode);
 				return statusCode + "";
 			}
 			if(statusCode == 200)
 			{
 				result = read(response);
-//				Log.i("test", "200 right:" + result);
-//				if (TextUtils.isEmpty(result)) {
-//					result = statusCode + "";
-//				}
 				return GlobalData.RESULT_OK+result;
 			}
 			if (statusCode == 400) {
@@ -427,11 +444,11 @@ public class Utility {
 				Log.i("test", statusCode+"--error:" + result);
 				return statusCode + "";
 			}else if (statusCode == 204) {
-				Log.i("test", "204:"+response.toString());
+				Log.i("test", "204--error:"+response.toString());
 				return statusCode + "";
 			}else {
 				result = read(response);//502
-				Log.i("test", "other--error statusCode:" +statusCode);
+				Log.i("test", "other--error statusCode:" +statusCode+" -- "+result);
 				return statusCode + "";
 			}
 		} catch (IOException e) {
@@ -443,6 +460,7 @@ public class Utility {
 		try {
 			JSONTokener jsonParser = new JSONTokener(strResult);
 			JSONObject js = (JSONObject) jsonParser.nextValue();
+//			String errCode = js.getString(GlobalData.ERROR_CODE);
 			String error_des = js
 					.getString(GlobalData.ERROR_DESCRIPTION);
 //			System.out.println("error_description：" + js
@@ -450,6 +468,7 @@ public class Utility {
 			return error_des;
 		} catch (JSONException ex) {
 			// 异常处理代码
+			ex.printStackTrace();
 			return null;
 		}
 	}
@@ -563,7 +582,7 @@ public class Utility {
 			String fileKey) throws RequestException {
 		File ff = new File(path);
 		StringBuilder temp = new StringBuilder();
-		Log.i("Other", "utility path:" + path + " ff.getName():" + ff.getName()
+		Log.i("test", "utility path:" + path + " ff.getName():" + ff.getName()
 				+ " fileKey:" + fileKey);
 		temp.append(MP_BOUNDARY).append("\r\n");
 		temp.append(
@@ -591,7 +610,7 @@ public class Utility {
 			out.write("\r\n".getBytes("UTF-8"));
 			// out.write(("\r\n" + END_MP_BOUNDARY).getBytes());
 		} catch (IOException e) {
-			Log.i("Other", "utility imageContentToUpload error");
+			Log.i("test", "utility imageContentToUpload error");
 			throw new RequestException(e);
 		} finally {
 			if (null != bis) {

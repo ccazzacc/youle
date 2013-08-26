@@ -94,6 +94,7 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="0dp"
+        android:scrollbars="none"
         android:listSelector="@color/transparent" 
         android:background="@drawable/shape_bg"
         android:layout_marginLeft="10.0dip"

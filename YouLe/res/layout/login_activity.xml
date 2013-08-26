@@ -65,21 +65,19 @@
             android:layout_marginRight="35dp"
             android:layout_marginTop="5dp" >
 
-            <TextView
+             <TextView
                 android:id="@+id/text_forgot_psd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/forgot_password" />
+                android:text="@string/forgot_password"
+                android:layout_alignParentTop="true" android:layout_alignRight="@+id/imageView"/>
 
             <TextView
                 android:id="@+id/text_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/textView"
-                android:text="@string/register" />
+                android:text="@string/register" android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/imageView"/>
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
@@ -109,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/buton_tencent_normal" android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/sina_login" android:layout_marginLeft="10dp"/>
+                    android:layout_toRightOf="@+id/sina_login" android:layout_marginLeft="30dp"/>
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

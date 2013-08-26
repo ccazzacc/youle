@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/xlistview_footer_progressbar"
-            android:text="@string/xlistview_footer_hint_normal" />
+            />
 
     </RelativeLayout>
 

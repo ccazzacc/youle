@@ -13,11 +13,13 @@
                 android:id="@+id/acc_date" android:layout_alignTop="@+id/acc_from" android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp" android:textColor="@color/black"/>
         <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/acc_weidu" android:layout_alignBottom="@+id/acc_last"
                 android:layout_alignRight="@+id/acc_date" android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/tishi"
+                android:visibility="invisible"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

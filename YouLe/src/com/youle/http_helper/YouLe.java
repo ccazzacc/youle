@@ -15,26 +15,38 @@ import com.amap.api.maps.model.LatLng;
 import com.youle.R;
 import com.youle.managerData.SharedPref.SharedPref;
 import com.youle.managerData.SharedPref.YLSession;
+import com.youle.managerData.info.CarListInfo;
 import com.youle.managerData.info.CarMainInfo;
+import com.youle.managerData.info.CarReplyInfo;
+import com.youle.managerData.info.CarTopicInfo;
+import com.youle.managerData.info.ConsumeInfo;
+import com.youle.managerData.info.ConsumeListInfo;
 import com.youle.managerData.info.CouponListInfo;
+import com.youle.managerData.info.HotComInfo;
 import com.youle.managerData.info.MainInfo;
 import com.youle.managerData.info.MeInfo;
 import com.youle.managerData.info.Token;
 import com.youle.managerUi.CouponActivity;
 import com.youle.managerUi.SplashActivity;
+import com.youle.service.SystemMsgService;
 import com.youle.util.GlobalData;
 import com.youle.util.OtherUtil;
 import com.youle.util.ToastUtil;
 
 import android.content.Context;
 import android.provider.Settings.Secure;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class YouLe {
+public class YouLe {//
 	public static String client_id = "469192608";
 	public static String client_secret = "9bc4ce21147e3bc9";
-	public static final String BASE_URL = "http://119.15.136.126:8000/";//218.6.224.55:8000  119.15.136.126:8000
+	public static final String BASE_URL = "http://api.radiotrip.cn:80/";// 218.6.224.55:8000
+																		// api.radiotrip.cn
+																		// 119.15.136.126:8000
+	public static final String WS_URL = "ws://s.radiotrip.cn:80/";// ws://119.15.136.126:8200
+																	// s.radiotrip.cn
 	private static final String REGISTER_URL = "account/signup";// 注册URL
 	private static final String UP_AVATAR = "account/avatar";// 上传头像URL
 	private static final String UP_COVER = "account/cover";// 上传封面
@@ -43,16 +55,20 @@ public class YouLe {
 	private static final String U_INFO = "member/";
 	private static final String SHOP = "merchants";
 	private static final String COUPONS = "coupons";
-	private static final String SCAN_COUPON = "user_coupons";//商家扫描优惠券
+	private static final String SCAN_COUPON = "user_coupons";// 商家扫描优惠券
 	private static final String FIX_PW = "member";
-	private static final String FORUMS = "forums";//获取论坛列表
-	private static final String FORUM_TOPIC = "topics/";//获取指定论坛主题列表
+	private static final String FORUMS = "forums";// 获取论坛列表
+	private static final String FORUM_TOPIC = "topics/";// 获取指定论坛主题列表
 	private static final String TAXI = "taxis";
 	private static final String POSTS = "posts/";
+	private static final String CONSUME = "merchants/consumes";
 	private static final String CATEGORY = "categories/all";
-	
+	public static final int NOTIFICATION_ID = 147369;
+	public static final String HOT_TOPIC = "hot_topics/";
+
 	/**
 	 * 登录
+	 * 
 	 * @param context
 	 * @param email
 	 * @param pw
@@ -65,8 +81,9 @@ public class YouLe {
 		parameters.add(GlobalData.CLIENT_SECRET, client_secret);
 		parameters.add(GlobalData.EMAIL, email);
 		parameters.add(GlobalData.PASSWORD, pw);
-		parameters.add(GlobalData.DEVICE_TOKEN, Secure.getString(
-				context.getContentResolver(), Secure.ANDROID_ID));
+		parameters.add(GlobalData.DEVICE_TOKEN, ((TelephonyManager) context
+				.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());// Secure.getString(context.getContentResolver(),
+																				// Secure.ANDROID_ID)
 		try {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(OAUTH)
@@ -87,15 +104,16 @@ public class YouLe {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			Log.e("YouLe", "YouLe loginApp:" + e.toString());
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
 	/**
 	 * 刷新token
+	 * 
 	 * @param context
 	 * @param refresh_token
 	 * @return
@@ -126,15 +144,16 @@ public class YouLe {
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			Log.e("YouLe", "YouLe refreshToken:" + e.toString());
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
 	/**
 	 * 注册
+	 * 
 	 * @param context
 	 * @param email
 	 * @param username
@@ -155,6 +174,7 @@ public class YouLe {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(REGISTER_URL)
 							.toString(), Utility.HTTPMETHOD_POST, parameters);
+			// Log.i("test", "reg result:"+result);
 			if (!TextUtils.isEmpty(result)) {
 				if (result.length() >= 3) {
 					if (result.startsWith(GlobalData.RESULT_OK)) {
@@ -171,10 +191,10 @@ public class YouLe {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			Log.e("YouLe", "YouLe register:" + e.toString());
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
@@ -182,7 +202,8 @@ public class YouLe {
 		try {
 			JSONObject js = new JSONObject(strResult);
 			JSONObject js2 = js.optJSONObject(GlobalData.MEMBER_INFO);
-			Log.i("test", "save avaUrl:" + js2.getString(GlobalData.AVATAR_URL));
+			// Log.i("test", "save avaUrl:" +
+			// js2.getString(GlobalData.AVATAR_URL));
 			Utility.mSession.storeToken(new Token(js
 					.isNull(GlobalData.ACCESS_TOKEN) ? "" : js
 					.getString(GlobalData.ACCESS_TOKEN), js
@@ -191,21 +212,21 @@ public class YouLe {
 					.isNull(GlobalData.REFRESH_TOKEN) ? "" : js
 					.getString(GlobalData.REFRESH_TOKEN)));
 			Utility.mToken = Utility.mSession.getToken();
-			Utility.mSession.storeMe(js2
-					.isNull(GlobalData.USER_ID) ? "" : js2
-					.getString(GlobalData.USER_ID), js2
-					.isNull(GlobalData.TYPE) ? 0 : js2
-					.getInt(GlobalData.TYPE), js2
-					.isNull(GlobalData.AVATAR_URL) ? "" : js2
-					.getString(GlobalData.AVATAR_URL));
-			return GlobalData.RESULT_OK;
+			Utility.mSession.storeMe(js2.getString(GlobalData.USER_ID),
+					js2.getInt(GlobalData.TYPE),
+					js2.getString(GlobalData.AVATAR_URL),
+					js2.getInt(GlobalData.SYS_UNREAD),
+					js2.getInt(GlobalData.PRI_UNREAD));
+			return GlobalData.RESULT_OK + js2.getString("points");
 		} catch (JSONException ex) {
 			Utility.resetToken();
 			return GlobalData.JSON_ERROR_CODE;
 		}
 	}
+
 	/**
 	 * 第三方注册/登录
+	 * 
 	 * @param context
 	 * @param pForm
 	 * @param uId
@@ -227,7 +248,6 @@ public class YouLe {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(OAUTH)
 							.toString(), Utility.HTTPMETHOD_POST, parameters);
-//			Log.i("test", "result:"+result);
 			if (!TextUtils.isEmpty(result)) {
 				if (result.length() >= 3) {
 					if (result.startsWith(GlobalData.RESULT_OK)) {
@@ -243,14 +263,16 @@ public class YouLe {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			Log.e("YouLe", "YouLe loginApp:" + e.toString());
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
-	/**上传封面
+	/**
+	 * 上传封面
+	 * 
 	 * @param context
 	 * @param img
 	 */
@@ -261,7 +283,7 @@ public class YouLe {
 			String res = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(UP_COVER)
 							.toString(), Utility.HTTPMETHOD_POST, params);
-//			Log.i("YouLe", "cover res：" + res);
+			// Log.i("YouLe", "cover res：" + res);
 			if (!TextUtils.isEmpty(res)) {
 				if (res.length() >= 3) {
 					if (res.startsWith(GlobalData.RESULT_OK)) {
@@ -273,10 +295,10 @@ public class YouLe {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(OtherUtil.is3gWifi(context))
+		if (OtherUtil.is3gWifi(context))
 			return GlobalData.REQUEST_FAIL;
-        else
-        	return context.getString(R.string.net_no);
+		else
+			return context.getString(R.string.net_no);
 	}
 
 	private static String getCoverJson(String strResult) {
@@ -285,14 +307,17 @@ public class YouLe {
 			JSONTokener jsonParser = new JSONTokener(strResult);
 			JSONObject js = (JSONObject) jsonParser.nextValue();
 			c_url = js.getString(GlobalData.COVER_URL);
-//			Log.i("YouLe", "c_url：" + c_url);
+			// Log.i("YouLe", "c_url：" + c_url);
 		} catch (JSONException ex) {
 			c_url = null;
+			return GlobalData.JSON_ERROR_CODE;
 		}
 		return c_url;
 	}
 
-	/**上传头像
+	/**
+	 * 上传头像
+	 * 
 	 * @param context
 	 * @param picPath
 	 * @return
@@ -317,10 +342,10 @@ public class YouLe {
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			Log.e("YouLe", "YouLe upAvatar:" + e.toString());
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
@@ -335,9 +360,10 @@ public class YouLe {
 					.append(js.getString(GlobalData.SIZES).substring(1, 4))
 					.append("/").append(js.getString(GlobalData.AVATAR));
 			avatar_url = sb.toString();
-			Log.i("YouLe", "avatar_url：" + avatar_url);
+			// Log.i("YouLe", "avatar_url：" + avatar_url);
 		} catch (JSONException ex) {
 			avatar_url = null;
+			return GlobalData.JSON_ERROR_CODE;
 		}
 		return avatar_url;
 	}
@@ -348,10 +374,11 @@ public class YouLe {
 	 * @param lng
 	 * @param lat
 	 * @param size
-	 * http://218.6.224.55:8000/tracks?access_token=6f56b0cfac27f0e3&radio_id=1&distance=0&size=30
+	 *            http://218.6.224.55:8000/tracks?access_token=6f56b0cfac27f0e3&
+	 *            radio_id=1&distance=0&size=30
 	 */
 	public static String getInfoList(Context context, int distance, double lng,
-			double lat, int page,int size) {
+			double lat, int page, int size) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.RADIO_ID,
 				Integer.toString(new SharedPref(context).getRadioId()));
@@ -367,23 +394,24 @@ public class YouLe {
 					.openUrl(context, new StringBuffer().append(BASE_URL)
 							.append(INFO).toString(), Utility.HTTPMETHOD_GET,
 							params);
-//			Log.i("YouLe", "getInfoList:" + result);
+			// Log.i("YouLe", "getInfoList:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
-	/**获取发布的路况
+	/**
+	 * 获取发布的路况
+	 * 
 	 * @param context
 	 * @param uid
 	 * @param page
-	 * @param size
 	 * @return
 	 */
 	public static String getUserTracks(Context context, String uid, int page) {
@@ -396,15 +424,15 @@ public class YouLe {
 					.openUrl(context, new StringBuffer().append(BASE_URL)
 							.append(INFO).toString(), Utility.HTTPMETHOD_GET,
 							params);
-//			Log.i("YouLe", "getUserList:" + result);
+			// Log.i("YouLe", "getUserList:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
@@ -422,10 +450,10 @@ public class YouLe {
 					list.add(new MainInfo(
 							obj.getString(GlobalData.TRACK_ID),
 							obj.getString(GlobalData.USER_ID),
-							obj.getString(GlobalData.USER_NAME),
+							decodeUnicode(obj.getString(GlobalData.USER_NAME)),
 							obj.getString(GlobalData.AVATAR_URL),
 							formatDate(intToLong(obj.getInt(GlobalData.CREATED))),
-							obj.getString(GlobalData.TEXT), obj
+							decodeUnicode(obj.getString(GlobalData.TEXT)), obj
 									.getInt(GlobalData.MARK), obj
 									.getString(GlobalData.AUDIO_URL), obj
 									.getInt(GlobalData.AUDIO_TIME), obj
@@ -465,7 +493,7 @@ public class YouLe {
 	 * @param img
 	 * @param text
 	 */
-	public static void upTrack(Context context, int radio_id, double lng,
+	public static String upTrack(Context context, int radio_id, double lng,
 			double lat, String place, double spd, int mark, String aud,
 			int aud_t, String img, String text) {
 		RequestParameters params = new RequestParameters();
@@ -484,13 +512,17 @@ public class YouLe {
 					.append(BASE_URL).append(INFO).toString(),
 					Utility.HTTPMETHOD_POST, params);
 			Log.i("YouLe", "upTrack:" + result);
+			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return null;
 	}
-	/**获取用户信息
+
+	/**
+	 * 获取用户信息
+	 * 
 	 * @param context
 	 * @return
 	 */
@@ -506,50 +538,58 @@ public class YouLe {
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
-	/**获取指定用户信息
+
+	/**
+	 * 获取指定用户信息
+	 * 
 	 * @param context
 	 * @param uId
 	 */
 	public static String getUserInfo(Context context, String uId) {
-		Log.i("YouLe", "uId:" + uId);
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.USER_ID, uId);
 		try {
-			String result = Utility.openUrl(context,
-					new StringBuffer().append(BASE_URL).append(U_INFO).append(uId)
-							.toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("YouLe", "getUserInfo result:" + result);
+			String result = Utility.openUrl(
+					context,
+					new StringBuffer().append(BASE_URL).append(U_INFO)
+							.append(uId).toString(), Utility.HTTPMETHOD_GET,
+					params);
+			// Log.i("YouLe", "getUserInfo result:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
-	public static MeInfo jsonUserInfo(String res,boolean isMe) {
+	public static MeInfo jsonUserInfo(String res, boolean isMe) {
 		try {
 			JSONObject js = new JSONObject(res);
-			MeInfo info = new MeInfo(js.getString(GlobalData.USER_NAME), js.getString(GlobalData.USER_ID), 
-					js.getInt(GlobalData.TYPE), 
-					js.getInt(GlobalData.GENDER), 
-					js.getString(GlobalData.AVATAR_URL), 
-					js.getString(GlobalData.LEVEL), 
+			MeInfo info = new MeInfo(
+					decodeUnicode(js.getString(GlobalData.USER_NAME)),
+					js.getString(GlobalData.USER_ID),
+					js.getInt(GlobalData.TYPE), js.getInt(GlobalData.GENDER),
+					js.getString(GlobalData.AVATAR_URL),
+					js.getString(GlobalData.LEVEL),
 					js.getString(GlobalData.POINTS));
-			if(isMe)
-			{
+			if (isMe) {
 				info.setAge(js.getString(GlobalData.AGE));
-				info.setName(js.getString(GlobalData.NAME));
-				Utility.mSession.storeMe(info);
+				info.setName(decodeUnicode(js.getString(GlobalData.NAME)));
+				Utility.mSession.storeMe(js.getString(GlobalData.USER_ID),
+						js.getInt(GlobalData.TYPE),
+						js.getString(GlobalData.AVATAR_URL),
+						js.getInt(GlobalData.SYS_UNREAD),
+						js.getInt(GlobalData.PRI_UNREAD));
 			}
 			return info;
 		} catch (JSONException e) {
@@ -559,17 +599,20 @@ public class YouLe {
 		}
 	}
 
-	/**获取优惠券列表（列表模式：0，地图模式：1）
+	/**
+	 * 获取优惠券列表（列表模式：0，地图模式：1）
+	 * 
 	 * @param context
 	 * @param isList
 	 * @param radioId
 	 * @param distance
 	 * @param lng
 	 * @param lat
-	 * http://218.6.224.55:8000/coupons?map=1&radio_id=1&distance=5000&lng=104.089328&lat=30.667327
+	 *            http://218.6.224.55:8000/coupons?map=1&radio_id=1&distance=
+	 *            5000&lng=104.089328&lat=30.667327
 	 */
-	public static String getCoupon(Context context,String isList,String radioId,int distance,double lng,double lat)
-	{
+	public static String getCoupon(Context context, String isList,
+			String radioId, int distance, double lng, double lat) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.MAP, isList);
 		params.add(GlobalData.RADIO_ID, radioId);
@@ -580,19 +623,43 @@ public class YouLe {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(COUPONS)
 							.toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "coupons:"+result);
+			// Log.i("test", "coupons:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
-	public static List<CouponListInfo> jsonCouponList(String res)
-	{
+
+	public static String getTheCoupon(Context context, String ucId) {
+		RequestParameters params = new RequestParameters();
+		if (null != Utility.mToken)
+			params.add(GlobalData.ACCESS_TOKEN,
+					Utility.mToken.getAccess_token());
+		else if (null != SystemMsgService.Access_token)
+			params.add(GlobalData.ACCESS_TOKEN, SystemMsgService.Access_token);
+		try {
+			String result = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(SCAN_COUPON)
+							.append("/").append(ucId).toString(),
+					Utility.HTTPMETHOD_GET, params);
+			// Log.i("test", "the coupon:"+result);
+			return result;
+		} catch (RequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			if (OtherUtil.is3gWifi(context))
+				return GlobalData.REQUEST_FAIL;
+			else
+				return context.getString(R.string.net_no);
+		}
+	}
+
+	public static List<CouponListInfo> jsonCouponList(String res) {
 		List<CouponListInfo> list = new ArrayList<CouponListInfo>();
 		try {
 			JSONObject js = new JSONObject(res);
@@ -603,14 +670,18 @@ public class YouLe {
 					obj = array.optJSONObject(i);
 					JSONObject obj2 = obj.optJSONObject(GlobalData.MERCHANT);
 					JSONObject obj3 = obj.optJSONObject(GlobalData.COUPON);
-					list.add(new CouponListInfo(
-							obj2.getInt(GlobalData.MERCHANT_ID), 
-							obj2.getString(GlobalData.NAME), 
-							obj2.getString(GlobalData.ADDRESS), 
-							obj.getString(GlobalData.DISTANCE).substring(0, obj.getString(GlobalData.DISTANCE).lastIndexOf(".")), 
-							obj3.getString(GlobalData.IMAGE_URL), 
-							obj3.getString(GlobalData.NAME), 
-							obj3.getString(GlobalData.EXPIRE_AT)));
+					list.add(new CouponListInfo(obj2
+							.getInt(GlobalData.MERCHANT_ID), obj2
+							.getString(GlobalData.NAME), obj2
+							.getString(GlobalData.ADDRESS), obj.getString(
+							GlobalData.DISTANCE)
+							.substring(
+									0,
+									obj.getString(GlobalData.DISTANCE)
+											.lastIndexOf(".")), obj3
+							.getString(GlobalData.IMAGE_URL), obj3
+							.getString(GlobalData.NAME), obj3
+							.getString(GlobalData.EXPIRE_AT)));
 				}
 			}
 			return list;
@@ -619,17 +690,43 @@ public class YouLe {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
-	/**获取我的优惠券
+
+	public static CouponListInfo jsonTheCoupon(Context context, String res) {
+		CouponListInfo info;
+		try {
+			JSONObject js = new JSONObject(res);
+			JSONObject obj = js.optJSONObject(GlobalData.COUPON);
+			info = new CouponListInfo(obj.getInt(GlobalData.MERCHANT_ID),
+					obj.getString(GlobalData.MERCHANT_NAME),
+					obj.getString(GlobalData.ADDRESS), "",
+					obj.getString(GlobalData.IMAGE_URL),
+					obj.getString(GlobalData.NAME),
+					obj.getString(GlobalData.TO_DATE));
+			info.setQrCode(js.getString(GlobalData.QR_CODE));
+			return info;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	/**
+	 * 获取我的优惠券
+	 * 
 	 * @param context
 	 * @param page
 	 * @param size
 	 */
-	public static String getMeCoupon(Context context,int page,int size)
-	{
+	public static String getMeCoupon(Context context, int page, int size) {
 		RequestParameters params = new RequestParameters();
-		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		if (null != Utility.mToken
+				&& !OtherUtil.isNullOrEmpty(Utility.mToken.getAccess_token()))
+			params.add(GlobalData.ACCESS_TOKEN,
+					Utility.mToken.getAccess_token());
 		params.add(GlobalData.EXPIRED, "0");
 		params.add(GlobalData.PAGE, Integer.toString(page));
 		params.add(GlobalData.SIZE, Integer.toString(size));
@@ -637,19 +734,19 @@ public class YouLe {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(SCAN_COUPON)
 							.toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "me_coupons:"+result);
+			// Log.i("test", "me_coupons:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
-	public static List<CouponListInfo> jsonMeCoupon(Context context,String res)
-	{
+
+	public static List<CouponListInfo> jsonMeCoupon(Context context, String res) {
 		LatLng lg = new SharedPref(context).getLatLng();
 		List<CouponListInfo> list = new ArrayList<CouponListInfo>();
 		try {
@@ -661,19 +758,20 @@ public class YouLe {
 					obj = array.optJSONObject(i);
 					JSONObject obj3 = obj.optJSONObject(GlobalData.COUPON);
 					String latLng = obj3.getString(GlobalData.LOCATION);
-					LatLng lg2 = new LatLng(Double.parseDouble(latLng.substring(
-							latLng.indexOf(",") + 1,
-							latLng.lastIndexOf("]"))), Double
-							.parseDouble(latLng.substring(1,
+					LatLng lg2 = new LatLng(Double.parseDouble(latLng
+							.substring(latLng.indexOf(",") + 1,
+									latLng.lastIndexOf("]"))),
+							Double.parseDouble(latLng.substring(1,
 									latLng.indexOf(","))));
 					float distance = AMapUtils.calculateLineDistance(lg, lg2);
 					CouponListInfo info = new CouponListInfo(
-							obj3.getInt(GlobalData.MERCHANT_ID), 
-							obj3.getString(GlobalData.MERCHANT_NAME), 
-							obj3.getString(GlobalData.ADDRESS), 
-							Float.toString(distance).substring(0, Float.toString(distance).lastIndexOf(".")), 
-							obj3.getString(GlobalData.IMAGE_URL), 
-							obj3.getString(GlobalData.NAME), 
+							obj3.getInt(GlobalData.MERCHANT_ID),
+							obj3.getString(GlobalData.MERCHANT_NAME),
+							obj3.getString(GlobalData.ADDRESS), Float.toString(
+									distance).substring(0,
+									Float.toString(distance).lastIndexOf(".")),
+							obj3.getString(GlobalData.IMAGE_URL),
+							obj3.getString(GlobalData.NAME),
 							obj3.getString(GlobalData.TO_DATE));
 					info.setQrCode(obj.getString(GlobalData.QR_CODE));
 					list.add(info);
@@ -686,14 +784,16 @@ public class YouLe {
 			return null;
 		}
 	}
-	/**修改密码
+
+	/**
+	 * 修改密码
+	 * 
 	 * @param context
 	 * @param oldPw
 	 * @param newPw
 	 * @return
 	 */
-	public static String fixPassword(Context context,String oldPw,String newPw)
-	{
+	public static String fixPassword(Context context, String oldPw, String newPw) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
 		params.add(GlobalData.PASSWORD, oldPw);
@@ -702,18 +802,19 @@ public class YouLe {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(FIX_PW)
 							.toString(), Utility.HTTPMETHOD_PUT, params);
-			Log.i("YouLe", "fixPw result:" + result);
+			// Log.i("YouLe", "fixPw result:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
-		
+
 	}
+
 	/**
 	 * @param context
 	 * @param name
@@ -721,29 +822,78 @@ public class YouLe {
 	 * @param age
 	 * @return
 	 */
-	public static String setMe(Context context,String name,String gender,String age)
-	{
+	public static String setMe(Context context, String name, String gender,
+			String age) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
 		params.add(GlobalData.NAME, name);
 		params.add(GlobalData.GENDER, gender);
-		if(!OtherUtil.isNullOrEmpty(age))
+		if (!OtherUtil.isNullOrEmpty(age))
 			params.add(GlobalData.AGE, age);
 		try {
 			String result = Utility.openUrl(context,
 					new StringBuffer().append(BASE_URL).append(FIX_PW)
 							.toString(), Utility.HTTPMETHOD_POST, params);
-			Log.i("YouLe", "fixPw result:" + result);
+			// Log.i("YouLe", "fixPw result:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
+
+	/**
+	 * @param context
+	 * @return
+	 */
+	public static String getConsume(Context context) {
+		RequestParameters params = new RequestParameters();
+		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		params.add(GlobalData.YEAR, "1");
+		try {
+			String result = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(CONSUME)
+							.toString(), Utility.HTTPMETHOD_GET, params);
+			// Log.i("YouLe", "getConsume result:" + result);
+			return result;
+		} catch (RequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			if (OtherUtil.is3gWifi(context))
+				return GlobalData.REQUEST_FAIL;
+			else
+				return context.getString(R.string.net_no);
+		}
+	}
+
+	public static ConsumeListInfo jsonConsume(String res) {
+		ConsumeListInfo info = new ConsumeListInfo();
+		List<ConsumeInfo> list = new ArrayList<ConsumeInfo>();
+		try {
+			JSONObject js = new JSONObject(res);
+			info.setToday(js.getString(GlobalData.TODAY));
+			info.setMonth(js.getString(GlobalData.MONTH));
+			JSONArray array = js.getJSONArray(GlobalData.YEAR);
+			JSONObject obj;
+			for (int i = 0, j = array.length(); i < j; i++) {
+				obj = array.optJSONObject(i);
+				list.add(new ConsumeInfo(obj.getString(GlobalData.MONTH), obj
+						.getString(GlobalData.TOTAL)));
+			}
+			if (null != list && list.size() > 0)
+				info.setList(list);
+			return info;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	/**
 	 * @param context
 	 * @param forumId
@@ -753,27 +903,32 @@ public class YouLe {
 	 * @param aud_t
 	 * @return
 	 */
-	public static String pubTopic(Context context,String forumId,String txt,String img,String aud,int aud_t)
-	{
+	public static String pubTopic(Context context, String forumId, String txt,
+			String img, String aud, int aud_t) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		params.add("test", "test");
 		params.add(GlobalData.TXT, txt);
 		params.add(GlobalData.IMG, img);
+		params.add("test", "test");
 		params.add(GlobalData.AUD, aud);
 		params.add(GlobalData.AUD_T, Integer.toString(aud_t));
 		try {
-			String result = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(FORUM_TOPIC).append(forumId).toString(), Utility.HTTPMETHOD_POST, params);
-			Log.i("YouLe", "pubTopic result:" + result);
+			String result = Utility.openTrackUrl(context, new StringBuffer()
+					.append(BASE_URL).append(FORUM_TOPIC).append(forumId)
+					.toString(), Utility.HTTPMETHOD_POST, params);
+			// Log.i("YouLe", "pubTopic result:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
+
 	/**
 	 * @param context
 	 * @param postId
@@ -783,27 +938,37 @@ public class YouLe {
 	 * @param aud_t
 	 * @return
 	 */
-	public static String replyTopic(Context context,String postId,String txt,String img,String aud,int aud_t)
-	{
+	public static String replyTopic(Context context, String postId, String txt,
+			String img, String aud, int aud_t) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		params.add("test", "test");
 		params.add(GlobalData.TXT, txt);
 		params.add(GlobalData.IMG, img);
+		params.add("test", "test");
 		params.add(GlobalData.AUD, aud);
+		Log.e("test", "replyTopic aud:" + aud);
 		params.add(GlobalData.AUD_T, Integer.toString(aud_t));
 		try {
-			String res = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(POSTS).append(postId).toString(), Utility.HTTPMETHOD_POST, params);
-			Log.i("YouLe", "replyTopic result:" + res);
+			Log.e("test",
+					"url:"
+							+ new StringBuffer().append(BASE_URL).append(POSTS)
+									.append(postId).toString());
+			String res = Utility.openTrackUrl(context, new StringBuffer()
+					.append(BASE_URL).append(POSTS).append(postId).toString(),
+					Utility.HTTPMETHOD_POST, params);
+			// Log.i("YouLe", "replyTopic result:" + res);
 			return res;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
+
 	/**
 	 * @param context
 	 * @param radioId
@@ -811,38 +976,43 @@ public class YouLe {
 	 * @param size
 	 * @return
 	 */
-	public static String getForums(Context context,int radioId,int page,int size)
-	{
+	public static String getForums(Context context, int radioId, int page,
+			int size) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.RADIO_ID, Integer.toString(radioId));
 		params.add(GlobalData.PAGE, Integer.toString(page));
 		params.add(GlobalData.SIZE, Integer.toString(size));
 		try {
-			String result = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(FORUMS).toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "getForums:"+result);
+			String result = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(FORUMS)
+							.toString(), Utility.HTTPMETHOD_GET, params);
+			// Log.i("test", "getForums:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
-	public static List<CarMainInfo> jsonForums(String res)
-	{
+
+	public static List<CarMainInfo> jsonForums(String res) {
 		List<CarMainInfo> list = new ArrayList<CarMainInfo>();
 		try {
 			JSONObject js = new JSONObject(res);
 			if (js.getInt(GlobalData.TOTAL) > 0) {
 				JSONArray array = js.getJSONArray(GlobalData.FORUMS);
 				JSONObject obj;
-				for(int i=0,j=array.length();i<j;i++)
-				{
+				for (int i = 0, j = array.length(); i < j; i++) {
 					obj = array.optJSONObject(i);
-					list.add(new CarMainInfo(obj.getString(GlobalData.LOGO_URL), 
-							obj.getString(GlobalData.NAME), obj.getString(GlobalData.TOTAL_POSTS), obj.getString(GlobalData.FORUM_ID), obj.getString(GlobalData.RADIO_ID)));
+					list.add(new CarMainInfo(
+							obj.getString(GlobalData.LOGO_URL), obj
+									.getString(GlobalData.NAME), obj
+									.getString(GlobalData.TOTAL_POSTS), obj
+									.getString(GlobalData.FORUM_ID), obj
+									.getString(GlobalData.RADIO_ID)));
 				}
 				return list;
 			}
@@ -852,77 +1022,166 @@ public class YouLe {
 		}
 		return null;
 	}
+
 	/**
 	 * @param context
 	 * @param forumId
 	 * @return
 	 */
-	public static String getTheForums(Context context,String forumId)
-	{
+	public static String getTheForums(Context context, String forumId) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
 		params.add(GlobalData.FORUM_ID, forumId);
 		try {
-			String res = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(FORUMS).append("/").append(forumId).toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "getTheForums:"+res);
+			String res = Utility.openUrl(
+					context,
+					new StringBuffer().append(BASE_URL).append(FORUMS)
+							.append("/").append(forumId).toString(),
+					Utility.HTTPMETHOD_GET, params);
+			// Log.i("test", "getTheForums:" + res);
 			return res;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
+
 	/**
 	 * @param context
 	 * @param forumId
 	 * @param page
-	 * @param size
 	 * @return
 	 */
-	public static String getForumsTopic(Context context,String forumId,int page,int size)
-	{
+	public static String getForumsTopic(Context context, String forumId,
+			int page) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.FORUM_ID, forumId);
 		params.add(GlobalData.PAGE, Integer.toString(page));
-		params.add(GlobalData.SIZE, Integer.toString(size));
+		params.add(GlobalData.SIZE, "20");
 		try {
-			String res = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(FORUM_TOPIC).append(forumId).toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "getForumsTopic:"+res);
+			String res = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(FORUM_TOPIC)
+							.append(forumId).toString(),
+					Utility.HTTPMETHOD_GET, params);
+			// Log.i("test", "getForumsTopic:" + res);
 			return res;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
-	public static void jsonForumTopic(String res)
-	{
-		
+
+	public static CarListInfo jsonForumTopic(String res) {
+		CarListInfo info = new CarListInfo();
+		try {
+			JSONObject js = new JSONObject(res);
+			JSONObject js2 = js.getJSONObject(GlobalData.FORUM);
+			info.setAvaUrl(js2.getString(GlobalData.LOGO_URL));
+			info.setName(js2.getString(GlobalData.NAME));
+			info.settPost(js2.getString(GlobalData.TOTAL_POSTS));
+			info.settReply(js2.getString("total_replies"));
+			if (js.getInt(GlobalData.TOTAL) > 0) {
+				List<CarTopicInfo> list = new ArrayList<CarTopicInfo>();
+				JSONArray array = js.getJSONArray("topics");
+				JSONObject obj;
+				for (int i = 0, j = array.length(); i < j; i++) {
+					obj = array.optJSONObject(i);
+					list.add(new CarTopicInfo(
+							obj.getString(GlobalData.POST_ID),
+							decodeUnicode(obj.getString(GlobalData.CONTENT)),
+							obj.getString(GlobalData.IMAGE_URL),
+							obj.getString(GlobalData.AUDIO_URL),
+							obj.getString(GlobalData.USER_ID),
+							decodeUnicode(obj.getString(GlobalData.USER_NAME)),
+							obj.getString(GlobalData.AVATAR_URL),
+							obj.getString(GlobalData.REPLIES),
+							formatDate(intToLong(obj.getInt(GlobalData.CREATED)))));
+				}
+				info.setList(list);
+			}
+			return info;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
-	public static String getReplyList(Context context,String postId,int page,int size)
-	{
+
+	public static String getReplyList(Context context, String postId, int page) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.PAGE, Integer.toString(page));
-		params.add(GlobalData.SIZE, Integer.toString(size));
+		params.add(GlobalData.SIZE, "20");
 		try {
-			String res = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(POSTS).append(postId).toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "getReplyList:"+res);
+			String res = Utility.openUrl(
+					context,
+					new StringBuffer().append(BASE_URL).append(POSTS)
+							.append(postId).toString(), Utility.HTTPMETHOD_GET,
+					params);
+			// Log.i("test", "getReplyList:" + res);
 			return res;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
+
+	public static List<CarReplyInfo> jsonCarReList(String res) {
+		List<CarReplyInfo> list = new ArrayList<CarReplyInfo>();
+		try {
+			JSONObject js = new JSONObject(res);
+			if (js.getInt(GlobalData.TOTAL) > 0) {
+				JSONArray array = js.getJSONArray("posts");
+				JSONObject obj;
+				for (int i = 0, j = array.length(); i < j; i++) {
+					obj = array.optJSONObject(i);
+					String imgSize;
+					int width = 0, height = 0;
+					if (!OtherUtil.isNullOrEmpty(obj
+							.getString(GlobalData.IMAGE_URL))) {
+						imgSize = obj.getString("image_size");
+						if (imgSize.length() > 5) {
+							width = Integer.parseInt(imgSize.substring(1,
+									imgSize.indexOf(",")));
+							height = Integer.parseInt(imgSize.substring(
+									imgSize.indexOf(",") + 1,
+									imgSize.lastIndexOf("]")));
+						}
+					}
+					list.add(new CarReplyInfo(
+							obj.getString(GlobalData.POST_ID),
+							obj.getString("parent_id"),
+							decodeUnicode(obj.getString(GlobalData.CONTENT)),
+							obj.getString(GlobalData.IMAGE_URL),
+							obj.getString(GlobalData.AUDIO_URL),
+							obj.getString(GlobalData.AUDIO_TIME),
+							obj.getString(GlobalData.USER_ID),
+							decodeUnicode(obj.getString(GlobalData.USER_NAME)),
+							obj.getString(GlobalData.AVATAR_URL),
+							obj.getString(GlobalData.REPLIES),
+							formatDate(intToLong(obj.getInt(GlobalData.CREATED))),
+							width, height));
+				}
+			}
+			return list;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	/**
 	 * @param context
 	 * @param radioId
@@ -933,8 +1192,8 @@ public class YouLe {
 	 * @param no
 	 * @return
 	 */
-	public static String applyTaxi(Context context,String radioId,String name,String phone,String license,String company,String no)
-	{
+	public static String applyTaxi(Context context, String radioId,
+			String name, String phone, String license, String company, String no) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
 		params.add(GlobalData.RADIO_ID, radioId);
@@ -944,65 +1203,76 @@ public class YouLe {
 		params.add(GlobalData.COMPANY, company);
 		params.add(GlobalData.NO, no);
 		try {
-			String result = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(TAXI).toString(), Utility.HTTPMETHOD_POST, params);
-			Log.i("test", "appTaxi:"+result);
+			String result = Utility
+					.openUrl(context, new StringBuffer().append(BASE_URL)
+							.append(TAXI).toString(), Utility.HTTPMETHOD_POST,
+							params);
+			// Log.i("test", "appTaxi:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
-	public static String getCategory(Context context)
-	{
+
+	public static String getCategory(Context context) {
 		RequestParameters params = new RequestParameters();
 		try {
-			String result = Utility.openUrl(context, new StringBuffer().append(BASE_URL).append(CATEGORY).toString(), Utility.HTTPMETHOD_GET, params);
-			Log.i("test", "getCategory:"+result);
+			String result = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(CATEGORY)
+							.toString(), Utility.HTTPMETHOD_GET, params);
+			// Log.i("test", "getCategory:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
+
 	/**
 	 * @param context
 	 * @param code
 	 */
-	public static String scanCoupon(Context context,String code,String confirm)
-	{
+	public static String scanCoupon(Context context, String code, String confirm) {
 		RequestParameters params = new RequestParameters();
 		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
 		params.add(GlobalData.CODE, code);
 		params.add(GlobalData.CONFIRM, confirm);
 		try {
-			String result = Utility.openUrl(context,new StringBuffer().append(BASE_URL).append(SCAN_COUPON).toString(), Utility.HTTPMETHOD_POST, params);
-			Log.i("test", "scan_coupon:"+result);
+			// Log.e("test", "coupon url:"+new
+			// StringBuffer().append(BASE_URL).append(SCAN_COUPON).toString());
+			// Log.e("test",
+			// "access_token:"+Utility.mToken.getAccess_token()+"  code:"+code+"  confirm:"+confirm);
+			String result = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(SCAN_COUPON)
+							.toString(), Utility.HTTPMETHOD_POST, params);
+			// Log.i("test", "scan_coupon:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
-		
+
 	}
-	
-	private static String getTime(long timestamp,boolean isDay) {
+
+	private static String getTime(long timestamp, boolean isDay) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = null;
 		try {
 			String str = sdf.format(new Timestamp(timestamp * 1000));
-			if(isDay)
+			if (isDay)
 				time = str.substring(5, 10);
 			else
 				time = str.substring(11, 16);
@@ -1022,18 +1292,25 @@ public class YouLe {
 	public static String formatDate(long timestamp) {
 		long currentTime = System.currentTimeMillis() / 1000;
 		long mss = currentTime - timestamp;
-		long days = mss / (60 * 60 * 24);
+		long days = currentTime / (60 * 60 * 24) - timestamp / (60 * 60 * 24);
+		long h = mss / (60 * 60);
 		long hours = (mss % (60 * 60 * 24)) / (60 * 60);
 		long minutes = (mss % (60 * 60)) / (60);
-		long seconds = (mss % (60)) / 1000;
-		if (days > 0) {
-			return getTime(timestamp,true);
+		// long seconds = (mss % (60)) / 1000;
+		if (days == 1 && h == 1) {
+			if (minutes > 0) {
+				return minutes + "分钟前";
+			} else {
+				return "1分钟前";
+			}
+		} else if (days > 0) {
+			return getTime(timestamp, true);
 		} else if (hours > 0) {
-			return getTime(timestamp,false);
+			return getTime(timestamp, false);
 		} else if (minutes > 0) {
 			return minutes + "分钟前";
 		} else {
-			return seconds + "秒钟前";
+			return "1分钟前";
 		}
 	}
 
@@ -1042,8 +1319,9 @@ public class YouLe {
 			String address, String phone, String contact, String license,
 			String lng, String lat, String img) {
 		RequestParameters params = new RequestParameters();
-		if(null != Utility.mToken)
-			params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		if (null != Utility.mToken)
+			params.add(GlobalData.ACCESS_TOKEN,
+					Utility.mToken.getAccess_token());
 		params.add(GlobalData.RADIO_ID, radioId);
 		params.add(GlobalData.USER_ID, userId);
 		params.add(GlobalData.CITY_ID, cityId);
@@ -1061,18 +1339,126 @@ public class YouLe {
 					.openUrl(context, new StringBuffer().append(BASE_URL)
 							.append(SHOP).toString(), Utility.HTTPMETHOD_POST,
 							params);
-			Log.i("YouLe", "appShop result:" + result);
+			// Log.i("YouLe", "appShop result:" + result);
 			return result;
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if(OtherUtil.is3gWifi(context))
+			if (OtherUtil.is3gWifi(context))
 				return GlobalData.REQUEST_FAIL;
-	        else
-	        	return context.getString(R.string.net_no);
+			else
+				return context.getString(R.string.net_no);
 		}
 	}
 
+	// 获取热点话题回复列表
+	public static String getHotComment(Context context, String topicId, int page) {
+		RequestParameters params = new RequestParameters();
+		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		params.add(GlobalData.PAGE, Integer.toString(page));
+		params.add(GlobalData.SIZE, "30");
+		try {
+			String result = Utility.openUrl(context,
+					new StringBuffer().append(BASE_URL).append(HOT_TOPIC)
+							.append(topicId).append("/comments").toString(),
+					Utility.HTTPMETHOD_GET, params);
+			Log.i("test", "hot comment:" + result);
+			return result;
+		} catch (RequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			if (OtherUtil.is3gWifi(context))
+				return GlobalData.REQUEST_FAIL;
+			else
+				return context.getString(R.string.net_no);
+		}
+	}
+
+	public static List<HotComInfo> jsonComment(String res) {
+		List<HotComInfo> list = new ArrayList<HotComInfo>();
+		try {
+			JSONObject js = new JSONObject(res);
+			if(js.getInt(GlobalData.TOTAL)>0)
+			{
+				JSONArray array = js.getJSONArray("comments");
+				JSONObject obj;
+				for (int i = 0, j = array.length(); i < j; i++) {
+					obj = array.optJSONObject(i);
+					String imgSize;
+					int width = 0, height = 0;
+					if (!OtherUtil.isNullOrEmpty(obj
+							.getString(GlobalData.IMAGE_URL))) {
+						imgSize = obj.getString("image_size");
+						if (imgSize.length() > 5) {
+							width = Integer.parseInt(imgSize.substring(1,
+									imgSize.indexOf(",")));
+							height = Integer.parseInt(imgSize.substring(
+									imgSize.indexOf(",") + 1,
+									imgSize.lastIndexOf("]")));
+						}
+					}
+					list.add(new HotComInfo(
+							obj.getString("comment_id"), 
+							obj.getString("topic_id"), 
+							formatDate(intToLong(obj.getInt(GlobalData.CREATED))), 
+							obj.getString(GlobalData.CONTENT), 
+							obj.getString(GlobalData.AUDIO_URL), 
+							obj.getString(GlobalData.AUDIO_TIME), 
+							obj.getString(GlobalData.IMAGE_URL), width,height, 
+							obj.getString(GlobalData.USER_NAME), 
+							obj.getString(GlobalData.USER_ID), 
+							obj.getString(GlobalData.AVATAR_URL)));
+					
+				}
+			}
+			return list;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**回复
+	 * @param context
+	 * @param topicId
+	 * @param txt
+	 * @param img
+	 * @param aud
+	 * @param aud_t
+	 * @return
+	 */
+	public static String hotComment(Context context, String topicId, String txt,
+			String img, String aud, int aud_t) {
+		RequestParameters params = new RequestParameters();
+		Log.i("test", "Utility.mToken.getAccess_token():"+Utility.mToken.getAccess_token());
+		params.add(GlobalData.ACCESS_TOKEN, Utility.mToken.getAccess_token());
+		params.add("test", "test");
+		params.add(GlobalData.TXT, txt);
+		params.add(GlobalData.IMG, img);
+		params.add("test", "test");
+		params.add(GlobalData.AUD, aud);
+		Log.e("test", "replyTopic aud:" + aud);
+		params.add(GlobalData.AUD_T, Integer.toString(aud_t));
+		try {
+			Log.e("test",
+					"url:"
+							+ new StringBuffer().append(BASE_URL).append(HOT_TOPIC)
+									.append(topicId).append("/comments").toString());
+			String res = Utility.openTrackUrl(context, new StringBuffer().append(BASE_URL).append(HOT_TOPIC)
+					.append(topicId).append("/comments").toString(),
+					Utility.HTTPMETHOD_POST, params);
+			// Log.i("YouLe", "replyTopic result:" + res);
+			return res;
+		} catch (RequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			if (OtherUtil.is3gWifi(context))
+				return GlobalData.REQUEST_FAIL;
+			else
+				return context.getString(R.string.net_no);
+		}
+	}
 	/**
 	 * @param theString
 	 * @return

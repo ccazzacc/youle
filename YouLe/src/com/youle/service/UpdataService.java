@@ -9,6 +9,8 @@ import com.youle.http_helper.Utility;
 import com.youle.http_helper.YouLe;
 import com.youle.util.ToastUtil;
 import com.youle.view.ShowDialog;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UpdataService extends Service {
 
@@ -56,14 +58,15 @@ public class UpdataService extends Service {
 
         @Override
         protected String doInBackground(String... strings) {
+            String s;
             if (Utility.hasToken() && Utility.isSessionValid()) {
-                YouLe.upTrack(UpdataService.this, radio_id,lng, lat, place, spd, mark, aud, aud_t, img, txt);
+                s=YouLe.upTrack(UpdataService.this, radio_id,lng, lat, place, spd, mark, aud, aud_t, img, txt);
             }else{
                 YouLe.refreshToken(UpdataService.this,Utility.mToken.getRefresh_token());
-                YouLe.upTrack(UpdataService.this, radio_id,lng, lat, place, spd, mark, aud, aud_t, img, txt);
+                s=YouLe.upTrack(UpdataService.this, radio_id,lng, lat, place, spd, mark, aud, aud_t, img, txt);
             }
             Log.i("1234",lng+ lat+place+ spd+mark+ aud+aud_t+img+ txt);
-            return null;
+            return s;
         }
 
         @Override
@@ -76,7 +79,16 @@ public class UpdataService extends Service {
             intent.putExtra("dialog_text","发布成功！");
 
 //            startActivity(intent);
-            ToastUtil.show(UpdataService.this,"发布成功");
+            String ss=null;
+
+            try {
+                JSONObject jsonObject=new JSONObject(s.substring(3));
+                ss=jsonObject.getString("points");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ToastUtil.show(UpdataService.this,"发布成功!获取经验值+"+ss);
             UpdataService.this.stopSelf();
         }
     }

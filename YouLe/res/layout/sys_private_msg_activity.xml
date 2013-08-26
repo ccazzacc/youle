@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:roundProgress="http://schemas.android.com/apk/res/com.youle"
+        android:background="#ff2e3034">
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+            android:id="@+id/sys_msg_rl" android:visibility="visible" android:layout_alignParentEnd="false">
+        <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible" android:layout_below="@+id/release_layout_record"
+                android:layout_alignParentLeft="true">
+
+            <TableLayout
+                    android:id="@+id/sys_msg_tab"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/release_layout_record"
+                    android:layout_below="@+id/release_layout_record"
+                    android:stretchColumns="*"
+                    android:visibility="gone">
+
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                    <Button
+                            android:id="@+id/button_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="0"
+                            android:background="@drawable/button_text_a"/>
+
+                    <Button
+                            android:id="@+id/button_camera"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:background="@drawable/button_camera_b"/>
+
+                    <Button
+                            android:id="@+id/button_photos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="2"
+                            android:background="@drawable/button_photo_c"/>
+                </TableRow>
+            </TableLayout>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/release_input"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_bar_bg"
+                android:visibility="gone" android:layout_alignParentTop="true" android:layout_alignParentLeft="true">
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_edit_input" android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/bottom_bar_input_box"
+                    android:layout_margin="5dp" android:layout_toLeftOf="@+id/sysmsg_send"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_send" android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bar_button_send_normal" android:layout_margin="5dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_size" android:layout_alignBottom="@+id/sysmsg_edit_input"
+                    android:layout_alignRight="@+id/sysmsg_edit_input" android:layout_marginRight="3dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:id="@+id/release_layout_record"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/release_input" android:layout_alignParentLeft="true"
+                android:visibility="visible">
+
+            <!--<Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/release_btnRecord"
+                    android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                    android:background="@drawable/bar_button_record_normal"/>-->
+            <com.youle.view.CircleProgress
+                    android:id="@+id/roundBar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bar_button_speak_normal"
+                    roundProgress:max="100"
+                    roundProgress:fill="false"
+                    roundProgress:Inside_Interval="6"
+                    roundProgress:Paint_Width="10"
+                    android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_btnAdd"
+                    android:background="@drawable/bar_button_add2_normal"
+                    android:layout_centerVertical="true" android:layout_toRightOf="@+id/roundBar1"
+                    android:layout_marginLeft="15dp"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_btnRecord"
+                    android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                    android:background="@drawable/bar_icon_null"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sysmsg_btnQuit"
+                    android:layout_centerVertical="true" android:layout_toLeftOf="@+id/roundBar1"
+                    android:layout_marginRight="15dp" android:background="@drawable/bar_button_quti2_normal"
+                    android:visibility="gone"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" android:background="@drawable/top_bar_bg"
+            android:id="@+id/relativeLayout2">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sys_private_btn_back" android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false" android:background="@drawable/bar_button_back_normal"
+                android:layout_marginLeft="5dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sys_p_text" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+                android:textSize="22sp"/>
+    </RelativeLayout>
+    <com.youle.view.XListView
+            android:id="@+id/sys_private_listview"
+            android:layout_gravity="left|center_vertical"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@null"
+            android:listSelector="@color/bg_color"
+            android:headerDividersEnabled="false"
+            android:footerDividersEnabled="false"
+            android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:layout_below="@+id/relativeLayout2" android:layout_above="@+id/sys_msg_rl">
+    </com.youle.view.XListView>
+</RelativeLayout>

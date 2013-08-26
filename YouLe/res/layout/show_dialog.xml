@@ -11,14 +11,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="提   示"
+                android:textColor="@color/white"
                 android:id="@+id/dialog_tit" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp" android:textSize="20dp"/>
+                android:layout_marginTop="10dp" android:textSize="16sp"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New T xt"
+                android:textColor="@color/white"
                 android:id="@+id/dialog_txt" android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:textSize="14sp"/>
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_alignParentBottom="true"

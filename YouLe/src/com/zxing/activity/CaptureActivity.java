@@ -13,6 +13,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.youle.R;
+import com.youle.managerUi.SlidActivity;
+import com.youle.util.GlobalData;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
@@ -120,12 +123,14 @@ public class CaptureActivity extends Activity implements Callback {
 		if (resultString.equals("")) {
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		}else {
-//			System.out.println("Result:"+resultString);
-			Intent resultIntent = new Intent();
-			Bundle bundle = new Bundle();
-			bundle.putString("result", resultString);
-			resultIntent.putExtras(bundle);
-			this.setResult(RESULT_OK, resultIntent);
+//			Log.e("test","Result:"+resultString);
+			GlobalData.RESULT = resultString;
+			Intent resultIntent = new Intent(CaptureActivity.this,SlidActivity.class);
+//			Bundle bundle = new Bundle();
+//			bundle.putInt("flag", 7);
+//this.setResult(RESULT_OK, resultIntent);
+			resultIntent.putExtra("flag", 7);
+			startActivity(resultIntent);
 		}
 		CaptureActivity.this.finish();
 	}
